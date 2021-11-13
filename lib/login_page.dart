@@ -17,8 +17,8 @@ class LoginPage extends StatefulWidget {
 // Here is the layout and the action triggers
 class _LoginPageState extends State<LoginPage> {
   // declare variables here:
-  TextEditingController emailTextController = TextEditingController();
-  TextEditingController passwordTextController = TextEditingController();
+  TextEditingController _emailTextController = TextEditingController();
+  TextEditingController _passwordTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                   child: TextFormField(
-                    controller: emailTextController,
+                    controller: _emailTextController,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'e-mail-address'),
@@ -56,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
                     obscureText: true,
                     enableSuggestions: false,
                     autocorrect: false,
-                    controller: passwordTextController,
+                    controller: _passwordTextController,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(), labelText: 'password'),
                   ),
@@ -70,8 +70,8 @@ class _LoginPageState extends State<LoginPage> {
                       Expanded(
                         child: OutlinedButton(
                           onPressed: () => logIn(
-                              emailTextController.text.toString(),
-                              passwordTextController.text.toString()),
+                              _emailTextController.text.toString(),
+                              _passwordTextController.text.toString()),
                           child: const Text("Log In"),
                         ),
                       ),
@@ -87,8 +87,8 @@ class _LoginPageState extends State<LoginPage> {
                       Expanded(
                         child: OutlinedButton(
                             onPressed: () => signUp(
-                                emailTextController.text.trim(),
-                                passwordTextController.text.trim()),
+                                _emailTextController.text.trim(),
+                                _passwordTextController.text.trim()),
                             child: const Text("Sign Up")),
                       ),
                     ],
