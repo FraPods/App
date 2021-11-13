@@ -21,8 +21,8 @@ class FraPodsApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      //home: const LoginPage(title: 'FraPods - Podcast Sharing'),
-      home: const HomePage(title: "FraPods", username: "username")
+      home: const LoginPage(title: 'FraPods - Podcast Sharing'),
+      //home: const HomePage(title: "FraPods", username: "username")
     );
   }
 }
