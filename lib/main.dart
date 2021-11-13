@@ -11,9 +11,9 @@ void main() {
 // Do not create layouts in this file! (main.dart)
 // Each Page should have its own file (eg. "the_page.dart").  No spaces and no capital letters.
 
-
 class FraPodsApp extends StatelessWidget {
   const FraPodsApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -24,4 +24,20 @@ class FraPodsApp extends StatelessWidget {
       home: const LoginPage(title: 'FraPods - Podcast Sharing'),
     );
   }
+}
+
+// define public methods here:
+
+TextStyle highlightedTextStyle() {
+  return const TextStyle(
+    fontSize: 16,
+    color: Colors.blue,
+  );
+}
+
+TextStyle titleTextStyle() {
+  return const TextStyle(
+    fontSize: 32,
+    color: Colors.blue,
+  );
 }
