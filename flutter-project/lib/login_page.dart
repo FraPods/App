@@ -17,6 +17,7 @@ class LoginPage extends StatefulWidget{
 class _LoginPageState extends State<LoginPage> {
 
   // declare variables here:
+  String _lol = "";
 
   @override
   Widget build(BuildContext context) {
@@ -25,16 +26,85 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Center(
         child: Column(
+
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-            Text(
-              'This is the login page of the app. ',
+          children: <Widget>[
+
+            Text("FraPods"),
+
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              child: TextFormField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'e-mail-address'
+
+                ),
+              ),
             ),
+
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            child: TextFormField(
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'password'
+              ),
+            ),
+          ),
+
+
+            // Layout with Sign In button
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              child: Row(
+              children: <Widget> [Expanded(
+
+                child: OutlinedButton(onPressed: logIn,
+
+                  child: const Text(
+                "Sign In"
+                ),
+              ),
+            ),
+
+            ],
+          ),
+        ),
+
+
+
+            // Layout with Sign Up button
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+              child: Row(
+                children: <Widget> [Expanded(
+
+                  child: OutlinedButton(onPressed: logIn,
+
+                      child: const Text(
+                          "Sign Up"
+                      )
+                  ),
+                ),
+
+                ],
+              ),
+            ),
+
           ],
         ),
       ),
+    ),
     );
   }
+
+  void logIn(){
+
+  }
+
 }

@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/niklas/Programmieren/Flutter/frapods/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-night-v8/values-night-v8.xml",
+            "outputFile": "/home/niklas/Programmieren/Flutter/App/flutter-project/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-night-v8/values-night-v8.xml",
             "map": [
                 {
-                    "source": "/home/niklas/Programmieren/Flutter/frapods/android/app/src/main/res/values-night/styles.xml",
+                    "source": "/home/niklas/Programmieren/Flutter/App/flutter-project/android/app/src/main/res/values-night/styles.xml",
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",
