@@ -1,0 +1,157 @@
+import 'package:flutter/material.dart';
+
+// This is only for setup and final (non-changable) variable definition
+class LoginPage extends StatefulWidget{
+  const LoginPage({Key? key, required this.title}) : super(key: key);
+  //following parameters MUST be passed:
+  final String title;
+
+  @override
+  State<StatefulWidget> createState() {
+    return _LoginPageState();
+  }
+}
+
+// Here is the layout and the action triggers
+class _LoginPageState extends State<LoginPage> {
+
+  // declare variables here:
+  TextEditingController emailTextController = TextEditingController();
+  TextEditingController passwordTextController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Center(
+        child: Column(
+
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+
+            Text("FraPods"),
+
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              child: TextFormField(
+                controller: emailTextController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'e-mail-address'
+                ),
+              ),
+            ),
+
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            child: TextFormField(
+              controller: passwordTextController,
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'password'
+              ),
+            ),
+          ),
+
+
+            // Layout with Log In button
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              child: Row(
+              children: <Widget> [Expanded(
+
+                child: OutlinedButton(onPressed: () => logIn(emailTextController.text.toString(), passwordTextController.text.toString()),
+
+                  child: const Text(
+                "Log In"
+                ),
+              ),
+            ),
+            ],
+          ),
+        ),
+
+
+
+            // Layout with Sign Up button
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+              child: Row(
+                children: <Widget> [Expanded(
+
+                  child: OutlinedButton(onPressed: () => signUp(emailTextController.text.trim(), passwordTextController.text.trim()),
+                      child: const Text(
+                          "Sign Up"
+                      )
+                  ),
+                ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+    );
+  }
+
+
+  // Write class-internal methods here
+
+  void logIn(String email, String password){
+    if(email.isEmpty){
+      showDialogMessage("Login failed", "Please enter an email address!");
+      return;
+    }
+    if(password.isEmpty){
+      showDialogMessage("Login failed", "Please enter a password!");
+      return;
+    }
+    //TODO: write login request to server HERE
+  }
+
+  void signUp(String email, String password){
+      if(email.isEmpty){
+        showDialogMessage("SignUp failed", "Please enter an email address!");
+        return;
+      }
+      if(password.isEmpty){
+        showDialogMessage("SignUp failed", "Please enter a password!");
+        return;
+      }
+    //TODO: write signup request to server HERE
+  }
+
+
+
+ void showDialogMessage(String title, String message){
+   showDialog(
+     context: context,
+     builder: (BuildContext context) {
+       // return object of type Dialog
+       return AlertDialog(
+         title: Text(title),
+         content: Text(message),
+         actions: <Widget>[
+           // usually buttons at the bottom of the dialog
+           TextButton(
+             child: Text("Close"),
+             onPressed: () {
+               Navigator.of(context).pop();
+             },
+           ),
+         ],
+       );
+     },
+   );
+ }
+
+
+  // All class-internal methods should go above this line
+}
+
