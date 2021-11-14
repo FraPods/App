@@ -10,6 +10,7 @@ class LoginPage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
+
     return _LoginPageState();
   }
 }
@@ -106,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void logIn(String email, String password) {
     if (email.isEmpty) {
-      showDialogMessage("Login failed", "Please enter an email address!");
+      showDialogMessage("Login failed", "Please enter an E-Mail Address!");
       return;
     }
     if (password.isEmpty) {
@@ -118,11 +119,11 @@ class _LoginPageState extends State<LoginPage> {
 
   void signUp(String email, String password) {
     if (email.isEmpty) {
-      showDialogMessage("SignUp failed", "Please enter an email address!");
+      showDialogMessage("Sign Up failed", "Please enter an E-Mail Address!");
       return;
     }
     if (password.isEmpty) {
-      showDialogMessage("SignUp failed", "Please enter a password!");
+      showDialogMessage("Sign Up failed", "Please enter a password!");
       return;
     }
     //TODO: write signup request to server HERE
