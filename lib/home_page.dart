@@ -17,10 +17,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   // declare variables here:
+
+  List<String> resultsTEST = ["result a", "result b","result c","result d","result e","result f"];
   Icon searchBarIcon = Icon(Icons.search);
   Widget searchBar = const Icon(
     Icons.audiotrack,
   );
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -70,14 +74,33 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
+
+      //End of Title Bar Layout ^^
+      
+      
+
       body: Center(
-        child: Column(
+        child: SingleChildScrollView(
+          child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
+          children: <Widget>[
+            
+            TextButton(onPressed: () {resultsTEST.add("valueBUTTON");}, child: Text("button")),
+            
             Text(
               'This is the home page of the app. ',
             ),
+            ListView.builder(
+              itemCount: resultsTEST.length,
+              itemBuilder: (context, index){
+                return ListTile(
+                  title: Text(resultsTEST[index]),
+                );
+              },
+            )
+
           ],
+        ),
         ),
       ),
     );
@@ -86,6 +109,7 @@ class _HomePageState extends State<HomePage> {
   void sendSearchRequest(String text){
     showDialogMessage("You entered a search", text);
     // TODO: Write search request to server function
+    resultsTEST.add("searchresult");
   }
 
 
@@ -110,5 +134,6 @@ class _HomePageState extends State<HomePage> {
       },
     );
   }
+
 
 }

@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
                     controller: _emailTextController,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'e-mail-address'),
+                        labelText: 'E-Mail Address'),
                   ),
                 ),
 
@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
                     autocorrect: false,
                     controller: _passwordTextController,
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(), labelText: 'password'),
+                        border: OutlineInputBorder(), labelText: 'Password'),
                   ),
                 ),
 
