@@ -18,98 +18,96 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   // declare variables here:
 
-  List<String> resultsTEST = ["result a", "result b","result c","result d","result e","result f"];
+  List<String> listOfAllSearchResults = [];
   Icon searchBarIcon = Icon(Icons.search);
-  Widget searchBar = Image.asset('assets/icon-round.png', fit: BoxFit.fitHeight, height: 40,);
-
-
+  Widget searchBar = Image.asset(
+    'assets/icon-round.png',
+    fit: BoxFit.fitHeight,
+    height: 40,
+  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: searchBar,
+        title: searchBar,
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
-            onPressed: () {
-              setState(() {
-                if (searchBarIcon.icon == Icons.search) {
-                  searchBarIcon = const Icon(Icons.cancel);
-                  searchBar = ListTile(
-                    leading: const Icon(
-                      Icons.search,
-                      color: Colors.white,
-                      size: 28,
-                    ),
-                    title: TextField(
-                      onSubmitted: (String text) {
-                        sendSearchRequest(text);
-                      },
-                      textInputAction: TextInputAction.search,
-
-                      decoration: const InputDecoration(
-                        hintText: 'Search for Podcasts',
-                        hintStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontStyle: FontStyle.italic,
-                        ),
-                        border: InputBorder.none,
-                      ),
-                      style: const TextStyle(
+              onPressed: () {
+                setState(() {
+                  if (searchBarIcon.icon == Icons.search) {
+                    searchBarIcon = const Icon(Icons.cancel);
+                    searchBar = ListTile(
+                      leading: const Icon(
+                        Icons.search,
                         color: Colors.white,
+                        size: 28,
                       ),
-                    ),
-                  );
-                } else {
-                  searchBarIcon = const Icon(Icons.search);
-                  searchBar = Image.asset('assets/icon-round.png', fit: BoxFit.fitHeight, height: 40,);
-                }
-              });
-            },
-            icon: searchBarIcon
-          )
+                      title: TextField(
+                        onSubmitted: (String text) {
+                          sendSearchRequest(text);
+                        },
+                        textInputAction: TextInputAction.search,
+                        decoration: const InputDecoration(
+                          hintText: 'Search for Podcasts',
+                          hintStyle: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontStyle: FontStyle.italic,
+                          ),
+                          border: InputBorder.none,
+                        ),
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    );
+                  } else {
+                    searchBarIcon = const Icon(Icons.search);
+                    searchBar = Image.asset(
+                      'assets/icon-round.png',
+                      fit: BoxFit.fitHeight,
+                      height: 40,
+                    );
+                  }
+                });
+              },
+              icon: searchBarIcon)
         ],
       ),
 
       //End of Title Bar Layout ^^
-      
-      
 
       body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Column(
           children: <Widget>[
-            
-            TextButton(onPressed: () {resultsTEST.add("valueBUTTON");}, child: Text("button")),
-            
-            Text(
-              'This is the home page of the app. ',
+            Expanded(
+              child: ListView.builder(
+                itemCount: listOfAllSearchResults.length,
+                itemBuilder: (BuildContext ctxt, int index) =>
+                    podcastItem(ctxt, index, listOfAllSearchResults),
+              ),
             ),
-            ListView.builder(
-              itemCount: resultsTEST.length,
-              itemBuilder: (context, index){
-                return ListTile(
-                  title: Text(resultsTEST[index]),
-                );
-              },
-            )
+            
 
+            
           ],
-        ),
         ),
       ),
     );
   }
 
-  void sendSearchRequest(String text){
+  void sendSearchRequest(String text) {
     showDialogMessage("You entered a search", text);
     // TODO: Write search request to server function
-    resultsTEST.add("searchresult");
-  }
 
+
+    setState(() {
+      listOfAllSearchResults = [];
+      listOfAllSearchResults.add("RESULTS OF SEARCH \"" + text + "\" HERE....");
+    });
+  }
 
   void showDialogMessage(String title, String message) {
     showDialog(
@@ -133,5 +131,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
+  // This is the widget of one search result entry.
+  Widget podcastItem(BuildContext ctxt, int index, List listofresults) {
+    return new Text(listofresults[index]);
+  }
 }
