@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frapods/profile_page.dart';
 import 'main.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,6 +19,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   // declare variables here:
 
+  bool _isSearchBarOpened = false;
   List<String> listOfAllSearchResults = [];
   Icon searchBarIcon = Icon(Icons.search);
   Widget searchBar = Image.asset(
@@ -37,6 +39,7 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {
                 setState(() {
                   if (searchBarIcon.icon == Icons.search) {
+                    _isSearchBarOpened = true;
                     searchBarIcon = const Icon(Icons.cancel);
                     searchBar = ListTile(
                       leading: const Icon(
@@ -64,6 +67,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     );
                   } else {
+                    _isSearchBarOpened = false;
                     searchBarIcon = const Icon(Icons.search);
                     searchBar = Image.asset(
                       'assets/icon-round.png',
@@ -73,7 +77,21 @@ class _HomePageState extends State<HomePage> {
                   }
                 });
               },
-              icon: searchBarIcon)
+              icon: searchBarIcon),
+          Visibility(
+            visible: !_isSearchBarOpened,
+            child: IconButton(
+
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {ProfilePage(title: "FraPods", username: "username"); return ProfilePage(title: "FraPods", username: "username");}
+                ),
+                );
+              },
+              icon: Icon(Icons.account_circle),
+          ),
+          ),
         ],
       ),
 
