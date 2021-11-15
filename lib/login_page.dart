@@ -25,9 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Icon(
-          Icons.audiotrack,
-        ),
+          title: Image.asset('assets/icon-round.png', fit: BoxFit.fitHeight, height: 40,),
       ),
       body: SingleChildScrollView(
         child: Padding(

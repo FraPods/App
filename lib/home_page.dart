@@ -20,9 +20,7 @@ class _HomePageState extends State<HomePage> {
 
   List<String> resultsTEST = ["result a", "result b","result c","result d","result e","result f"];
   Icon searchBarIcon = Icon(Icons.search);
-  Widget searchBar = const Icon(
-    Icons.audiotrack,
-  );
+  Widget searchBar = Image.asset('assets/icon-round.png', fit: BoxFit.fitHeight, height: 40,);
 
 
 
@@ -66,11 +64,11 @@ class _HomePageState extends State<HomePage> {
                   );
                 } else {
                   searchBarIcon = const Icon(Icons.search);
-                  searchBar = const Icon(Icons.audiotrack);
+                  searchBar = Image.asset('assets/icon-round.png', fit: BoxFit.fitHeight, height: 40,);
                 }
               });
             },
-            icon: searchBarIcon,
+            icon: searchBarIcon
           )
         ],
       ),
