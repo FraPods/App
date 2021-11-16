@@ -22,6 +22,7 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    playPodcast(url: widget.podcastInfo.url);
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
@@ -32,6 +33,10 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
               Text("Title: " + widget.podcastInfo.title),
               Text("Description: " + widget.podcastInfo.description),
               Text("Made by: " + widget.podcastInfo.artist),
+              TextButton(
+                  onPressed: () {assetsAudioPlayer.playOrPause();},
+                  child: Text("Play/Pause")
+              )
               
 
             ],
@@ -41,3 +46,5 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
     );
   }
 }
+
+

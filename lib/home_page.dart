@@ -117,7 +117,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   void sendSearchRequest(String text) {
-    showDialogMessage("You entered a search", text);
     // TODO: Write search request to server function
 
 
@@ -125,9 +124,9 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       listOfAllSearchResults = [];
 
-      listOfAllSearchResults.add(PodcastInfo("Result1", "This is the Podcast result 1", "artist 1"));
-      listOfAllSearchResults.add(PodcastInfo("Result2", "This is the Podcast result 2", "artist 2"));
-      listOfAllSearchResults.add(PodcastInfo("Result3", "This is the Podcast result 3", "artist 3"));
+      listOfAllSearchResults.add(PodcastInfo("Result1", "This is the Podcast result 1", "artist 1", "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3"));
+      listOfAllSearchResults.add(PodcastInfo("Result2", "This is the Podcast result 2", "artist 2", "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3"));
+      listOfAllSearchResults.add(PodcastInfo("Result3", "This is the Podcast result 3", "artist 3", "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3"));
 
 
     });
@@ -160,7 +159,7 @@ class _HomePageState extends State<HomePage> {
     return TextButton(
       onPressed: () {
 
-        PodcastInfo podcastInfo = PodcastInfo(listofresults[index].title, listofresults[index].description, listofresults[index].artist);
+        PodcastInfo podcastInfo = PodcastInfo(listofresults[index].title, listofresults[index].description, listofresults[index].artist, listofresults[index].url);
 
         Navigator.push(
           context,
