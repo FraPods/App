@@ -22,7 +22,7 @@ class FraPodsApp extends StatelessWidget {
         primarySwatch: generateMaterialColorFromColor(Color(0xFF004AAD)),
       ),
       //home: const LoginPage(title: 'FraPods - Podcast Sharing'),
-      home: const HomePage(title: "FraPods", username: "username")
+      home: const HomePage(username: "username")
     );
   }
 }

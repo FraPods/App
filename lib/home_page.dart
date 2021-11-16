@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:frapods/podcast_details_page.dart';
+import 'package:frapods/podcast_info.dart';
 import 'package:frapods/profile_page.dart';
 import 'main.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key, required this.title, required this.username})
+  const HomePage({Key? key,required this.username})
       : super(key: key);
 
   //following parameters MUST be passed:
-  final String title;
   final String username;
 
   @override
@@ -18,9 +19,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   // declare variables here:
-
   bool _isSearchBarOpened = false;
-  List<String> listOfAllSearchResults = [];
+  List<PodcastInfo> listOfAllSearchResults = [];
   Icon searchBarIcon = Icon(Icons.search);
   Widget searchBar = Image.asset(
     'assets/icon-round.png',
@@ -121,9 +121,15 @@ class _HomePageState extends State<HomePage> {
     // TODO: Write search request to server function
 
 
+
     setState(() {
       listOfAllSearchResults = [];
-      listOfAllSearchResults.add("RESULTS OF SEARCH \"" + text + "\" HERE....");
+
+      listOfAllSearchResults.add(PodcastInfo("Result1", "This is the Podcast result 1", "artist 1"));
+      listOfAllSearchResults.add(PodcastInfo("Result2", "This is the Podcast result 2", "artist 2"));
+      listOfAllSearchResults.add(PodcastInfo("Result3", "This is the Podcast result 3", "artist 3"));
+
+
     });
   }
 
@@ -150,7 +156,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   // This is the widget of one search result entry.
-  Widget podcastItem(BuildContext ctxt, int index, List listofresults) {
-    return new Text(listofresults[index]);
+  Widget podcastItem(BuildContext ctxt, int index, List<PodcastInfo> listofresults) {
+    return TextButton(
+      onPressed: () {
+
+        PodcastInfo podcastInfo = PodcastInfo(listofresults[index].title, listofresults[index].description, listofresults[index].artist);
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) {PodcastDetailsPage(podcastInfo: listofresults[index]); return PodcastDetailsPage(podcastInfo: listofresults[index]);}
+          ),
+        );
+      },
+      child: Text(listofresults[index].title),
+    );
   }
 }
