@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key, required this.title, required this.username})
+  const ProfilePage({Key? key, required this.username})
       : super(key: key);
 
   //following parameters MUST be passed:
-  final String title;
   final String username;
 
   @override
@@ -22,12 +21,9 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(actions: [
-        Padding(padding: EdgeInsets.all(16.0),
-          child: Icon(Icons.account_circle),
-        )
-
-      ]),
+      appBar: AppBar(
+           title: Icon(Icons.account_circle),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(16.0),

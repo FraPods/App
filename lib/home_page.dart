@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frapods/podcast_details_page.dart';
 import 'package:frapods/podcast_info.dart';
-import 'package:frapods/profile_page.dart';
-import 'main.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key,required this.username})
@@ -10,6 +9,7 @@ class HomePage extends StatefulWidget {
 
   //following parameters MUST be passed:
   final String username;
+
 
   @override
   State<HomePage> createState() {
@@ -19,10 +19,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   // declare variables here:
-  bool _isSearchBarOpened = false;
   List<PodcastInfo> listOfAllSearchResults = [];
-  Icon searchBarIcon = Icon(Icons.search);
-  Widget searchBar = Image.asset(
+  Widget logo = Image.asset(
     'assets/icon-round.png',
     fit: BoxFit.fitHeight,
     height: 40,
@@ -31,68 +29,18 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: searchBar,
-        automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-              onPressed: () {
-                setState(() {
-                  if (searchBarIcon.icon == Icons.search) {
-                    _isSearchBarOpened = true;
-                    searchBarIcon = const Icon(Icons.cancel);
-                    searchBar = ListTile(
-                      leading: const Icon(
-                        Icons.search,
-                        color: Colors.white,
-                        size: 28,
-                      ),
-                      title: TextField(
-                        onSubmitted: (String text) {
-                          sendSearchRequest(text);
-                        },
-                        textInputAction: TextInputAction.search,
-                        decoration: const InputDecoration(
-                          hintText: 'Search for Podcasts',
-                          hintStyle: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontStyle: FontStyle.italic,
-                          ),
-                          border: InputBorder.none,
-                        ),
-                        style: const TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    );
-                  } else {
-                    _isSearchBarOpened = false;
-                    searchBarIcon = const Icon(Icons.search);
-                    searchBar = Image.asset(
-                      'assets/icon-round.png',
-                      fit: BoxFit.fitHeight,
-                      height: 40,
-                    );
-                  }
-                });
-              },
-              icon: searchBarIcon),
-          Visibility(
-            visible: !_isSearchBarOpened,
-            child: IconButton(
+       appBar: AppBar(
+        title: Row(children: [
+          logo,
 
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) {ProfilePage(title: "FraPods", username: "username"); return ProfilePage(title: "FraPods", username: "username");}
-                ),
-                );
-              },
-              icon: Icon(Icons.account_circle),
-          ),
-          ),
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Text("FraPods"),
+          )
         ],
+        ),
+        automaticallyImplyLeading: false,
+
       ),
 
       //End of Title Bar Layout ^^
@@ -113,6 +61,9 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
+
+
+
     );
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frapods/main_page.dart';
 
 // import all class files (create one class per page)
 import 'home_page.dart';
@@ -22,7 +23,7 @@ class FraPodsApp extends StatelessWidget {
         primarySwatch: generateMaterialColorFromColor(Color(0xFF004AAD)),
       ),
       //home: const LoginPage(title: 'FraPods - Podcast Sharing'),
-      home: const HomePage(username: "username")
+      home: const MainPage(username: "username")
     );
   }
 }

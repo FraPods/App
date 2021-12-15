@@ -1,0 +1,190 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:frapods/home_page.dart';
+import 'package:frapods/podcast_details_page.dart';
+import 'main.dart';
+import 'package:frapods/podcast_info.dart';
+import 'package:frapods/podcast_player.dart';
+import 'package:frapods/profile_page.dart';
+import 'package:frapods/search_page.dart';
+import 'package:frapods/title_changed_notification.dart';
+import 'dart:developer';
+
+class MainPage extends StatefulWidget {
+  const MainPage({Key? key, required this.username}) : super(key: key);
+
+  static _MainPageState? of(BuildContext context) =>
+      context.findAncestorStateOfType<_MainPageState>();
+
+  //following parameters MUST be passed:
+  final String username;
+
+  @override
+  State<MainPage> createState() {
+    return _MainPageState();
+  }
+}
+
+class _MainPageState extends State<MainPage> {
+  // declare variables here:
+
+  bool _musicControlMenuVisible = false;
+  bool _isPlaying = false;
+
+
+  String currentTitle = "";
+  String currentArtist = "";
+  String currentDescription = "";
+
+  int _selectedIndex = 0;
+  bool _isSearchBarOpened = false;
+  List<PodcastInfo> listOfAllSearchResults = [];
+  Icon searchBarIcon = Icon(Icons.search);
+  Widget searchBar = Image.asset(
+    'assets/icon-round.png',
+    fit: BoxFit.fitHeight,
+    height: 40,
+  );
+
+
+  @override
+  Widget build(BuildContext context) {
+    stream();
+    return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: generateMaterialColorFromColor(Color(0xffebf7ff)),
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.search),
+              label: 'Search',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.account_circle),
+              label: 'Account',
+            ),
+          ],
+          currentIndex: _selectedIndex, //New
+          onTap: (int index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          }),
+      body: Column(
+        children: <Widget>[
+          NotificationListener<PodcastChangedNotification>(
+            onNotification: (PodcastChangedNotification notification) {
+              setState(() {
+                currentTitle = notification.podcastInfo.title;
+                currentArtist = notification.podcastInfo.artist;
+                currentDescription = notification.podcastInfo.description;
+
+              });
+              print("DEBUGPODS details notification called");
+              return true;
+            },
+            child: Container(),
+          ),
+          Expanded(
+            child: IndexedStack(
+              index: _selectedIndex,
+              children: [
+                HomePage(
+                    username: "usernamehere",
+                ),
+
+                SearchPage(
+                  username: "usernamehere",
+                  notifyParent: refresh,
+                ),
+                ProfilePage(username: "usernamehere"),
+
+              ],
+            ),
+          ),
+          Visibility(
+            visible: _musicControlMenuVisible,
+            child: Container(
+              decoration: BoxDecoration(
+                  color: generateMaterialColorFromColor(Color(0xffebf7ff)),
+                  border: Border(
+                    top: BorderSide(
+                        color: Colors.black,
+                        width: 1
+                    ),
+                    bottom: BorderSide(
+                        color: Colors.black,
+                        width: 1),
+                  )),
+              child: Row(
+                children: <Widget>[
+                  IconButton(
+                    icon: _isPlaying
+                        ? Icon(
+                            Icons.pause,
+                            size: 40.0,
+                          )
+                        : Icon(Icons.play_arrow, size: 40.0),
+                    onPressed: () {
+                      if(_isPlaying){
+                        setState(() {
+                          _isPlaying = false;
+                        });
+                        assetsAudioPlayer.pause();
+                      } else {
+                        setState(() {
+                          _isPlaying = true;
+                        });
+                        assetsAudioPlayer.play();
+                      }
+
+
+                    },
+                  ),
+                  Text(currentTitle + " by " + currentArtist),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+
+
+  void updatePodcastInfo(PodcastInfo podcastInfo) {
+    print("DEBUGPODS method page called");
+    setState(() {
+      currentTitle = podcastInfo.title;
+      currentArtist = podcastInfo.artist;
+      currentDescription = podcastInfo.description;
+    });
+  }
+
+  refresh(PodcastInfo podcastInfo, bool musicMenuVisible) {
+    setState(() {
+      currentTitle = podcastInfo.title;
+      currentArtist = podcastInfo.artist;
+      currentDescription = podcastInfo.description;
+      _musicControlMenuVisible = musicMenuVisible;
+    });
+  }
+
+  stream() {
+    StreamSubscription playPauseSubscription = assetsAudioPlayer.isPlaying
+        .listen((p) {
+          if(_isPlaying != p){
+            _isPlaying = p;
+            setState(() {
+              _isPlaying = p;
+            });
+          }
+        });
+        }
+
+}
