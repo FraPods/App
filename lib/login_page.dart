@@ -10,7 +10,6 @@ class LoginPage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-
     return _LoginPageState();
   }
 }
@@ -18,18 +17,25 @@ class LoginPage extends StatefulWidget {
 // Here is the layout and the action triggers
 class _LoginPageState extends State<LoginPage> {
   // declare variables here:
-  TextEditingController _emailTextController = TextEditingController();
+  TextEditingController _usernameTextController = TextEditingController();
   TextEditingController _passwordTextController = TextEditingController();
+  TextEditingController _firstnameTextController = TextEditingController();
+  TextEditingController _lastnameTextController = TextEditingController();
+  bool _showSignUp = true; //show either login screen or signup screen
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Image.asset('assets/icon-round.png', fit: BoxFit.fitHeight, height: 40,),
+        title: Image.asset(
+          'assets/icon-round.png',
+          fit: BoxFit.fitHeight,
+          height: 40,
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(8.0),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -40,17 +46,16 @@ class _LoginPageState extends State<LoginPage> {
                 ),
 
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                   child: TextFormField(
-                    controller: _emailTextController,
+                    controller: _usernameTextController,
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'E-Mail Address'),
+                        border: OutlineInputBorder(), labelText: 'Username'),
                   ),
                 ),
 
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                   child: TextField(
                     obscureText: true,
                     enableSuggestions: false,
@@ -61,38 +66,103 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
 
-                // Layout with Log In button
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                  child: Row(
+                Visibility(
+                  visible: _showSignUp,
+                  child: Column(
                     children: <Widget>[
-                      Expanded(
-                        child: OutlinedButton(
-                          onPressed: () => logIn(
-                              _emailTextController.text.toString(),
-                              _passwordTextController.text.toString()),
-                          child: const Text("Log In"),
+                      Padding(
+                        padding:
+                        EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                        child: TextField(
+                          obscureText: true,
+                          enableSuggestions: false,
+                          autocorrect: false,
+                          controller: _firstnameTextController,
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Firstname'),
                         ),
+                      ),
+                      Padding(
+                        padding:
+                        EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                        child: TextField(
+                          obscureText: true,
+                          enableSuggestions: false,
+                          autocorrect: false,
+                          controller: _lastnameTextController,
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Lastname'),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 8),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: OutlinedButton(
+                                  onPressed: () =>
+                                      signUp(
+                                        _usernameTextController.text.trim(),
+                                        _passwordTextController.text.trim(),
+                                        _firstnameTextController.text.trim(),
+                                        _lastnameTextController.text.trim(),
+                                      ),
+                                  child: const Text("Sign Up")),
+                            ),
+                          ],
+                        ),
+                      ),
+                      TextButton(
+                          onPressed: () {
+                            setState(() {
+                              _showSignUp = false;
+                            });
+                          },
+                          child: Text("Already have an account? Log In"),
                       ),
                     ],
                   ),
                 ),
 
-                // Layout with Sign Up button
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: OutlinedButton(
-                            onPressed: () => signUp(
-                                _emailTextController.text.trim(),
-                                _passwordTextController.text.trim()),
-                            child: const Text("Sign Up")),
+                Visibility(
+                  visible: !_showSignUp,
+                  child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: OutlinedButton(
+                              onPressed: () =>
+                                  logIn(
+                                      _usernameTextController.text.toString(),
+                                      _passwordTextController.text.toString()
+                                  ),
+                              child: const Text("Log In"),
+                            ),
+                          ),
+                        ],
                       ),
+                    ),
+                    TextButton(
+                        onPressed: (){
+                          setState(() {
+                            _showSignUp = true;
+                          });
+                        },
+                        child: Text("Don't have an account? Sign Up")
+                    )
                     ],
                   ),
                 ),
+
+
+                // Layout with Sign Up button
+
               ],
             ),
           ),
@@ -103,9 +173,9 @@ class _LoginPageState extends State<LoginPage> {
 
   // Write class-internal methods here
 
-  void logIn(String email, String password) {
-    if (email.isEmpty) {
-      showDialogMessage("Login failed", "Please enter an E-Mail Address!");
+  void logIn(String username, String password) {
+    if (username.isEmpty) {
+      showDialogMessage("Login failed", "Please enter a username!");
       return;
     }
     if (password.isEmpty) {
@@ -115,15 +185,24 @@ class _LoginPageState extends State<LoginPage> {
     //TODO: write login request to server HERE
   }
 
-  void signUp(String email, String password) {
-    if (email.isEmpty) {
-      showDialogMessage("Sign Up failed", "Please enter an E-Mail Address!");
+  void signUp(String username, String password, String firstname, String lastname) {
+    if (username.isEmpty) {
+      showDialogMessage("Sign Up failed", "Please enter a username!");
       return;
     }
     if (password.isEmpty) {
       showDialogMessage("Sign Up failed", "Please enter a password!");
       return;
     }
+    if (firstname.isEmpty) {
+      showDialogMessage("Sign Up failed", "Please enter your firstname!");
+      return;
+    }
+    if (lastname.isEmpty) {
+      showDialogMessage("Sign Up failed", "Please enter your lastname!");
+      return;
+    }
+
     //TODO: write signup request to server HERE
   }
 
