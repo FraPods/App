@@ -43,12 +43,20 @@ TextStyle titleTextStyle() {
     fontSize: 32,
     color: generateMaterialColorFromColor(Color(0xFF004AAD)),
   );
+}
 
+TextStyle normalTextStyle() {
+  return TextStyle(
+    fontSize: 16,
+    color: generateMaterialColorFromColor(Color(0xFFFFFFFF)),
+  );
 }
 
 Color blueish() {
   return generateMaterialColorFromColor(Color(0xFF004AAD));
 }
+
+
 
 Color backgroundColor(){
   return Color(0xFF292929);

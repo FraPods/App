@@ -116,41 +116,48 @@ class _MainPageState extends State<MainPage> {
                   color: generateMaterialColorFromColor(Color(0xffebf7ff)),
                   border: Border(
                     top: BorderSide(
-                        color: Colors.black,
+                        color: Colors.white,
                         width: 1
                     ),
                     bottom: BorderSide(
                         color: Colors.black,
                         width: 1),
                   )),
-              child: Row(
-                children: <Widget>[
-                  IconButton(
-                    icon: _isPlaying
-                        ? Icon(
-                            Icons.pause,
-                            size: 40.0,
-                          )
-                        : Icon(Icons.play_arrow, size: 40.0),
-                    onPressed: () {
-                      if(_isPlaying){
-                        setState(() {
-                          _isPlaying = false;
-                        });
-                        assetsAudioPlayer.pause();
-                      } else {
-                        setState(() {
-                          _isPlaying = true;
-                        });
-                        assetsAudioPlayer.play();
-                      }
+              child: Container(
+                color: backgroundColor(),
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    IconButton(
+                      padding: EdgeInsets.zero,
+                      color: Colors.white,
+                      icon: _isPlaying
+                          ? Icon(
+                        Icons.pause,
+                        size: 40.0,
+                      )
+                          : Icon(Icons.play_arrow, size: 40.0),
+                      onPressed: () {
+                        if(_isPlaying){
+                          setState(() {
+                            _isPlaying = false;
+                          });
+                          assetsAudioPlayer.pause();
+                        } else {
+                          setState(() {
+                            _isPlaying = true;
+                          });
+                          assetsAudioPlayer.play();
+                        }
 
 
-                    },
-                  ),
-                  Text(currentTitle + " by " + currentArtist),
-                ],
-              ),
+                      },
+                    ),
+                    Text(currentTitle + " by " + currentArtist, style: normalTextStyle()),
+                  ],
+                ),
+              )
             ),
           ),
         ],

@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\FraPods\\App\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v24\\values-v24.xml",
+            "outputFile": "/home/niklas/Programmieren/Flutter/frapods-git/App/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-v24/values-v24.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Diana\\.gradle\\caches\\transforms-2\\files-2.1\\08cf4a9992429ca3400730af43cddcba\\media-1.4.1\\res\\values-v24\\values-v24.xml",
+                    "source": "/home/niklas/.gradle/caches/transforms-2/files-2.1/08cf4a9992429ca3400730af43cddcba/media-1.4.1/res/values-v24/values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frapods/main_page.dart';
+import 'package:frapods/main.dart';
 import 'package:frapods/podcast_details_page.dart';
 import 'package:frapods/podcast_info.dart';
 import 'package:frapods/profile_page.dart';
@@ -142,7 +142,7 @@ class _SearchPageState extends State<SearchPage> {
           ),
         );
       },
-      child: Text(listofresults[index].title),
+      child: Text(listofresults[index].title, style: normalTextStyle()),
     );
   }
 }
