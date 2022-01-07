@@ -1,1 +1,5 @@
 build/app/outputs
+./.git/objects/pack/pack-450d6ca8a0b9ac452b4a031f9e14534b998fb5bd.pack
+./build/app/outputs/apk/debug/app-debug.apk
+./build/app/outputs/flutter-apk/app.apk
+./build/app/outputs/flutter-apk/app-debug.apk
