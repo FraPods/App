@@ -22,7 +22,7 @@ class FraPodsApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: generateMaterialColorFromColor(Color(0xFF004AAD)),
       ),
-      home: const LoginPage(title: 'FraPods - Podcast Sharing'),
+      home: const MainPage(),
 
     );
   }
@@ -43,6 +43,10 @@ TextStyle titleTextStyle() {
     color: generateMaterialColorFromColor(Color(0xFF004AAD)),
   );
 
+}
+
+Color blueish() {
+  return generateMaterialColorFromColor(Color(0xFF004AAD));
 }
 
 

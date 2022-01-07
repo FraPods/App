@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:frapods/home_page.dart';
 import 'package:frapods/podcast_details_page.dart';
+import 'package:frapods/upload_page.dart';
 import 'main.dart';
 import 'package:frapods/podcast_info.dart';
 import 'package:frapods/podcast_player.dart';
@@ -12,13 +13,12 @@ import 'package:frapods/title_changed_notification.dart';
 import 'dart:developer';
 
 class MainPage extends StatefulWidget {
-  const MainPage({Key? key, required this.username}) : super(key: key);
+  const MainPage({Key? key}) : super(key: key);
 
   static _MainPageState? of(BuildContext context) =>
       context.findAncestorStateOfType<_MainPageState>();
 
   //following parameters MUST be passed:
-  final String username;
 
   @override
   State<MainPage> createState() {
@@ -54,19 +54,28 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: generateMaterialColorFromColor(Color(0xffebf7ff)),
-          items: const <BottomNavigationBarItem>[
+          items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
+              backgroundColor: blueish(),
               icon: Icon(Icons.home),
               label: 'Home',
             ),
             BottomNavigationBarItem(
+              backgroundColor: blueish(),
               icon: Icon(Icons.search),
               label: 'Search',
             ),
             BottomNavigationBarItem(
+              backgroundColor: blueish(),
+              icon: Icon(Icons.cloud_upload),
+              label: 'Upload',
+            ),
+            BottomNavigationBarItem(
+              backgroundColor: blueish(),
               icon: Icon(Icons.account_circle),
               label: 'Account',
             ),
+
           ],
           currentIndex: _selectedIndex, //New
           onTap: (int index) {
@@ -84,7 +93,6 @@ class _MainPageState extends State<MainPage> {
                 currentDescription = notification.podcastInfo.description;
 
               });
-              print("DEBUGPODS details notification called");
               return true;
             },
             child: Container(),
@@ -93,15 +101,10 @@ class _MainPageState extends State<MainPage> {
             child: IndexedStack(
               index: _selectedIndex,
               children: [
-                HomePage(
-                    username: "usernamehere",
-                ),
-
-                SearchPage(
-                  username: "usernamehere",
-                  notifyParent: refresh,
-                ),
-                ProfilePage(username: "usernamehere"),
+                HomePage(),
+                SearchPage(notifyParent: refresh),
+                UploadPage(),
+                ProfilePage(),
 
               ],
             ),

@@ -10,7 +10,7 @@ import 'package:frapods/title_changed_notification.dart';
 
 class PodcastDetailsPage extends StatefulWidget {
 
-  const PodcastDetailsPage({Key? key, required this.podcastInfo,})
+  const PodcastDetailsPage({Key? key, required this.podcastInfo})
       : super(key: key);
 
   //following parameters MUST be passed:

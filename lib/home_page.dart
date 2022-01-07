@@ -4,12 +4,8 @@ import 'package:frapods/podcast_info.dart';
 
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key,required this.username})
+  const HomePage({Key? key})
       : super(key: key);
-
-  //following parameters MUST be passed:
-  final String username;
-
 
   @override
   State<HomePage> createState() {

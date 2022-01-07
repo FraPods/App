@@ -5,12 +5,11 @@ import 'package:frapods/podcast_info.dart';
 import 'package:frapods/profile_page.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({Key? key,required this.username, required this.notifyParent})
+  const SearchPage({Key? key,required this.notifyParent})
       : super(key: key);
 
   //following parameters MUST be passed:
   final Function(PodcastInfo podcastInfo, bool musicMenuVisible) notifyParent;
-  final String username;
 
 
   @override
