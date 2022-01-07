@@ -26,7 +26,7 @@ com/ryanheise/audioservice/AudioServiceActivity.java
  com.ryanheise.audioservice.AudioServiceActivity
 com/ryanheise/audioservice/MediaControl.java
  com.ryanheise.audioservice.MediaControl
-com/ryanheise/audioservice/AudioServiceConfig.java
- com.ryanheise.audioservice.AudioServiceConfig
 com/ryanheise/audioservice/AudioProcessingState.java
  com.ryanheise.audioservice.AudioProcessingState
+com/ryanheise/audioservice/AudioServiceConfig.java
+ com.ryanheise.audioservice.AudioServiceConfig

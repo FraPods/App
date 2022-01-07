@@ -21,6 +21,7 @@ class FraPodsApp extends StatelessWidget {
       title: 'FraPods',
       theme: ThemeData(
         primarySwatch: generateMaterialColorFromColor(Color(0xFF004AAD)),
+        scaffoldBackgroundColor: backgroundColor(),
       ),
       home: const MainPage(),
 
@@ -47,6 +48,10 @@ TextStyle titleTextStyle() {
 
 Color blueish() {
   return generateMaterialColorFromColor(Color(0xFF004AAD));
+}
+
+Color backgroundColor(){
+  return Color(0xFF292929);
 }
 
 
