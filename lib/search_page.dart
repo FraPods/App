@@ -42,6 +42,7 @@ class _SearchPageState extends State<SearchPage> {
         size: 28,
       ),
       title: TextField(
+        cursorColor: Colors.white,
         onSubmitted: (String text) {
           sendSearchRequest(text);
         },

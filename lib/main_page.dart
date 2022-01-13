@@ -59,6 +59,7 @@ class _MainPageState extends State<MainPage> {
               backgroundColor: blueish(),
               icon: Icon(Icons.home),
               label: 'Home',
+
             ),
             BottomNavigationBarItem(
               backgroundColor: blueish(),
@@ -77,6 +78,8 @@ class _MainPageState extends State<MainPage> {
             ),
 
           ],
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.grey,
           currentIndex: _selectedIndex, //New
           onTap: (int index) {
             setState(() {

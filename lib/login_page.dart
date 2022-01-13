@@ -3,10 +3,10 @@ import 'main.dart';
 
 // This is only for setup and final (non-changable) variable definition
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key, required this.title}) : super(key: key);
+  const LoginPage({Key? key}) : super(key: key);
 
   //following parameters MUST be passed:
-  final String title;
+
 
   @override
   State<StatefulWidget> createState() {
@@ -21,18 +21,20 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _passwordTextController = TextEditingController();
   TextEditingController _firstnameTextController = TextEditingController();
   TextEditingController _lastnameTextController = TextEditingController();
-  bool _showSignUp = true; //show either login screen or signup screen
+  bool _showSignUp = false; //show either login screen or signup screen
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+
         title: Image.asset(
           'assets/icon-round.png',
           fit: BoxFit.fitHeight,
           height: 40,
         ),
       ),
+
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(8.0),
@@ -48,6 +50,7 @@ class _LoginPageState extends State<LoginPage> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                   child: TextFormField(
+                    style: normalTextStyle(),
                     controller: _usernameTextController,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(), labelText: 'Username'),
@@ -57,6 +60,7 @@ class _LoginPageState extends State<LoginPage> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                   child: TextField(
+                    style: normalTextStyle(),
                     obscureText: true,
                     enableSuggestions: false,
                     autocorrect: false,

@@ -20,10 +20,16 @@ class FraPodsApp extends StatelessWidget {
     return MaterialApp(
       title: 'FraPods',
       theme: ThemeData(
+        appBarTheme: AppBarTheme(
+          backgroundColor: blueish(),
+        ),
+        brightness: Brightness.dark,
         primarySwatch: generateMaterialColorFromColor(Color(0xFF004AAD)),
         scaffoldBackgroundColor: backgroundColor(),
+        primaryColor: Colors.white,
+
       ),
-      home: const MainPage(),
+      home: const LoginPage(),
 
     );
   }
