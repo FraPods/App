@@ -30,8 +30,6 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
   Widget build(BuildContext context) {
 
 
-    playPodcast(url: widget.podcastInfo.url);
-
 
 
 

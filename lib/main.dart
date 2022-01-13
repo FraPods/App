@@ -29,7 +29,7 @@ class FraPodsApp extends StatelessWidget {
         primaryColor: Colors.white,
 
       ),
-      home: const LoginPage(),
+      home: const MainPage(),
 
     );
   }

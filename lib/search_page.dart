@@ -3,6 +3,7 @@ import 'package:frapods/main.dart';
 import 'package:frapods/podcast_details_page.dart';
 import 'package:frapods/podcast_info.dart';
 import 'package:frapods/profile_page.dart';
+import 'podcast_player.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key,required this.notifyParent})
@@ -137,6 +138,7 @@ class _SearchPageState extends State<SearchPage> {
 
         PodcastInfo podcastInfo = PodcastInfo(listofresults[index].title, listofresults[index].description, listofresults[index].artist, listofresults[index].url);
         parentWidget.notifyParent(podcastInfo, true);
+        playPodcast(url: podcastInfo.url);
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) {PodcastDetailsPage(podcastInfo: listofresults[index]); return PodcastDetailsPage(podcastInfo: listofresults[index]);}
