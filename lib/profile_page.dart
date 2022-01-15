@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'setting_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key})
@@ -23,6 +24,15 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: AppBar(
            title: Icon(Icons.account_circle),
+           actions: [
+           IconButton(icon: Icon(Icons.settings),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SettingPage()),
+              );
+            },)
+         ],
       ),
       body: SingleChildScrollView(
         child: Padding(

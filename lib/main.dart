@@ -58,6 +58,21 @@ TextStyle normalTextStyle() {
   );
 }
 
+TextStyle normalTextStyle2() {
+  return TextStyle(
+    fontSize: 18,
+    color: generateMaterialColorFromColor(Color(0xFFFFFFFF)),
+  );
+}
+
+TextStyle subtitleTextStyle(){
+  return TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+  );
+}
+
 Color blueish() {
   return generateMaterialColorFromColor(Color(0xFF004AAD));
 }

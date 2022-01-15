@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'home_page.dart';
+import 'main.dart';
 
 
 class SettingPage extends StatefulWidget {
@@ -17,6 +18,19 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   // declare variables here:
+  bool darkModeSwitchOn = true;
+
+  void toggleDarkModeSwitch (bool value){
+    if (darkModeSwitchOn == false) {
+      setState(() {
+        darkModeSwitchOn = true;
+      });
+    }else{
+      setState(() {
+        darkModeSwitchOn = false;
+      });
+    }
+  }
 
 
   @override
@@ -30,15 +44,47 @@ class _SettingPageState extends State<SettingPage> {
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(16.0),
-          child: Center(
-            child: Column(
+          child: Column(
               children: <Widget>[
-                Text("This is the setting page")
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.fromLTRB(5, 5, 0, 10),
+                  child: Text("Basic Settings", 
+                    style: subtitleTextStyle(),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                Row(
+                  children: <Widget>[
+                    Container(
+                      alignment: Alignment.topLeft,
+                      padding: EdgeInsets.fromLTRB(15, 0, 20, 5),
+                      child: Text("Dark Mode:", 
+                        style: normalTextStyle2(),
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                    
+                      Transform.scale(
+                        scale: 1.3,
+                        child: Switch(
+                          onChanged: toggleDarkModeSwitch,
+                          value: darkModeSwitchOn,
+                          activeColor: Colors.white70,
+                          activeTrackColor: Colors.blue[600],
+                          inactiveThumbColor: Colors.white70,
+                          inactiveTrackColor: Colors.grey[800],
+                        ),
+                      ),
+                  ]
+                )
+                
+                
               ],
             ),
           ),
         ),
-      ),
+      
     );
   }
 }
