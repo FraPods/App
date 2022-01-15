@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frapods/podcast_details_page.dart';
 import 'package:frapods/podcast_info.dart';
+import 'package:frapods/setting_page.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -26,18 +27,26 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
        appBar: AppBar(
-        title: Row(children: [
-          logo,
-
-          Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Text("FraPods"),
-          )
-        ],
-        ),
+         actions: [
+           IconButton(icon: Icon(Icons.settings),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SettingPage()),
+              );
+            },)
+         ],
+          title: Row(children: [
+            logo,
+            Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text("FraPods"),
+            )
+          ],
+          ),
         automaticallyImplyLeading: false,
 
-      ),
+        ),
 
       //End of Title Bar Layout ^^
 
