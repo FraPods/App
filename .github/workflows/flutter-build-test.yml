@@ -25,4 +25,4 @@ jobs:
         run: flutter pub get
 
       - name: Run Flutter APK Build
-        run: flutter run
+        run: flutter build apk
