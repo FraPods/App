@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:frapods/home_page.dart';
 import 'package:frapods/podcast_details_page.dart';
@@ -192,7 +191,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   stream() {
-    StreamSubscription playPauseSubscription =
+    StreamSubscription teaplayPauseSubscription =
         assetsAudioPlayer.isPlaying.listen((p) {
       if (_isPlaying != p) {
         _isPlaying = p;
