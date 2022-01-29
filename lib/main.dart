@@ -20,7 +20,7 @@ class FraPodsApp extends StatelessWidget {
     Widget build(BuildContext context) {
     return MaterialApp(
       title: 'FraPods',
-      themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
+      //themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
       theme: ThemeData(
       appBarTheme: AppBarTheme(
           backgroundColor: blueish(),
@@ -29,7 +29,7 @@ class FraPodsApp extends StatelessWidget {
         primarySwatch: generateMaterialColorFromColor(Color(0xFF004AAD)),
         primaryColor: Colors.white,
        ),
-      darkTheme: ThemeData.dark(),
+      //darkTheme: ThemeData.dark(),
       home: const MainPage(),
 
     );
@@ -101,3 +101,4 @@ return MaterialColor(color.value, {
 }
 
 final darkNotifier = ValueNotifier<bool>(false);
+bool isDark = darkNotifier.value;
