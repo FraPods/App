@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'setting_page.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key})
+  const ProfilePage({Key? key, required this.setPage})
       : super(key: key);
 
   //following parameters MUST be passed:
-
+  final Function(int index) setPage;
 
   @override
   State<ProfilePage> createState() {
@@ -27,10 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
            actions: [
            IconButton(icon: Icon(Icons.settings),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SettingPage()),
-              );
+
             },)
          ],
       ),

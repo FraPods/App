@@ -5,8 +5,11 @@ import 'package:frapods/setting_page.dart';
 
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key})
+  const HomePage({Key? key, required this.setPage})
       : super(key: key);
+
+
+  final Function(int index) setPage;
 
   @override
   State<HomePage> createState() {
@@ -30,10 +33,7 @@ class _HomePageState extends State<HomePage> {
          actions: [
            IconButton(icon: Icon(Icons.settings),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SettingPage()),
-              );
+              widget.setPage(4);
             },)
          ],
           title: Row(children: [

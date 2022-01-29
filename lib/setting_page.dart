@@ -5,10 +5,14 @@ import 'main.dart';
 
 class SettingPage extends StatefulWidget {
 
-  const SettingPage({Key? key, /*required this.podcastInfo*/})
+  const SettingPage({Key? key, required this.setPage})
       : super(key: key);
 
   //following parameters MUST be passed:
+  final Function(int index) setPage;
+
+
+
   @override
   State<SettingPage> createState() {
     return _SettingPageState();
@@ -38,6 +42,11 @@ class _SettingPageState extends State<SettingPage> {
 
     return Scaffold(
       appBar: AppBar(
+          leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                    widget.setPage(-1);
+              }),
         title: Text('Settings')
       ),
 

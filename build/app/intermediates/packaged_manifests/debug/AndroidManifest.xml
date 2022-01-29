@@ -78,8 +78,12 @@
             android:name="flutterEmbedding"
             android:value="2" />
 
-        <receiver android:name="com.github.florent37.assets_audio_player.notification.NotificationActionReceiver" />
-        <receiver android:name="com.github.florent37.assets_audio_player.notification.CustomMediaButtonReceiver" >
+        <receiver
+            android:name="com.github.florent37.assets_audio_player.notification.NotificationActionReceiver"
+            android:exported="false" />
+        <receiver
+            android:name="com.github.florent37.assets_audio_player.notification.CustomMediaButtonReceiver"
+            android:exported="false" >
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>

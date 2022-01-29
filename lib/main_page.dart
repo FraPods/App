@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:frapods/home_page.dart';
 import 'package:frapods/podcast_details_page.dart';
+import 'package:frapods/setting_page.dart';
 import 'package:frapods/upload_page.dart';
 import 'main.dart';
 import 'package:frapods/podcast_info.dart';
@@ -37,6 +38,7 @@ class _MainPageState extends State<MainPage> {
   PodcastInfo currentPodcasatInfo = PodcastInfo("...", "...", "...", "...");
 
   int _selectedIndex = 0;
+  int _navbarIndex = 0;
   bool _isSearchBarOpened = false;
   List<PodcastInfo> listOfAllSearchResults = [];
   Icon searchBarIcon = Icon(Icons.search);
@@ -76,11 +78,12 @@ class _MainPageState extends State<MainPage> {
           ],
           selectedItemColor: Colors.white,
           unselectedItemColor: Colors.grey,
-          currentIndex: _selectedIndex,
+          currentIndex: _selectedIndex <= 3? _selectedIndex : _navbarIndex,
           //New
           onTap: (int index) {
             setState(() {
               _selectedIndex = index;
+              _navbarIndex = index;
             });
           }),
       body: Column(
@@ -100,10 +103,11 @@ class _MainPageState extends State<MainPage> {
             child: IndexedStack(
               index: _selectedIndex,
               children: [
-                HomePage(),
+                HomePage(setPage: setPage,),
                 SearchPage(notifyParent: refresh),
                 UploadPage(),
-                ProfilePage(),
+                ProfilePage(setPage: setPage,),
+                SettingPage(setPage: setPage),
               ],
             ),
           ),
@@ -188,6 +192,19 @@ class _MainPageState extends State<MainPage> {
       currentPodcasatInfo = podcastInfo;
       _musicControlMenuVisible = musicMenuVisible;
     });
+  }
+
+  setPage(int index){
+    if(index == -1){
+      setState(() {
+        _selectedIndex = _navbarIndex;
+      });
+    }
+    else {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
   }
 
   stream() {
