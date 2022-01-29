@@ -25,7 +25,7 @@ class FraPodsApp extends StatelessWidget {
       appBarTheme: AppBarTheme(
           backgroundColor: blueish(),
           ),
-        brightness: Brightness.light,
+        brightness: Brightness.dark,
         primarySwatch: generateMaterialColorFromColor(Color(0xFF004AAD)),
         primaryColor: Colors.white,
        ),
@@ -55,14 +55,14 @@ TextStyle titleTextStyle() {
 TextStyle normalTextStyle() {
   return TextStyle(
     fontSize: 16,
-    //color: generateMaterialColorFromColor(Color(0xFFFFFFFF)),
+    color: generateMaterialColorFromColor(Color(0xFFFFFFFF)),
   );
 }
 
 TextStyle normalTextStyle2() {
   return TextStyle(
     fontSize: 18,
-    //color: generateMaterialColorFromColor(Color(0xFFFFFFFF)),
+    color: generateMaterialColorFromColor(Color(0xFFFFFFFF)),
   );
 }
 
@@ -70,7 +70,7 @@ TextStyle subtitleTextStyle(){
   return TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.bold,
-    //color: Colors.white,
+    color: Colors.white,
   );
 }
 
