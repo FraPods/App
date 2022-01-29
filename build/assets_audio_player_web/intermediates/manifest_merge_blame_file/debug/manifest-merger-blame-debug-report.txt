@@ -3,6 +3,6 @@
 3    package="com.github.florent37.assets_audio_player_web" >
 4
 5    <uses-sdk android:minSdkVersion="16" />
-5-->/home/niklas/applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/assets_audio_player_web-3.0.3+6/android/src/main/AndroidManifest.xml
+5-->C:\Users\Diana\Documents\flutter\.pub-cache\hosted\pub.dartlang.org\assets_audio_player_web-3.0.3+9\android\src\main\AndroidManifest.xml
 6
 7</manifest>

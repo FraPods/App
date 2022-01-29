@@ -22,19 +22,6 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   // declare variables here:
-  bool darkModeSwitchOn = true;
-
-  void toggleDarkModeSwitch (bool value){
-    if (darkModeSwitchOn == false) {
-      setState(() {
-        darkModeSwitchOn = true;
-      });
-    }else{
-      setState(() {
-        darkModeSwitchOn = false;
-      });
-    }
-  }
 
 
   @override
@@ -74,20 +61,21 @@ class _SettingPageState extends State<SettingPage> {
                       ),
                     ),
                     
-                      Transform.scale(
-                        scale: 1.3,
-                        child: Switch(
-                          onChanged: toggleDarkModeSwitch,
-                          value: darkModeSwitchOn,
-                          activeColor: Colors.white70,
-                          activeTrackColor: Colors.blue[600],
-                          inactiveThumbColor: Colors.white70,
-                          inactiveTrackColor: Colors.grey[800],
-                        ),
+                    Transform.scale(
+                      scale: 1.3,
+                      child: Switch(
+                        value: isDark,
+                        onChanged: (value) {
+                        setState(() {
+                        isDark = !isDark;
+                        darkNotifier.value = isDark;
+                        });
+                        }
+                      )
                       ),
                   ]
-                )
-                
+                ),
+               
                 
               ],
             ),
@@ -98,4 +86,4 @@ class _SettingPageState extends State<SettingPage> {
   }
 }
 
-
+bool isDark = darkNotifier.value;

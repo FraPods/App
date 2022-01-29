@@ -121,7 +121,7 @@ class _MainPageState extends State<MainPage> {
                       bottom: BorderSide(color: Colors.black, width: 1),
                     )),
                 child: Container(
-                  color: backgroundColor(),
+                  //color: backgroundColor(),
                   alignment: Alignment.centerLeft,
                   child: GestureDetector(
                     behavior: HitTestBehavior.translucent,

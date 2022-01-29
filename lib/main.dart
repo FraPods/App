@@ -4,6 +4,7 @@ import 'package:frapods/main_page.dart';
 // import all class files (create one class per page)
 import 'home_page.dart';
 import 'login_page.dart';
+import 'setting_page.dart';
 
 void main() {
   runApp(const FraPodsApp());
@@ -16,19 +17,19 @@ class FraPodsApp extends StatelessWidget {
   const FraPodsApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+    Widget build(BuildContext context) {
     return MaterialApp(
       title: 'FraPods',
+      themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
       theme: ThemeData(
-        appBarTheme: AppBarTheme(
+      appBarTheme: AppBarTheme(
           backgroundColor: blueish(),
-        ),
-        brightness: Brightness.dark,
+          ),
+        brightness: Brightness.light,
         primarySwatch: generateMaterialColorFromColor(Color(0xFF004AAD)),
-        scaffoldBackgroundColor: backgroundColor(),
         primaryColor: Colors.white,
-
-      ),
+       ),
+      darkTheme: ThemeData.dark(),
       home: const MainPage(),
 
     );
@@ -54,14 +55,14 @@ TextStyle titleTextStyle() {
 TextStyle normalTextStyle() {
   return TextStyle(
     fontSize: 16,
-    color: generateMaterialColorFromColor(Color(0xFFFFFFFF)),
+    //color: generateMaterialColorFromColor(Color(0xFFFFFFFF)),
   );
 }
 
 TextStyle normalTextStyle2() {
   return TextStyle(
     fontSize: 18,
-    color: generateMaterialColorFromColor(Color(0xFFFFFFFF)),
+    //color: generateMaterialColorFromColor(Color(0xFFFFFFFF)),
   );
 }
 
@@ -69,7 +70,7 @@ TextStyle subtitleTextStyle(){
   return TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.bold,
-    color: Colors.white,
+    //color: Colors.white,
   );
 }
 
@@ -80,7 +81,7 @@ Color blueish() {
 
 
 Color backgroundColor(){
-  return Color(0xFF292929);
+ return Color(0xFF292929);
 }
 
 
@@ -98,3 +99,5 @@ return MaterialColor(color.value, {
 900: Color.fromRGBO(color.red, color.green, color.blue, 1.0),
 });
 }
+
+final darkNotifier = ValueNotifier<bool>(false);
