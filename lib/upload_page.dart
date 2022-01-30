@@ -29,15 +29,67 @@ class _UploadPageState extends State<UploadPage> {
 
 
     return Scaffold(
-      appBar: AppBar(),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Center(
-          child: Text("This is the upload page"),
+      appBar: AppBar(
+        title: Image.asset(
+          'assets/icon-round.png',
+          fit: BoxFit.fitHeight,
+          height: 40,
         ),
+      ),
+      body: Padding(
+        padding: EdgeInsets.symmetric(vertical: 30, horizontal: 25),
+        child: 
+        Column(
+          children: <Widget> [
+
+            Center(
+              child: Container(
+                width: double.maxFinite,
+                height: 70,
+                child: TextButton(
+                  onPressed: null, 
+                  child: Text('new podcast'),
+                  style: textButtonStyle(),
+                  ),
+              ),
+            ),
+
+            // End of first Button
+
+            Center(
+              child: Card(
+                margin: EdgeInsets.symmetric(vertical: 20),
+                child: Column(
+                  children: [
+                    Container(
+                      width: double.maxFinite,
+                      margin: EdgeInsets.symmetric(vertical:20),
+                      child: 
+                      Center(
+                        child: Text('Add new Episode to existing podcast', style: TextStyle(fontSize: 17),),
+                      ),
+
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
+        )
       ),
     );
   }
 }
 
 
+ButtonStyle textButtonStyle () {
+  return ButtonStyle(
+    backgroundColor: MaterialStateProperty.all<Color> (Color(0xFF1D71E1)),
+    textStyle: MaterialStateProperty.all <TextStyle>(
+      TextStyle (
+        color: Colors.white,
+        fontSize: 23
+      )
+    )
+  );
+}
