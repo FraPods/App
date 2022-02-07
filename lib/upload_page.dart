@@ -3,13 +3,8 @@ import 'package:frapods/main_page.dart';
 import 'package:frapods/podcast_info.dart';
 import 'package:frapods/podcast_player.dart';
 
-
-
 class UploadPage extends StatefulWidget {
-
-  const UploadPage({Key? key})
-      : super(key: key);
-
+  const UploadPage({Key? key}) : super(key: key);
 
   @override
   State<UploadPage> createState() {
@@ -17,16 +12,16 @@ class UploadPage extends StatefulWidget {
   }
 }
 
-
 class _UploadPageState extends State<UploadPage> {
   // declare variables here:
 
-
   @override
   Widget build(BuildContext context) {
-
     //define variables here
-
+    /*final List<PodcastInfo> podcasts = [
+      PodcastInfo('xxx', 'xxx', 'xxx', 'xxx'),
+      PodcastInfo('xxx', 'xxx', 'xxx', 'xxx'),
+    ];*/
 
     return Scaffold(
       appBar: AppBar(
@@ -37,61 +32,56 @@ class _UploadPageState extends State<UploadPage> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(vertical: 30, horizontal: 25),
-        child: 
-        Column(
-          children: <Widget> [
-
-            Center(
-              child: Container(
-                width: double.maxFinite,
-                height: 70,
-                child: TextButton(
-                  onPressed: null, 
-                  child: Text('new podcast'),
-                  style: textButtonStyle(),
-                  ),
-              ),
-            ),
-
-            // End of first Button
-
-            Center(
-              child: Container(
-                width: double.maxFinite,
-                child: Card(
-                  margin: EdgeInsets.symmetric(vertical: 30),
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.symmetric(vertical:20),
-                        child: 
-                        Center(
-                          child: Text('Add new Episode to existing podcast', style: TextStyle(fontSize: 17),),
-                        ),
-
-                      ),
-                    ],
+          padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+          child: Column(
+            children: <Widget>[
+              Center(
+                child: Container(
+                  width: double.maxFinite,
+                  height: 70,
+                  child: TextButton(
+                    onPressed: null,
+                    child: Text('new podcast'),
+                    style: textButtonStyle(),
                   ),
                 ),
               ),
-            )
+
+              // End of first Button
+
+              Center(
+                child: Container(
+                  width: double.maxFinite,
+                  child: Card(
+                    margin: EdgeInsets.symmetric(vertical: 30),
+                    child: Column(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 20),
+                          child: Center(
+                            child: Text(
+                              'Add new Episode to existing podcast',
+                              style: TextStyle(fontSize: 17),
+                            ),
+                          ),
+                        ),
+
+                        
+
+                      ],
+                    ),
+                  ),
+                ),
+              ),
           ],
-        )
-      ),
+        )),
     );
   }
 }
 
-
-ButtonStyle textButtonStyle () {
+ButtonStyle textButtonStyle() {
   return ButtonStyle(
-    backgroundColor: MaterialStateProperty.all<Color> (Color(0xFF1D71E1)),
-    textStyle: MaterialStateProperty.all <TextStyle>(
-      TextStyle (
-        color: Colors.white,
-        fontSize: 23
-      )
-    )
-  );
+      backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF1D71E1)),
+      textStyle: MaterialStateProperty.all<TextStyle>(
+          TextStyle(color: Colors.white, fontSize: 23)));
 }

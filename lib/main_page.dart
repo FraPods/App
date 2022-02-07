@@ -114,62 +114,67 @@ class _MainPageState extends State<MainPage> {
           Visibility(
             visible: _musicControlMenuVisible,
             child: Container(
-                decoration: BoxDecoration(
-                    color: generateMaterialColorFromColor(Color(0xffebf7ff)),
-                    border: Border(
-                      top: BorderSide(color: Colors.white, width: 1),
-                      bottom: BorderSide(color: Colors.black, width: 1),
-                    )),
-                child: Container(
-                  color: backgroundColor(),
-                  alignment: Alignment.centerLeft,
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onTap: () {
-                      log("Layout clicked");
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) {
-                          PodcastDetailsPage(podcastInfo: currentPodcasatInfo);
-                          return PodcastDetailsPage(
-                              podcastInfo: currentPodcasatInfo);
-                        }),
-                      );
-                    },
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        IconButton(
-                          padding: EdgeInsets.zero,
-                          color: Colors.white,
-                          icon: _isPlaying
-                              ? Icon(
-                                  Icons.pause,
-                                  size: 40.0,
-                                )
-                              : Icon(Icons.play_arrow, size: 40.0),
-                          onPressed: () {
-                            if (_isPlaying) {
-                              setState(() {
-                                _isPlaying = false;
-                              });
-                              assetsAudioPlayer.pause();
-                            } else {
-                              setState(() {
-                                _isPlaying = true;
-                              });
-                              assetsAudioPlayer.play();
-                            }
-                          },
-                        ),
-                        Text(currentTitle + " by " + currentArtist,
-                            style: normalTextStyle()),
-                        Spacer(),
-                      ],
+              margin: EdgeInsets.only(bottom: 10, right: 15),
+                  decoration: BoxDecoration(
+                      /*border: Border(
+                        top: BorderSide(color: Colors.black, width: 1),
+                        bottom: BorderSide(color: Colors.black, width: 2),
+                      )*/),
+                  child: Container(
+                    
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.horizontal(right: Radius.circular(50)),
+                      color: Colors.grey.shade700,
                     ),
-                  ),
-                )),
-          ),
+                    height: 50,
+                    alignment: Alignment.centerLeft,
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () {
+                        log("Layout clicked");
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            PodcastDetailsPage(podcastInfo: currentPodcasatInfo);
+                            return PodcastDetailsPage(
+                                podcastInfo: currentPodcasatInfo);
+                          }),
+                        );
+                      },
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          IconButton(
+                            padding: EdgeInsets.zero,
+                            color: Colors.white,
+                            icon: _isPlaying
+                                ? Icon(
+                                    Icons.pause,
+                                    size: 40.0,
+                                  )
+                                : Icon(Icons.play_arrow, size: 40.0),
+                            onPressed: () {
+                              if (_isPlaying) {
+                                setState(() {
+                                  _isPlaying = false;
+                                });
+                                assetsAudioPlayer.pause();
+                              } else {
+                                setState(() {
+                                  _isPlaying = true;
+                                });
+                                assetsAudioPlayer.play();
+                              }
+                            },
+                          ),
+                          Text(currentTitle + " by " + currentArtist,
+                              style: normalTextStyle()),
+                          Spacer(),
+                        ],
+                      ),
+                    ),
+                  )),
+            ),
         ],
       ),
     );

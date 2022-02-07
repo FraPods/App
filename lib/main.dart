@@ -28,10 +28,12 @@ class FraPodsApp extends StatelessWidget {
             appBarTheme: AppBarTheme(
               backgroundColor: blueish()
             ),
+            
             brightness: Brightness.light,
             primarySwatch: generateMaterialColorFromColor(Color(0xFF004AAD)),
             primaryColor: Colors.black,
           ),
+
           darkTheme: ThemeData(
             appBarTheme: AppBarTheme(
               backgroundColor: blueish()
@@ -39,7 +41,9 @@ class FraPodsApp extends StatelessWidget {
             brightness: Brightness.dark,
             primarySwatch: generateMaterialColorFromColor(Color(0xFF004AAD)),
             primaryColor: Colors.white,
+            backgroundColor: backgroundColor()
           ),
+
           home: const MainPage(),
 
         );
@@ -92,7 +96,7 @@ Color blueish() {
 
 
 Color backgroundColor(){
- return Color(0xFF292929);
+  return Color(0xFF292929);
 }
 
 
