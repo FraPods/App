@@ -57,20 +57,22 @@ class _UploadPageState extends State<UploadPage> {
             // End of first Button
 
             Center(
-              child: Card(
-                margin: EdgeInsets.symmetric(vertical: 20),
-                child: Column(
-                  children: [
-                    Container(
-                      width: double.maxFinite,
-                      margin: EdgeInsets.symmetric(vertical:20),
-                      child: 
-                      Center(
-                        child: Text('Add new Episode to existing podcast', style: TextStyle(fontSize: 17),),
-                      ),
+              child: Container(
+                width: double.maxFinite,
+                child: Card(
+                  margin: EdgeInsets.symmetric(vertical: 30),
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical:20),
+                        child: 
+                        Center(
+                          child: Text('Add new Episode to existing podcast', style: TextStyle(fontSize: 17),),
+                        ),
 
-                    ),
-                  ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             )

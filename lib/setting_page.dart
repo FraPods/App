@@ -22,10 +22,16 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   // declare variables here:
-
+  @override
+  void dispose() {
+    darkNotifier.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+
+    bool isDark = darkNotifier.value;
 
     return Scaffold(
       appBar: AppBar(
@@ -60,16 +66,15 @@ class _SettingPageState extends State<SettingPage> {
                         textAlign: TextAlign.left,
                       ),
                     ),
-                    
+
                     Transform.scale(
                       scale: 1.3,
                       child: Switch(
+                        activeColor: blueish(),
+                        activeTrackColor: Colors.blue.shade700,
                         value: isDark,
-                        onChanged: (value) {
-                        setState(() {
-                        isDark = !isDark;
-                        darkNotifier.value = isDark;
-                        });
+                        onChanged: (_) {
+                          setState(() {isDark = !isDark; darkNotifier.value = isDark;});
                         }
                       )
                       ),
@@ -86,4 +91,4 @@ class _SettingPageState extends State<SettingPage> {
   }
 }
 
-bool isDark = darkNotifier.value;
+

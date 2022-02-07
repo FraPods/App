@@ -27,7 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
            actions: [
            IconButton(icon: Icon(Icons.settings),
             onPressed: () {
-
+              widget.setPage(4);
             },)
          ],
       ),

@@ -18,21 +18,32 @@ class FraPodsApp extends StatelessWidget {
 
   @override
     Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'FraPods',
-      //themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
-      theme: ThemeData(
-      appBarTheme: AppBarTheme(
-          backgroundColor: blueish(),
+    return ValueListenableBuilder<bool>(
+      valueListenable: darkNotifier, 
+      builder: (BuildContext context, bool isDark, Widget? child){
+        return MaterialApp(
+          title: 'FraPods',
+          themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
+          theme: ThemeData(
+            appBarTheme: AppBarTheme(
+              backgroundColor: blueish()
+            ),
+            brightness: Brightness.light,
+            primarySwatch: generateMaterialColorFromColor(Color(0xFF004AAD)),
+            primaryColor: Colors.black,
           ),
-        brightness: Brightness.dark,
-        primarySwatch: generateMaterialColorFromColor(Color(0xFF004AAD)),
-        primaryColor: Colors.white,
-       ),
-      //darkTheme: ThemeData.dark(),
-      home: const MainPage(),
+          darkTheme: ThemeData(
+            appBarTheme: AppBarTheme(
+              backgroundColor: blueish()
+            ),
+            brightness: Brightness.dark,
+            primarySwatch: generateMaterialColorFromColor(Color(0xFF004AAD)),
+            primaryColor: Colors.white,
+          ),
+          home: const MainPage(),
 
-    );
+        );
+      });
   }
 }
 
@@ -55,14 +66,14 @@ TextStyle titleTextStyle() {
 TextStyle normalTextStyle() {
   return TextStyle(
     fontSize: 16,
-    color: generateMaterialColorFromColor(Color(0xFFFFFFFF)),
+    //color: generateMaterialColorFromColor(Color(0xFFFFFFFF)),
   );
 }
 
 TextStyle normalTextStyle2() {
   return TextStyle(
     fontSize: 18,
-    color: generateMaterialColorFromColor(Color(0xFFFFFFFF)),
+    //color: generateMaterialColorFromColor(Color(0xFFFFFFFF)),
   );
 }
 
@@ -70,7 +81,7 @@ TextStyle subtitleTextStyle(){
   return TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.bold,
-    color: Colors.white,
+    //color: Colors.white,
   );
 }
 
@@ -100,5 +111,4 @@ return MaterialColor(color.value, {
 });
 }
 
-final darkNotifier = ValueNotifier<bool>(false);
-bool isDark = darkNotifier.value;
+final darkNotifier = ValueNotifier<bool>(true);
