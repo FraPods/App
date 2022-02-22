@@ -59,8 +59,8 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
     // final eurl = urlController.text;
       widget.newPodcast(
       titleController.text, 
-      descriptionController.text,
       artistController.text,
+      descriptionController.text,
       urlController.text
     );
     Navigator.of(context).pop();
