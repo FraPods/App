@@ -114,7 +114,7 @@ class _MainPageState extends State<MainPage> {
           Visibility(
             visible: _musicControlMenuVisible,
             child: Container(
-              margin: EdgeInsets.only(bottom: 10, right: 15),
+              margin: EdgeInsets.only(bottom: 15, right: 10, left: 10),
                   decoration: BoxDecoration(
                       /*border: Border(
                         top: BorderSide(color: Colors.black, width: 1),
@@ -123,8 +123,14 @@ class _MainPageState extends State<MainPage> {
                   child: Container(
                     
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.horizontal(right: Radius.circular(50)),
-                      color: Colors.grey.shade700,
+                      borderRadius: BorderRadius.horizontal(right: Radius.circular(15), left: Radius.circular(15)),
+                      color: Colors.grey.shade700, //TODO: change color & add theme
+                      boxShadow: [BoxShadow(
+                        color: Colors.black.withOpacity(0.4),
+                        spreadRadius: 1,
+                        blurRadius: 5,
+                        offset: Offset(4, 7),
+                      ),],
                     ),
                     height: 50,
                     alignment: Alignment.centerLeft,

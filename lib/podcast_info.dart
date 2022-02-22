@@ -13,6 +13,8 @@ class PodcastInfo{
     this.url = url;
   }
 
+  PodcastInfo.only ({this.title ="",this.description = "", this.artist = "", this.url = ""});
+
 }
 
 

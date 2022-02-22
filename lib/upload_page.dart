@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frapods/main_page.dart';
 import 'package:frapods/podcast_info.dart';
 import 'package:frapods/podcast_player.dart';
+import 'add_new_podcast.dart';
 
 class UploadPage extends StatefulWidget {
   const UploadPage({Key? key}) : super(key: key);
@@ -14,14 +15,38 @@ class UploadPage extends StatefulWidget {
 
 class _UploadPageState extends State<UploadPage> {
   // declare variables here:
+  final List<PodcastInfo> podcasts = [
+    PodcastInfo.only(title: 'podcast1', description: 'xxxxxxxxxxxxxxxx', artist: 'aaa bbbb', url: 'www.test.com'),
+    PodcastInfo('podcast2','xxxxxxxxxxxxxxxxx','ccc dddd','www.test2.com'),
+  ];
+
+
+  void _addNewPodcast(String xtitle, String xartist, String xdescription, String xurl){
+    final newpod = PodcastInfo.only(
+      title: xtitle, description: xdescription, artist: xartist, url: xurl
+    );
+    setState(() {
+      podcasts.add(newpod);
+    });
+  }
+  
+    void _newPodcast (BuildContext ctx) {
+    showModalBottomSheet(
+      context: ctx, 
+      builder: (_){
+        return FractionallySizedBox(
+          //behavior: HitTestBehavior.opaque,
+          heightFactor: 0.75,
+          child: AddNewPodcast(_addNewPodcast)
+        );
+      },
+      isScrollControlled: true
+      );
+  }
 
   @override
   Widget build(BuildContext context) {
     //define variables here
-    /*final List<PodcastInfo> podcasts = [
-      PodcastInfo('xxx', 'xxx', 'xxx', 'xxx'),
-      PodcastInfo('xxx', 'xxx', 'xxx', 'xxx'),
-    ];*/
 
     return Scaffold(
       appBar: AppBar(
@@ -31,57 +56,99 @@ class _UploadPageState extends State<UploadPage> {
           height: 40,
         ),
       ),
-      body: Padding(
-          padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-          child: Column(
-            children: <Widget>[
-              Center(
-                child: Container(
-                  width: double.maxFinite,
-                  height: 70,
-                  child: TextButton(
-                    onPressed: null,
-                    child: Text('new podcast'),
-                    style: textButtonStyle(),
-                  ),
-                ),
-              ),
 
-              // End of first Button
-
-              Center(
-                child: Container(
-                  width: double.maxFinite,
-                  child: Card(
-                    margin: EdgeInsets.symmetric(vertical: 30),
-                    child: Column(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.symmetric(vertical: 20),
-                          child: Center(
-                            child: Text(
-                              'Add new Episode to existing podcast',
-                              style: TextStyle(fontSize: 17),
-                            ),
-                          ),
-                        ),
-
-                        
-
-                      ],
+      body: ListView(
+        children: [
+        Padding(
+            padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+            child: 
+            Container(
+              height: double.maxFinite,
+              child: Column(
+                children: <Widget>[
+                  Center(
+                    child: Container(
+                      width: double.maxFinite,
+                      height: 70,
+                      child: TextButton(
+                        onPressed: () => _newPodcast(context),
+                        child: Text('new podcast'),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF0263E3)),
+                          foregroundColor: MaterialStateProperty.all<Color>(Theme.of(context).primaryColor),
+                          textStyle: MaterialStateProperty.all<TextStyle>(TextStyle(fontSize: 23))
+                        )
+                      ),
                     ),
                   ),
-                ),
-              ),
-          ],
+      
+                  // End of first Button
+      
+                  Center(
+                    child: Container(
+                      width: double.maxFinite,
+                      child: Card(elevation: 5, //color: Color(0xFFF3F3F3),
+                        margin: EdgeInsets.only(top: 30),
+                        child: Column(children: [
+                          Container(
+                            margin: EdgeInsets.only(top: 20, bottom: 10),
+                              child: Center(
+                                child: Text(
+                                  'Add new Episode to existing podcast',
+                                  style: TextStyle(fontSize: 18),
+                                )
+                              ),
+                          ),
+      
+                          Container(
+                            margin: EdgeInsets.symmetric(vertical: 10),
+                            height: 370,
+                            child: ListView.builder(itemBuilder: (ctx, index){
+                              return Card(
+                                margin: EdgeInsets.symmetric(horizontal: 13, vertical: 10),
+                                color: Color(0xFF0084DA),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.fromLTRB(10, 13, 15, 5),
+                                          child: Text(
+                                            podcasts[index].title + '  by ' + podcasts[index].artist,
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(fontSize: 18),
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.fromLTRB(10, 5, 15, 10),
+                                          child: Text(
+                                            'Description :  ' + podcasts[index].description,
+                                            textAlign: TextAlign.left,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    IconButton(
+                                      onPressed: (){}, 
+                                      icon: Icon(Icons.add_box_rounded, size: 30), 
+                                      alignment: Alignment.centerLeft,)
+                                  ],
+                                ),
+                              );
+                            },itemCount: podcasts.length),
+                          )
+                        ]),
+                      ),
+                    ),
+                  ),
+              ],
+          ),
         )),
+        ],
+      )
     );
   }
-}
-
-ButtonStyle textButtonStyle() {
-  return ButtonStyle(
-      backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF1D71E1)),
-      textStyle: MaterialStateProperty.all<TextStyle>(
-          TextStyle(color: Colors.white, fontSize: 23)));
 }
