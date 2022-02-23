@@ -17,6 +17,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   // declare variables here:
 
+
   List<PodcastInfo> listOfAllSearchResults = [];
   Widget logo = Image.asset(
     'assets/icon-round.png',
@@ -26,15 +27,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> images = [
-      "testpodcast0.png",
-      "testpodcast1.png",
-      "testpodcast2.png",
-      "testpodcast3.png",
-      "testpodcast4.png",
-      "testpodcast5.png",
-      "testpodcast6.png",
-    ];
+
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -59,55 +52,11 @@ class _HomePageState extends State<HomePage> {
 
       //End of Title Bar Layout ^^
 
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: GridView.builder(
-                itemCount: images.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 5.0,
-                    mainAxisSpacing: 5.0),
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      child: Image.asset(images[index]),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
+
     );
   }
 
-  void sendSearchRequest(String text) {
-    // TODO: Write search request to server function
 
-    setState(() {
-      listOfAllSearchResults = [];
-
-      listOfAllSearchResults.add(PodcastInfo(
-          "Result1",
-          "This is the Podcast result 1",
-          "artist 1",
-          "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3"));
-      listOfAllSearchResults.add(PodcastInfo(
-          "Result2",
-          "This is the Podcast result 2",
-          "artist 2",
-          "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3"));
-      listOfAllSearchResults.add(PodcastInfo(
-          "Result3",
-          "This is the Podcast result 3",
-          "artist 3",
-          "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3"));
-    });
-  }
 
   void showDialogMessage(String title, String message) {
     showDialog(
@@ -133,24 +82,20 @@ class _HomePageState extends State<HomePage> {
 
   // This is the widget of one search result entry.
   Widget podcastItem(
-      BuildContext ctxt, int index, List<PodcastInfo> listofresults) {
+      BuildContext ctxt, int index, PodcastInfo podcastInfo ) {
     return TextButton(
       onPressed: () {
-        PodcastInfo podcastInfo = PodcastInfo(
-            listofresults[index].title,
-            listofresults[index].description,
-            listofresults[index].artist,
-            listofresults[index].url);
+
 
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) {
-            PodcastDetailsPage(podcastInfo: listofresults[index]);
-            return PodcastDetailsPage(podcastInfo: listofresults[index]);
+            PodcastDetailsPage(podcastInfo: podcastInfo);
+            return PodcastDetailsPage(podcastInfo: podcastInfo);
           }),
         );
       },
-      child: Text(listofresults[index].title),
+      child: Text(podcastInfo.title),
     );
   }
 }

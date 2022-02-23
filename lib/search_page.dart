@@ -79,7 +79,7 @@ class _SearchPageState extends State<SearchPage> {
               child: ListView.builder(
                 itemCount: listOfAllSearchResults.length,
                 itemBuilder: (BuildContext ctxt, int index) =>
-                    podcastItem(ctxt, index, listOfAllSearchResults, widget),
+                    podcastItem(ctxt, index, new PodcastInfo(listOfAllSearchResults[index].title, listOfAllSearchResults[index].description, listOfAllSearchResults[index].artist, listOfAllSearchResults[index].url,)),
               ),
             ),
 
@@ -132,20 +132,21 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   // This is the widget of one search result entry.
-  Widget podcastItem(BuildContext ctxt, int index, List<PodcastInfo> listofresults, SearchPage parentWidget) {
+  Widget podcastItem(
+      BuildContext ctxt, int index, PodcastInfo podcastInfo ) {
     return TextButton(
       onPressed: () {
 
-        PodcastInfo podcastInfo = PodcastInfo(listofresults[index].title, listofresults[index].description, listofresults[index].artist, listofresults[index].url);
-        parentWidget.notifyParent(podcastInfo, true);
-        playPodcast(url: podcastInfo.url);
+
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) {PodcastDetailsPage(podcastInfo: listofresults[index]); return PodcastDetailsPage(podcastInfo: listofresults[index]);}
-          ),
+          MaterialPageRoute(builder: (context) {
+            PodcastDetailsPage(podcastInfo: podcastInfo);
+            return PodcastDetailsPage(podcastInfo: podcastInfo);
+          }),
         );
       },
-      child: Text(listofresults[index].title, style: normalTextStyle()),
+      child: Text(podcastInfo.title),
     );
   }
 }
