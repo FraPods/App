@@ -3,3 +3,8 @@ build/app/outputs
 ./build/app/outputs/apk/debug/app-debug.apk
 ./build/app/outputs/flutter-apk/app.apk
 ./build/app/outputs/flutter-apk/app-debug.apk
+.dart_tool/chrome-device/Default/Sync Data/LevelDB/MANIFEST-000001
+.dart_tool/chrome-device/Default/History-journal
+*.log
+.dart_tool/chrome-device/Default/Login Data
+*.old
