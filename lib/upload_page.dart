@@ -63,7 +63,7 @@ class _UploadPageState extends State<UploadPage> {
             padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
             child: 
             Container(
-              height: double.maxFinite,
+              //height: double.maxFinite,
               child: Column(
                 children: <Widget>[
                   Center(
@@ -115,18 +115,26 @@ class _UploadPageState extends State<UploadPage> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Container(
-                                          margin: EdgeInsets.fromLTRB(10, 13, 15, 5),
-                                          child: Text(
-                                            podcasts[index].title + '  by ' + podcasts[index].artist,
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(fontSize: 18),
+                                          width: 200,
+                                          margin: EdgeInsets.fromLTRB(10, 13, 0, 5),
+                                          child: SingleChildScrollView(
+                                            scrollDirection: Axis.horizontal,
+                                            child: Text(
+                                              podcasts[index].title + '  by ' + podcasts[index].artist,
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(fontSize: 18),
+                                              // overflow: TextOverflow.fade,
+                                              // softWrap: false,
+                                            ),
                                           ),
                                         ),
                                         Container(
-                                          margin: EdgeInsets.fromLTRB(10, 5, 15, 10),
+                                          margin: EdgeInsets.fromLTRB(10, 5, 0, 10),
                                           child: Text(
                                             'Description :  ' + podcasts[index].description,
                                             textAlign: TextAlign.left,
+                                            overflow: TextOverflow.fade,
+                                            softWrap: false,
                                           ),
                                         ),
                                       ],
