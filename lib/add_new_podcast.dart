@@ -27,24 +27,24 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             TextField(
-              decoration: InputDecoration(labelText: 'title'),
+              decoration: InputDecoration(labelText: 'Title'),
               controller: titleController
             ),
             TextField(
-              decoration: InputDecoration(labelText: 'artist'),
+              decoration: InputDecoration(labelText: 'Artist'),
               controller: artistController,
             ),
             TextField(
-              decoration: InputDecoration(labelText: 'description'),
+              decoration: InputDecoration(labelText: 'Description'),
               controller: descriptionController,
             ),
             TextField(
-              decoration: InputDecoration(labelText: 'url'),
+              decoration: InputDecoration(labelText: 'URL'),
               controller: urlController,
             ),
 
 
-            OutlinedButton(child: Text('admit'), 
+            OutlinedButton(child: Text('Create'),
               onPressed: () => submitData(context),
             )
          ],

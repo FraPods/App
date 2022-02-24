@@ -1,29 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\FraPods\\App\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v21\\values-v21.xml",
+            "outputFile": "/home/niklas/Programmieren/Flutter/frapods-git/App/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-v21/values-v21.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Diana\\.gradle\\caches\\transforms-2\\files-2.1\\f81fc5c7d5608d9bcaf53f4a6a82f9a8\\jetified-exoplayer-ui-2.14.1\\res\\values-v21\\values-v21.xml",
-                    "from": {
-                        "startLines": "2,3",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,114",
-                        "endLines": "2,7",
-                        "endColumns": "58,10",
-                        "endOffsets": "109,396"
-                    },
-                    "to": {
-                        "startLines": "3,7",
-                        "startColumns": "4,4",
-                        "startOffsets": "173,427",
-                        "endLines": "3,11",
-                        "endColumns": "58,10",
-                        "endOffsets": "227,709"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Diana\\.gradle\\caches\\transforms-2\\files-2.1\\5f663b08eec19eef9a9d1af662d9025e\\core-1.6.0\\res\\values-v21\\values-v21.xml",
+                    "source": "/home/niklas/.gradle/caches/transforms-2/files-2.1/5f663b08eec19eef9a9d1af662d9025e/core-1.6.0/res/values-v21/values-v21.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,13",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4",
@@ -42,7 +23,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Diana\\.gradle\\caches\\transforms-2\\files-2.1\\ad4616ede541ce09eafb538298176254\\media-1.4.3\\res\\values-v21\\values-v21.xml",
+                    "source": "/home/niklas/.gradle/caches/transforms-2/files-2.1/ad4616ede541ce09eafb538298176254/media-1.4.3/res/values-v21/values-v21.xml",
                     "from": {
                         "startLines": "2,5,8,11",
                         "startColumns": "4,4,4,4",
@@ -58,6 +39,25 @@
                         "endLines": "16,19,23,27",
                         "endColumns": "12,12,12,12",
                         "endOffsets": "1119,1282,1576,1871"
+                    }
+                },
+                {
+                    "source": "/home/niklas/.gradle/caches/transforms-2/files-2.1/0e2f1ba1db4a66b7394a0fa2439fa790/jetified-exoplayer-ui-2.14.1/res/values-v21/values-v21.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,114",
+                        "endLines": "2,7",
+                        "endColumns": "58,10",
+                        "endOffsets": "109,396"
+                    },
+                    "to": {
+                        "startLines": "3,7",
+                        "startColumns": "4,4",
+                        "startOffsets": "173,427",
+                        "endLines": "3,11",
+                        "endColumns": "58,10",
+                        "endOffsets": "227,709"
                     }
                 }
             ]

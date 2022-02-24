@@ -72,7 +72,7 @@ class _UploadPageState extends State<UploadPage> {
                       height: 70,
                       child: TextButton(
                         onPressed: () => _newPodcast(context),
-                        child: Text('new podcast'),
+                        child: Text('+ New Podcast'),
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF0263E3)),
                           foregroundColor: MaterialStateProperty.all<Color>(Theme.of(context).primaryColor),
@@ -94,7 +94,7 @@ class _UploadPageState extends State<UploadPage> {
                             margin: EdgeInsets.only(top: 20, bottom: 10),
                               child: Center(
                                 child: Text(
-                                  'Add new Episode to existing podcast',
+                                  'Add new Episode to an existing podcast',
                                   style: TextStyle(fontSize: 18),
                                 )
                               ),

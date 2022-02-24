@@ -136,7 +136,7 @@ class _SearchPageState extends State<SearchPage> {
       BuildContext ctxt, int index, PodcastInfo podcastInfo ) {
     return TextButton(
       onPressed: () {
-
+        playPodcast(url: podcastInfo.url);
 
         Navigator.push(
           context,
