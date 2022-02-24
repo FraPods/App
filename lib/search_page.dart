@@ -137,6 +137,7 @@ class _SearchPageState extends State<SearchPage> {
     return TextButton(
       onPressed: () {
         playPodcast(url: podcastInfo.url);
+        widget.notifyParent(podcastInfo, true);
 
         Navigator.push(
           context,
