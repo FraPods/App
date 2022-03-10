@@ -3,6 +3,6 @@
 3    package="com.ryanheise.audioservice" >
 4
 5    <uses-sdk android:minSdkVersion="16" />
-5-->/home/niklas/applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/audio_service-0.18.3/android/src/main/AndroidManifest.xml
+5-->C:\Users\Diana\Documents\flutter\.pub-cache\hosted\pub.dartlang.org\audio_service-0.18.3\android\src\main\AndroidManifest.xml
 6
 7</manifest>

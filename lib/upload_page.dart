@@ -15,18 +15,19 @@ class UploadPage extends StatefulWidget {
 
 class _UploadPageState extends State<UploadPage> {
   // declare variables here:
-  final List<PodcastInfo> podcasts = [
-    PodcastInfo.only(title: 'podcast1', description: 'xxxxxxxxxxxxxxxx', artist: 'aaa bbbb', url: 'www.test.com'),
-    PodcastInfo('podcast2','xxxxxxxxxxxxxxxxx','ccc dddd','www.test2.com'),
+  List<PodcastInfo> podcasts = [
+    // PodcastInfo.only(title: 'podcast1', description: 'xxxxxxxxxxxxxxxx', artist: 'aaa bbbb', url: 'www.test.com'),
+    // PodcastInfo('podcast2','xxxxxxxxxxxxxxxxx','ccc dddd','www.test2.com'),
   ];
 
 
   void _addNewPodcast(String xtitle, String xartist, String xdescription, String xurl){
-    final newpod = PodcastInfo.only(
-      title: xtitle, description: xdescription, artist: xartist, url: xurl
-    );
+    // final newpod = PodcastInfo.only(
+    //   title: xtitle, description: xdescription, artist: xartist, url: xurl
+    // );
     setState(() {
-      podcasts.add(newpod);
+      podcasts = [];
+      podcasts.add(PodcastInfo(xtitle, xdescription, xartist, xurl));
     });
   }
   
@@ -87,11 +88,12 @@ class _UploadPageState extends State<UploadPage> {
                   Center(
                     child: Container(
                       width: double.maxFinite,
+                      decoration: BoxDecoration(borderRadius: BorderRadius.horizontal(left: Radius.circular(15), right: Radius.circular(15)),),
                       child: Card(elevation: 5, //color: Color(0xFFF3F3F3),
                         margin: EdgeInsets.only(top: 30),
                         child: Column(children: [
                           Container(
-                            margin: EdgeInsets.only(top: 20, bottom: 10),
+                            padding: EdgeInsets.only(top: 20, bottom: 20),
                               child: Center(
                                 child: Text(
                                   'Add new Episode to an existing podcast',
@@ -99,54 +101,17 @@ class _UploadPageState extends State<UploadPage> {
                                 )
                               ),
                           ),
-      
+
                           Container(
                             margin: EdgeInsets.symmetric(vertical: 10),
                             height: 370,
-                            child: ListView.builder(itemBuilder: (ctx, index){
-                              return Card(
-                                margin: EdgeInsets.symmetric(horizontal: 13, vertical: 10),
-                                color: Color(0xFF0084DA),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          width: 200,
-                                          margin: EdgeInsets.fromLTRB(10, 13, 0, 5),
-                                          child: SingleChildScrollView(
-                                            scrollDirection: Axis.horizontal,
-                                            child: Text(
-                                              podcasts[index].title + '  by ' + podcasts[index].artist,
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(fontSize: 18),
-                                              // overflow: TextOverflow.fade,
-                                              // softWrap: false,
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.fromLTRB(10, 5, 0, 10),
-                                          child: Text(
-                                            'Description :  ' + podcasts[index].description,
-                                            textAlign: TextAlign.left,
-                                            overflow: TextOverflow.fade,
-                                            softWrap: false,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    IconButton(
-                                      onPressed: (){}, 
-                                      icon: Icon(Icons.add_box_rounded, size: 30), 
-                                      alignment: Alignment.centerLeft,)
-                                  ],
-                                ),
-                              );
-                            },itemCount: podcasts.length),
+                            child: podcasts.isEmpty?
+                            Center(
+                              child: (Text('Empty List.....', style: TextStyle(fontSize:18)))
+                            )
+                            : ListView.builder(
+                              itemCount: podcasts.length,
+                              itemBuilder: (ctx, index) => myPodcast(PodcastInfo(podcasts[index].title, podcasts[index].description, podcasts[index].artist, podcasts[index].url,))),
                           )
                         ]),
                       ),
@@ -158,5 +123,49 @@ class _UploadPageState extends State<UploadPage> {
         ],
       )
     );
+  }
+
+  Widget myPodcast (PodcastInfo podcastInfo){
+    return Card(
+      margin: EdgeInsets.symmetric(horizontal: 13, vertical: 10),
+      color: Color(0xFF0084DA),
+      child: Row(
+        mainAxisSize: MainAxisSize.max, mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 200,
+                margin: EdgeInsets.fromLTRB(10, 13, 0, 5),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Text(
+                    podcastInfo.title + '  by ' + podcastInfo.artist,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(fontSize: 18),
+                    // overflow: TextOverflow.fade,
+                    // softWrap: false,
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.fromLTRB(10, 5, 0, 10),
+                child: Text(
+                  'Description :  ' + podcastInfo.description,
+                  textAlign: TextAlign.left,
+                  overflow: TextOverflow.fade,
+                  softWrap: false,
+                ),
+              ),
+            ],
+          ),
+          IconButton(
+            onPressed: (){}, 
+            icon: Icon(Icons.add_box_rounded, size: 30), 
+            alignment: Alignment.centerLeft,)
+          ],
+        ),
+      );
   }
 }
