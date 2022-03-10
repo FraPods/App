@@ -1,4 +1,0 @@
-io/flutter/plugins/GeneratedPluginRegistrant.java
- io.flutter.plugins.GeneratedPluginRegistrant
-de/frapods/frapods/frapods/BuildConfig.java
- de.frapods.frapods.frapods.BuildConfig
