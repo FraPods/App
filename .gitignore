@@ -8,3 +8,7 @@ build/app/outputs
 *.log
 .dart_tool/chrome-device/Default/Login Data
 *.old
+./build
+build
+./build/
+build/
