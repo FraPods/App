@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:frapods/backend_api.dart';
 import 'package:frapods/home_page.dart';
 import 'package:frapods/podcast_details_page.dart';
 import 'package:frapods/setting_page.dart';
@@ -50,6 +51,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    //BackendApi().createAccount("username", "password", "firstname", "lastname", "email");
     stream();
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
