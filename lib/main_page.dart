@@ -107,7 +107,7 @@ class _MainPageState extends State<MainPage> {
               children: [
                 HomePage(setPage: setPage,),
                 SearchPage(notifyParent: refresh),
-                UploadPage(),
+                UploadPage(setPage: setPage,),
                 ProfilePage(setPage: setPage,),
                 SettingPage(setPage: setPage),
               ],

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 #Sat Mar 26 11:15:10 CET 2022
+=======
+#Sat Mar 26 13:48:11 CET 2022
+>>>>>>> refs/remotes/origin/development
 path.4=classes_1.dex
 path.3=classes_0.dex
 path.2=classes2.dex

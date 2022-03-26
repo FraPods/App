@@ -3,9 +3,13 @@ import 'package:frapods/main_page.dart';
 import 'package:frapods/podcast_info.dart';
 import 'package:frapods/podcast_player.dart';
 import 'add_new_podcast.dart';
+import 'setting_page.dart';
+import 'main.dart';
 
 class UploadPage extends StatefulWidget {
-  const UploadPage({Key? key}) : super(key: key);
+  const UploadPage({Key? key, required this.setPage}) : super(key: key);
+
+  final Function(int index) setPage;
 
   @override
   State<UploadPage> createState() {
@@ -26,7 +30,6 @@ class _UploadPageState extends State<UploadPage> {
     //   title: xtitle, description: xdescription, artist: xartist, url: xurl
     // );
     setState(() {
-      podcasts = [];
       podcasts.add(PodcastInfo(xtitle, xdescription, xartist, xurl));
     });
   }
@@ -48,6 +51,7 @@ class _UploadPageState extends State<UploadPage> {
   @override
   Widget build(BuildContext context) {
     //define variables here
+    bool isDark = darkNotifier.value;
 
     return Scaffold(
       appBar: AppBar(
@@ -56,6 +60,12 @@ class _UploadPageState extends State<UploadPage> {
           fit: BoxFit.fitHeight,
           height: 40,
         ),
+        actions: [
+          IconButton(icon: Icon(Icons.settings),
+            onPressed: () {
+              widget.setPage(4);
+            },)
+         ],
       ),
 
       body: ListView(
@@ -75,9 +85,9 @@ class _UploadPageState extends State<UploadPage> {
                         onPressed: () => _newPodcast(context),
                         child: Text('+ New Podcast'),
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF0263E3)),
-                          foregroundColor: MaterialStateProperty.all<Color>(Theme.of(context).primaryColor),
-                          textStyle: MaterialStateProperty.all<TextStyle>(TextStyle(fontSize: 23))
+                          backgroundColor: MaterialStateProperty.all<Color>(Theme.of(context).colorScheme.primary),
+                          foregroundColor: MaterialStateProperty.all<Color>(Theme.of(context).colorScheme.onPrimary),
+                          textStyle: MaterialStateProperty.all<TextStyle>(TextStyle(fontSize: 23, letterSpacing: 0.7))
                         )
                       ),
                     ),
@@ -88,16 +98,29 @@ class _UploadPageState extends State<UploadPage> {
                   Center(
                     child: Container(
                       width: double.maxFinite,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.horizontal(left: Radius.circular(15), right: Radius.circular(15)),),
-                      child: Card(elevation: 5, //color: Color(0xFFF3F3F3),
+                      
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.horizontal(left: Radius.circular(15), right: Radius.circular(15)),
+                        // boxShadow: [BoxShadow(
+                        //   color: Colors.black.withOpacity(0.3),
+                        //   spreadRadius: 3,
+                        //   blurRadius: 3,
+                        // )]
+                      ),
+                      child: Card(elevation: 15, 
+                        shadowColor: Colors.black,
+                        color: Theme.of(context).colorScheme.surface,
                         margin: EdgeInsets.only(top: 30),
                         child: Column(children: [
                           Container(
-                            padding: EdgeInsets.only(top: 20, bottom: 20),
+                            padding: EdgeInsets.only(top: 20, bottom: 10),
                               child: Center(
                                 child: Text(
-                                  'Add new Episode to an existing podcast',
-                                  style: TextStyle(fontSize: 18),
+                                  'Existing Podcasts',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    letterSpacing: 0.5
+                                  ),
                                 )
                               ),
                           ),
@@ -121,14 +144,17 @@ class _UploadPageState extends State<UploadPage> {
           ),
         )),
         ],
-      )
+      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed:()=> setState(() {isDark = !isDark; darkNotifier.value = isDark;})
+      // ),
     );
   }
 
   Widget myPodcast (PodcastInfo podcastInfo){
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 13, vertical: 10),
-      color: Color(0xFF0084DA),
+      color: Theme.of(context).colorScheme.primaryVariant,
       child: Row(
         mainAxisSize: MainAxisSize.max, mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
