@@ -51,7 +51,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    //BackendApi().createAccount("username", "password", "firstname", "lastname", "email");
+    BackendApi().createAccount("username", "password", "firstname", "lastname", "email");
     stream();
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
