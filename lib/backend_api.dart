@@ -19,18 +19,48 @@ class BackendApi {
     switch(response.statusCode){
       case 200:
       case 201:
-        _saveString("username", username)
+        _saveString("username", username);
         _registerDevice(username, password);
         break;
       case 422:
       case 400:
-        log("ERROR!!! Backend code 422 or 400 in createaccount");
+        log("ERROR!!! Backend code " + response.statusCode.toString() + " in createaccount");
+        break;
+      case 404:
+      case 523:
+        log("Servers are down!");
+        break;
+
+    }
+
+  }
+
+
+  void _authenticate(String username, String deviceToken, String nextSessionToken) async {
+    var response = await http.get(Uri.parse(api_domain +
+        "authenticate.php?username=$username&deviceToken=$deviceToken&sessionToken=$nextSessionToken"));
+    switch(response.statusCode){
+      case 200:
+      case 201:
+        _saveString("currentToken", nextSessionToken);
+        _saveString("nextToken", utf8.decode(response.bodyBytes));
+        log("SUCCESSFUL ACCOUNT CREATION AND LOGIN");
+        break;
+      case 400:
+      case 422:
+        log("ERROR!!! Backend code " + response.statusCode.toString() + " in authenticate");
+        log(username + ", " + deviceToken + " " + nextSessionToken);
+        break;
+      case 404:
+      case 523:
+        log("Servers are down");
         break;
 
 
     }
 
   }
+
 
   void _registerDevice(String username, String password) async {
     var response = await http.get(Uri.parse(api_domain +
@@ -41,12 +71,17 @@ class BackendApi {
       case 201:
         String token = utf8.decode(response.bodyBytes);
         _saveString("deviceToken", token);
+        _saveString("currentToken", token);
+        _saveString("nextToken", token);
+        _authenticate(username, token, token);
         break;
       case 422:
       case 400:
         log("ERROR!!! Backend code 422 or 400 in registerdevice");
         break;
-
+      case 523:
+        log("Servers are down");
+        break;
 
     }
 

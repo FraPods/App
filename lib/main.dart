@@ -66,7 +66,7 @@ class FraPodsApp extends StatelessWidget {
             )
           ),
 
-          home: const MainPage(),
+          home: const LoginPage(),
 
         );
       });

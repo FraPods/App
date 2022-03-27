@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'main.dart';
+import 'backend_api.dart';
 
 // This is only for setup and final (non-changable) variable definition
 class LoginPage extends StatefulWidget {
@@ -21,6 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _passwordTextController = TextEditingController();
   TextEditingController _firstnameTextController = TextEditingController();
   TextEditingController _lastnameTextController = TextEditingController();
+  TextEditingController _emailTextController = TextEditingController();
   bool _showSignUp = false; //show either login screen or signup screen
 
   @override
@@ -78,9 +80,6 @@ class _LoginPageState extends State<LoginPage> {
                         padding:
                         EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                         child: TextField(
-                          obscureText: true,
-                          enableSuggestions: false,
-                          autocorrect: false,
                           controller: _firstnameTextController,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(),
@@ -91,13 +90,20 @@ class _LoginPageState extends State<LoginPage> {
                         padding:
                         EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                         child: TextField(
-                          obscureText: true,
-                          enableSuggestions: false,
-                          autocorrect: false,
                           controller: _lastnameTextController,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               labelText: 'Lastname'),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                        EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                        child: TextField(
+                          controller: _emailTextController,
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'E-Mail'),
                         ),
                       ),
                       Padding(
@@ -113,6 +119,7 @@ class _LoginPageState extends State<LoginPage> {
                                         _passwordTextController.text.trim(),
                                         _firstnameTextController.text.trim(),
                                         _lastnameTextController.text.trim(),
+                                        _emailTextController.text.trim(),
                                       ),
                                   child: const Text("Sign Up")),
                             ),
@@ -189,25 +196,26 @@ class _LoginPageState extends State<LoginPage> {
     //TODO: write login request to server HERE
   }
 
-  void signUp(String username, String password, String firstname, String lastname) {
+  void signUp(String username, String password, String firstname, String lastname, String email) {
     if (username.isEmpty) {
       showDialogMessage("Sign Up failed", "Please enter a username!");
       return;
-    }
-    if (password.isEmpty) {
+    } else if (password.isEmpty) {
       showDialogMessage("Sign Up failed", "Please enter a password!");
       return;
-    }
-    if (firstname.isEmpty) {
+    } else if (firstname.isEmpty) {
       showDialogMessage("Sign Up failed", "Please enter your firstname!");
       return;
-    }
-    if (lastname.isEmpty) {
+    } else if (lastname.isEmpty) {
       showDialogMessage("Sign Up failed", "Please enter your lastname!");
       return;
+    } else if (email.isEmpty){
+      showDialogMessage("Sign Up failed", "Please enter your E-Mail address");
+    } else {
+      BackendApi().createAccount(username, password, firstname, lastname, email);
+      //TODO Waiting animation here (eg. circle spinning").
+      showDialogMessage("Signing up....", "you are being signed up, but this will not go on any further, not yet implemented.");
     }
-
-    //TODO: write signup request to server HERE
   }
 
   void showDialogMessage(String title, String message) {
