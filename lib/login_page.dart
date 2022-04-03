@@ -20,11 +20,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
 
 
-  @override
-  void dispose() {
-    loginStatusChangedNotifier.dispose();
-    super.dispose();
-  }
 
   // declare variables here:
   TextEditingController _usernameTextController = TextEditingController();
@@ -37,16 +32,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<bool>(
-        valueListenable: loginStatusChangedNotifier,
-        builder: (BuildContext context, isUserLoggedIn, Widget? child)
-    {
-      if(!isUserLoggedIn){
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) {
-              return MainPage();
-            }));
-      }
       return Scaffold(
         appBar: AppBar(
 
@@ -203,7 +188,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       );
-    });
     }
 
 

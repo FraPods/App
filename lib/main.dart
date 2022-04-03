@@ -145,4 +145,3 @@ return MaterialColor(color.value, {
 }
 
 final darkNotifier = ValueNotifier<bool>(true);
-final loginStatusChangedNotifier = ValueNotifier<bool>(false);

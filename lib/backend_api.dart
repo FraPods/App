@@ -10,11 +10,7 @@ import 'main.dart';
 const String api_domain = "http://10.0.2.2:8000/";
 
 class BackendApi {
-  @override
-  void dispose() {
-    loginStatusChangedNotifier.dispose();
-  }
-  
+
   final String CURRENT_TOKEN_KEY = "currentToken";
   final String DEVICE_TOKEN_KEY = "currentToken";
   final String NEXT_TOKEN_KEY = "currentToken";
@@ -98,7 +94,6 @@ class BackendApi {
     var response = await _authenticate(username, deviceToken, sessionToken);
     log("response:autologin: " + response);
     if(await _getString(DEVICE_TOKEN_KEY) != "error") {
-      loginStatusChangedNotifier.value = true;
       return response;
     } else {
       return "400";
