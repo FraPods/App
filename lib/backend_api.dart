@@ -7,7 +7,7 @@ import 'main.dart';
 
 
 
-const String api_domain = "http://10.0.2.2:8000/";
+const String api_domain = "https://podcast-api.kleysley.com/Backend/";
 
 class BackendApi {
 
