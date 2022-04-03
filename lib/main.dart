@@ -5,6 +5,9 @@ import 'package:frapods/main_page.dart';
 import 'home_page.dart';
 import 'login_page.dart';
 import 'setting_page.dart';
+import 'backend_api.dart';
+
+
 
 void main() {
   runApp(const FraPodsApp());
@@ -16,8 +19,12 @@ void main() {
 class FraPodsApp extends StatelessWidget {
   const FraPodsApp({Key? key}) : super(key: key);
 
+
   @override
     Widget build(BuildContext context) {
+
+    BackendApi().autoLogIn();
+
     return ValueListenableBuilder<bool>(
       valueListenable: darkNotifier, 
       builder: (BuildContext context, bool isDark, Widget? child){
@@ -138,3 +145,4 @@ return MaterialColor(color.value, {
 }
 
 final darkNotifier = ValueNotifier<bool>(true);
+final loginStatusChangedNotifier = ValueNotifier<bool>(false);
