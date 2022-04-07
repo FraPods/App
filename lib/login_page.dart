@@ -193,7 +193,7 @@ class _LoginPageState extends State<LoginPage> {
       String result = await BackendApi().logIn(username, password);
       switch (result) {
         case "200":
-          showDialogMessage("Login: authentication",
+          showDialogMessage("Login: Authentication",
               "FraPods uses 2 factor authentication. You will receive an E-Mail asking you to verify this device. Click the link and then restart this app to log in!");
           break;
       }
@@ -209,10 +209,10 @@ class _LoginPageState extends State<LoginPage> {
       showDialogMessage("Sign Up failed", "Please enter a password!");
       return;
     } else if (firstname.isEmpty) {
-      showDialogMessage("Sign Up failed", "Please enter your firstname!");
+      showDialogMessage("Sign Up failed", "Please enter your Firstname!");
       return;
     } else if (lastname.isEmpty) {
-      showDialogMessage("Sign Up failed", "Please enter your lastname!");
+      showDialogMessage("Sign Up failed", "Please enter your Lastname!");
       return;
     } else if (email.isEmpty) {
       showDialogMessage("Sign Up failed", "Please enter your E-Mail address");
@@ -223,7 +223,7 @@ class _LoginPageState extends State<LoginPage> {
           .createAccount(username, password, firstname, lastname, email);
       switch (result) {
         case "200":
-          showDialogMessage("Registration successfulf!",
+          showDialogMessage("Registration was successful!",
               "The registration was successful. You can now log in!");
           setState(() {
             _showSignUp = false;
