@@ -35,14 +35,14 @@ class FraPodsApp extends StatelessWidget {
             theme: ThemeData(
                 appBarTheme: AppBarTheme(
                     backgroundColor: blueish(), foregroundColor: Colors.white),
-                // primaryColor: Colors.white,
+                //primaryColor: Colors.white,
                 colorScheme: ColorScheme.light(
                   primary: Color(0xff468CE8),
                   primaryVariant: Color(0xFF99C4FD),
                   secondary: Color(0xFF424242),
                   secondaryVariant: Color(0xff646464),
                   surface: Color(0xffFFFEF6),
-                  background: Colors.white,
+                  background: Color(0xffcccccc),
                   error: Color(0xffb00020),
                   onPrimary: Colors.black,
                   onSecondary: Colors.black,
@@ -63,7 +63,7 @@ class FraPodsApp extends StatelessWidget {
                   secondary: Color(0xFF646464),
                   secondaryVariant: Color(0xff909090),
                   surface: Color(0xff424242),
-                  background: Color(0xff121212),
+                  background: /*Color(0xff121212)*/Colors.grey.shade700,
                   error: Color(0xffcf6679),
                   onPrimary: Colors.white,
                   onSecondary: Colors.black,

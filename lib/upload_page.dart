@@ -51,7 +51,6 @@ class _UploadPageState extends State<UploadPage> {
   @override
   Widget build(BuildContext context) {
     //define variables here
-    //bool isDark = darkNotifier.value;
 
     return Scaffold(
       appBar: AppBar(
@@ -146,8 +145,7 @@ class _UploadPageState extends State<UploadPage> {
         ],
       ),
       // floatingActionButton: FloatingActionButton(
-      //   onPressed:()=> setState(() {isDark = !isDark; darkNotifier.value = isDark;})
-      // ),
+      //   onPressed:()=> setState(() {darkNotifier.value = !darkNotifier.value;})),
     );
   }
 

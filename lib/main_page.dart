@@ -126,7 +126,7 @@ class _MainPageState extends State<MainPage> {
                     
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.horizontal(right: Radius.circular(15), left: Radius.circular(15)),
-                      color: Colors.grey.shade700, //TODO: change color & add theme
+                      color: Theme.of(context).colorScheme.background,
                       boxShadow: [BoxShadow(
                         color: Colors.black.withOpacity(0.4),
                         spreadRadius: 1,

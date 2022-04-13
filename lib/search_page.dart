@@ -147,7 +147,39 @@ class _SearchPageState extends State<SearchPage> {
           }),
         );
       },
-      child: Text(podcastInfo.title),
+      child: Container(
+        width: double.maxFinite,
+        child: Card(
+          elevation: 5,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                margin: EdgeInsets.fromLTRB(10, 13, 0, 5),
+                child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Text(
+                      podcastInfo.title,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+              ),
+              Container(
+                margin: EdgeInsets.fromLTRB(10, 8, 0, 10),
+                child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Text(
+                      podcastInfo.artist,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
