@@ -51,7 +51,7 @@ class _UploadPageState extends State<UploadPage> {
   @override
   Widget build(BuildContext context) {
     //define variables here
-    bool isDark = darkNotifier.value;
+    //bool isDark = darkNotifier.value;
 
     return Scaffold(
       appBar: AppBar(

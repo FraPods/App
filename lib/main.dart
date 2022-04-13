@@ -21,9 +21,14 @@ class FraPodsApp extends StatelessWidget {
   Widget build(BuildContext context) {
     BackendApi().autoLogIn();
 
+    
     return ValueListenableBuilder<bool>(
+      valueListenable: loginNotifier, 
+      builder: (BuildContext context, bool isLogedIn, Widget? child){
+      return ValueListenableBuilder<bool>(
         valueListenable: darkNotifier,
         builder: (BuildContext context, bool isDark, Widget? child) {
+
           return MaterialApp(
             title: 'FraPods',
             themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
@@ -67,8 +72,10 @@ class FraPodsApp extends StatelessWidget {
                   onError: Colors.black,
                   brightness: Brightness.dark,
                 )),
-            home: const LoginPage(),
+
+            home: isLogedIn == false? const LoginPage() : const MainPage()
           );
+          });
         });
   }
 }
@@ -168,3 +175,5 @@ MaterialColor generateMaterialColorFromColor(Color color) {
 }
 
 final darkNotifier = ValueNotifier<bool>(true);
+
+var loginNotifier = ValueNotifier<bool>(false);

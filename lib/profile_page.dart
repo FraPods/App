@@ -31,15 +31,17 @@ class _ProfilePageState extends State<ProfilePage> {
             },)
          ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Center(
-            child: Column(
-              children: <Widget>[Text("This is the account page of the app")],
+      body: ListView(
+        children: [Padding(
+          padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+          child: Center(child: Column(
+              children: <Widget>[
+                Card(),
+              ],
             ),
           ),
         ),
+        ],
       ),
     );
   }

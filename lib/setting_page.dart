@@ -23,10 +23,10 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage> {
   // declare variables here:
   @override
-  void dispose() {
-    darkNotifier.dispose();
-    super.dispose();
-  }
+  // void dispose() {
+  //   darkNotifier.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -72,15 +72,22 @@ class _SettingPageState extends State<SettingPage> {
                       child: Switch(
                         activeColor: blueish(),
                         activeTrackColor: Colors.blue.shade700,
-                        value: isDark,
+                        value: darkNotifier.value,
                         onChanged: (_) {
-                          setState(() {isDark = !isDark; darkNotifier.value = isDark;});
+                          setState(() {darkNotifier.value = !darkNotifier.value;});
                         }
                       )
                       ),
                   ]
                 ),
 
+              TextButton(child: Text('log out'),
+                onPressed: (){
+                  setState(() {
+                    loginNotifier.value = false;
+                  });
+                }
+              )
 
               ],
             ),

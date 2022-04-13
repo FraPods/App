@@ -23,6 +23,11 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _emailTextController = TextEditingController();
   bool _showSignUp = false; //show either login screen or signup screen
 
+  //   void dispose() {
+  //   darkNotifier.dispose();
+  //   super.dispose();
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -176,6 +181,15 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
+
+      // temporary button for testing
+      floatingActionButton: FloatingActionButton(
+        child: Text('skip login'),
+        onPressed: () {
+        setState(() {
+        loginNotifier.value = true;
+        });
+      }),
     );
   }
 
