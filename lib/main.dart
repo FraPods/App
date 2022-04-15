@@ -41,7 +41,7 @@ class FraPodsApp extends StatelessWidget {
                   primaryVariant: Color(0xFF99C4FD),
                   secondary: Color(0xFF424242),
                   secondaryVariant: Color(0xff646464),
-                  surface: Color(0xffFFFEF6), //ebeeee
+                  surface: Color(0xffFFFDF4), //ebeeee
                   background: Color(0xffcccccc),
                   error: Color(0xffb00020),
                   onPrimary: Colors.black,
@@ -63,7 +63,7 @@ class FraPodsApp extends StatelessWidget {
                   secondary: Color(0xFF646464),
                   secondaryVariant: Color(0xff909090),
                   surface: Color(0xff424242),
-                  background: /*Color(0xff121212)*/Colors.grey.shade700,
+                  background: Color(0xff757575),//Colors.grey.shade700,
                   error: Color(0xffcf6679),
                   onPrimary: Colors.white,
                   onSecondary: Colors.black,

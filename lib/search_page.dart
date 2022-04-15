@@ -75,6 +75,7 @@ class _SearchPageState extends State<SearchPage> {
       body: Center(
         child: Column(
           children: <Widget>[
+            SizedBox(height:5),
             Expanded(
               child: ListView.builder(
                 itemCount: listOfAllSearchResults.length,
@@ -135,10 +136,11 @@ class _SearchPageState extends State<SearchPage> {
   Widget podcastItem(
       BuildContext ctxt, int index, PodcastInfo podcastInfo ) {
     return TextButton(
+      style: TextButton.styleFrom(padding:EdgeInsets.fromLTRB(5,7,5,0)),
       onPressed: () {
         playPodcast(url: podcastInfo.url);
         widget.notifyParent(podcastInfo, true);
-
+    
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) {
@@ -150,31 +152,42 @@ class _SearchPageState extends State<SearchPage> {
       child: Container(
         width: double.maxFinite,
         child: Card(
-          elevation: 5,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          elevation: 0,
+          color: /* Color(0x00000000), */Theme.of(context).colorScheme.primaryVariant,
+          child: Row(
             children: [
               Container(
-                margin: EdgeInsets.fromLTRB(10, 13, 0, 5),
-                child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Text(
-                      podcastInfo.title,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(fontSize: 16),
-                    ),
+              height:50,
+               width: 50,
+               margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+               decoration: BoxDecoration(border: Border.all(color:Colors.pink, width:2)),
+               ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                    child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Text(
+                          podcastInfo.title,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ),
                   ),
-              ),
-              Container(
-                margin: EdgeInsets.fromLTRB(10, 8, 0, 10),
-                child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Text(
-                      podcastInfo.artist,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(fontSize: 14),
-                    ),
+                  Container(
+                    margin: EdgeInsets.fromLTRB(10, 8, 0, 10),
+                    child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Text(
+                          podcastInfo.artist,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ),
                   ),
+                ],
               ),
             ],
           ),
