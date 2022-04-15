@@ -55,6 +55,7 @@ class _MainPageState extends State<MainPage> {
     stream();
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
+        key:bottomnavKey,
           backgroundColor: generateMaterialColorFromColor(Color(0xffebf7ff)),
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
@@ -117,74 +118,70 @@ class _MainPageState extends State<MainPage> {
             visible: _musicControlMenuVisible,
             child: Container(
               margin: EdgeInsets.only(bottom: 15, right: 10, left: 10),
-                  decoration: BoxDecoration(
-                      /*border: Border(
-                        top: BorderSide(color: Colors.black, width: 1),
-                        bottom: BorderSide(color: Colors.black, width: 2),
-                      )*/),
-                  child: Container(
-                    
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.horizontal(right: Radius.circular(15), left: Radius.circular(15)),
-                      color: Theme.of(context).colorScheme.background,
-                      boxShadow: [BoxShadow(
-                        color: Colors.black.withOpacity(0.4),
-                        spreadRadius: 1,
-                        blurRadius: 5,
-                        offset: Offset(4, 7),
-                      ),],
-                    ),
-                    height: 50,
-                    alignment: Alignment.centerLeft,
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      onTap: () {
-                        log("Layout clicked");
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) {
-                            PodcastDetailsPage(podcastInfo: currentPodcasatInfo);
-                            return PodcastDetailsPage(
-                                podcastInfo: currentPodcasatInfo);
-                          }),
-                        );
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.horizontal(right: Radius.circular(15), left: Radius.circular(15)),
+                color: Theme.of(context).colorScheme.background,
+                boxShadow: [BoxShadow(
+                  color: Colors.black.withOpacity(0.4),
+                  spreadRadius: 1,
+                  blurRadius: 5,
+                  offset: Offset(4, 7),
+                ),],
+              ),
+              height: 50,
+              alignment: Alignment.centerLeft,
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  log("Layout clicked");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      PodcastDetailsPage(podcastInfo: currentPodcasatInfo);
+                      return PodcastDetailsPage(
+                          podcastInfo: currentPodcasatInfo);
+                    }),
+                  );
+                },
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    IconButton(
+                      padding: EdgeInsets.zero,
+                      color: Colors.white,
+                      icon: _isPlaying
+                          ? Icon(
+                              Icons.pause,
+                              size: 40.0,
+                            )
+                          : Icon(Icons.play_arrow, size: 40.0),
+                      onPressed: () {
+                        if (_isPlaying) {
+                          setState(() {
+                            _isPlaying = false;
+                          });
+                          assetsAudioPlayer.pause();
+                        } else {
+                          setState(() {
+                            _isPlaying = true;
+                          });
+                          assetsAudioPlayer.play();
+                        }
                       },
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          IconButton(
-                            padding: EdgeInsets.zero,
-                            color: Colors.white,
-                            icon: _isPlaying
-                                ? Icon(
-                                    Icons.pause,
-                                    size: 40.0,
-                                  )
-                                : Icon(Icons.play_arrow, size: 40.0),
-                            onPressed: () {
-                              if (_isPlaying) {
-                                setState(() {
-                                  _isPlaying = false;
-                                });
-                                assetsAudioPlayer.pause();
-                              } else {
-                                setState(() {
-                                  _isPlaying = true;
-                                });
-                                assetsAudioPlayer.play();
-                              }
-                            },
-                          ),
-                          Text(currentTitle + " by " + currentArtist,
-                              style: normalTextStyle()),
-                          Spacer(),
-                        ],
-                      ),
                     ),
-                  )),
+                    Text(currentTitle + " by " + currentArtist,
+                        style: normalTextStyle()),
+                    Spacer(),
+                  ],
+                ),
+              ),
+            ),
             ),
         ],
       ),
+
+      // to calculate sizes
+      //floatingActionButton: FloatingActionButton(onPressed:_getSize),
     );
   }
 
@@ -231,4 +228,10 @@ class _MainPageState extends State<MainPage> {
       }
     });
   }
+
+  // to calculate sizes
+  // void _getSize() {
+  //   //print(size!.height);
+  //   print(MediaQuery.of(context).size.height - 56);
+  // }
 }

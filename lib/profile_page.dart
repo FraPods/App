@@ -21,6 +21,9 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    //define variables here
+    double pageHeight = MediaQuery.of(context).size.height - 56;
+
     return Scaffold(
       appBar: AppBar(
            title: Icon(Icons.account_circle),
@@ -31,17 +34,20 @@ class _ProfilePageState extends State<ProfilePage> {
             },)
          ],
       ),
-      body: ListView(
-        children: [Padding(
-          padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-          child: Center(child: Column(
-              children: <Widget>[
-                Card(),
-              ],
+      body: Container(
+        height: pageHeight,
+        child: ListView(
+          children: [Padding(
+            padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+            child: Center(child: Column(
+                children: <Widget>[
+                  Card(),
+                ],
+              ),
             ),
           ),
+          ],
         ),
-        ],
       ),
     );
   }

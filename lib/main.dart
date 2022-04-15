@@ -41,7 +41,7 @@ class FraPodsApp extends StatelessWidget {
                   primaryVariant: Color(0xFF99C4FD),
                   secondary: Color(0xFF424242),
                   secondaryVariant: Color(0xff646464),
-                  surface: Color(0xffFFFEF6),
+                  surface: Color(0xffFFFEF6), //ebeeee
                   background: Color(0xffcccccc),
                   error: Color(0xffb00020),
                   onPrimary: Colors.black,
@@ -177,3 +177,12 @@ MaterialColor generateMaterialColorFromColor(Color color) {
 final darkNotifier = ValueNotifier<bool>(true);
 
 var loginNotifier = ValueNotifier<bool>(false);
+
+GlobalKey bottomnavKey = GlobalKey();
+//GlobalKey appbarKey = GlobalKey();
+Size? bottomnavSize = bottomnavKey.currentContext!.size;
+//Size? appbarSize = appbarKey.currentContext!.size;
+
+//to calculate sizes
+GlobalKey sizeKey = GlobalKey();
+Size? size = sizeKey.currentContext!.size;

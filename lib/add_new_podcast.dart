@@ -43,9 +43,17 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
               controller: urlController,
             ),
 
+            SizedBox(height:20),
 
-            OutlinedButton(child: Text('Create'),
-              onPressed: () => submitData(context),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                OutlinedButton(child: Text('Create'),
+                  onPressed: () => submitData(context),),
+                  SizedBox(width: 15,),
+                OutlinedButton(child: Text('Cancel'),
+                  onPressed: () => Navigator.of(context).pop(),),
+              ],
             )
          ],
        ),

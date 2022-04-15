@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frapods/main.dart';
 import 'package:frapods/podcast_details_page.dart';
 import 'package:frapods/podcast_info.dart';
 import 'package:frapods/setting_page.dart';
@@ -27,6 +28,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    //define variables here
+    double pageHeight = MediaQuery.of(context).size.height - 56;
 
     return Scaffold(
       appBar: AppBar(
