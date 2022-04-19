@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:open_file/open_file.dart';
+import 'package:image_picker/image_picker.dart';
+
 import 'package:frapods/main_page.dart';
 import 'package:frapods/podcast_info.dart';
 import 'package:frapods/podcast_player.dart';
@@ -140,46 +144,52 @@ class _UploadPageState extends State<UploadPage> {
   }
 
   Widget myPodcast (PodcastInfo podcastInfo){
-    return Card(
-      margin: EdgeInsets.symmetric(horizontal: 13, vertical: 10),
-      color: Theme.of(context).colorScheme.primaryVariant,
-      child: Row(
-        mainAxisSize: MainAxisSize.max, mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                width: 200,
-                margin: EdgeInsets.fromLTRB(10, 13, 0, 5),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Text(
-                    podcastInfo.title + '  by ' + podcastInfo.artist,
-                    textAlign: TextAlign.left,
-                    style: TextStyle(fontSize: 18),
-                    // overflow: TextOverflow.fade,
-                    // softWrap: false,
+    return InkWell(
+      onTap:(){},
+      //onHover: ,
+      child: Card(
+        margin: EdgeInsets.symmetric(horizontal: 13, vertical: 10),
+        color: Theme.of(context).colorScheme.primaryVariant,
+        child: Row(
+          mainAxisSize: MainAxisSize.max, mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 200,
+                  margin: EdgeInsets.fromLTRB(10, 13, 0, 5),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Text(
+                      podcastInfo.title,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 18),
+                      // overflow: TextOverflow.fade,
+                      // softWrap: false,
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                margin: EdgeInsets.fromLTRB(10, 5, 0, 10),
-                child: Text(
-                  'Description :  ' + podcastInfo.description,
-                  textAlign: TextAlign.left,
-                  overflow: TextOverflow.fade,
-                  softWrap: false,
+                Container(
+                  margin: EdgeInsets.fromLTRB(10, 5, 0, 10),
+                  child: Text(
+                    'Description: ' + podcastInfo.description,
+                    textAlign: TextAlign.left,
+                    overflow: TextOverflow.fade,
+                    softWrap: false,
+                    maxLines: 4,
+                    style: TextStyle(fontSize: 15),
+                  ),
                 ),
-              ),
+              ],
+            ),
+            // IconButton(
+            //   onPressed: (){}, 
+            //   icon: Icon(Icons.add_box_rounded, size: 30), 
+            //   alignment: Alignment.centerLeft,)
             ],
           ),
-          IconButton(
-            onPressed: (){}, 
-            icon: Icon(Icons.add_box_rounded, size: 30), 
-            alignment: Alignment.centerLeft,)
-          ],
         ),
-      );
+    );
   }
 }

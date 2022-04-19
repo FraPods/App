@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:open_file/open_file.dart';
 
 class PodcastInfo{
   String title = "";
   String description = "";
   String artist = "";
   String url = "";
+  //PlatformFile file;
 
   PodcastInfo(String title, String description, String artist, String url){
     this.title = title;
