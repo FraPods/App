@@ -75,7 +75,7 @@ class _SearchPageState extends State<SearchPage> {
       body: Center(
         child: Column(
           children: <Widget>[
-            SizedBox(height:5),
+            SizedBox(height:10),
             Expanded(
               child: ListView.builder(
                 itemCount: listOfAllSearchResults.length,
@@ -135,64 +135,72 @@ class _SearchPageState extends State<SearchPage> {
   // This is the widget of one search result entry.
   Widget podcastItem(
       BuildContext ctxt, int index, PodcastInfo podcastInfo ) {
-    return TextButton(
-      style: TextButton.styleFrom(padding:EdgeInsets.fromLTRB(5,7,5,0)),
-      onPressed: () {
-        playPodcast(url: podcastInfo.url);
-        widget.notifyParent(podcastInfo, true);
-    
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) {
-            PodcastDetailsPage(podcastInfo: podcastInfo);
-            return PodcastDetailsPage(podcastInfo: podcastInfo);
-          }),
-        );
-      },
-      child: Container(
-        width: double.maxFinite,
-        child: Card(
-          elevation: 0,
-          color: /* Color(0x00000000), */Theme.of(context).colorScheme.primaryVariant,
-          child: Row(
-            children: [
-              Container(
-              height:50,
-               width: 50,
-               margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-               decoration: BoxDecoration(border: Border.all(color:Colors.pink, width:2)),
-               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
+      children: [
+        TextButton(
+          style: TextButton.styleFrom(padding:EdgeInsets.fromLTRB(5,0,5,0)),
+          onPressed: () {
+            playPodcast(url: podcastInfo.url);
+            widget.notifyParent(podcastInfo, true);
+        
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) {
+                PodcastDetailsPage(podcastInfo: podcastInfo);
+                return PodcastDetailsPage(podcastInfo: podcastInfo);
+              }),
+            );
+          },
+          child: Container(
+            width: double.maxFinite,
+            child: Card(
+              elevation: 0,
+              color: Color(0x00000000), //Theme.of(context).colorScheme.primaryVariant,
+              child: Row(
                 children: [
                   Container(
-                    margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                    child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Text(
-                          podcastInfo.title,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 18),
-                        ),
+                  height:50,
+                   width: 50,
+                   margin: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                   decoration: BoxDecoration(border: Border.all(color:Colors.pink, width:2)),
+                   ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.fromLTRB(10, 5, 0, 0),
+                        child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Text(
+                              podcastInfo.title,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          ),
                       ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(10, 8, 0, 10),
-                    child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Text(
-                          podcastInfo.artist,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 15),
-                        ),
+                      Container(
+                        margin: EdgeInsets.fromLTRB(10, 8, 0, 5),
+                        child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Text(
+                              podcastInfo.artist,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(fontSize: 15),
+                            ),
+                          ),
                       ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
-      ),
+        Container(
+          alignment: Alignment.center,
+          width: MediaQuery.of(context).size.width * 0.92,
+          child: Divider(thickness: 1,color: Colors.grey,))
+      ],
     );
   }
 }

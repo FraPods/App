@@ -68,7 +68,7 @@ class _SettingPageState extends State<SettingPage> {
                     ),
 
                     Transform.scale(
-                      scale: 1.3,
+                      scale: 1.2,
                       child: Switch(
                         activeColor: blueish(),
                         activeTrackColor: Colors.blue.shade700,
@@ -81,12 +81,31 @@ class _SettingPageState extends State<SettingPage> {
                   ]
                 ),
 
-              TextButton(child: Text('log out'),
-                onPressed: (){
-                  setState(() {
-                    loginNotifier.value = false;
-                  });
-                }
+              // Logout Button
+              Container(
+                margin: EdgeInsets.only(top: 20),
+                alignment: Alignment.center,
+                width: MediaQuery.of(context).size.width * 0.92,
+                child: Divider(thickness: 1,color: Colors.grey,)),
+
+              Container(
+                margin: EdgeInsets.only(top: 10),
+                child: TextButton(child: Text('log out'),
+                style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(Theme.of(context).colorScheme.primary),
+                          foregroundColor: MaterialStateProperty.all<Color>(Theme.of(context).colorScheme.onPrimary),
+                          textStyle: MaterialStateProperty.all<TextStyle>(TextStyle(fontSize: 18)),
+                          fixedSize: MaterialStateProperty.all(const Size(double.maxFinite, 40)),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(borderRadius: BorderRadius.circular(15),),
+                          ),
+                        ),
+                  onPressed: (){
+                    setState(() {
+                      loginNotifier.value = false;
+                    });
+                  }
+                ),
               )
 
               ],

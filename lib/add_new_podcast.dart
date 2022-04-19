@@ -110,42 +110,46 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                   width: double.maxFinite,
                   child: Text('New Podcast', textAlign: TextAlign.center,style:subtitleTextStyle())
                 ),
-                Row(
-                  children: [
-                    Column(
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width /2.3,
-                          child: TextField(
-                            decoration: InputDecoration(labelText: 'Title'),
-                            controller: titleController,
-                            maxLength: 50,
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: Row(
+                    children: [
+                      Column(
+                        children: [
+                          Container(
+                            //margin: EdgeInsets.fromLTRB(left, top, right, bottom),
+                            width: MediaQuery.of(context).size.width /2.3,
+                            child: TextField(
+                              decoration: InputDecoration(labelText: 'Title', ),
+                              controller: titleController,
+                              maxLength: 50,
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width /2.3,
-                          child: TextField(
-                            decoration: InputDecoration(labelText: 'Artist'),
-                            controller: artistController,
+                          Container(
+                            width: MediaQuery.of(context).size.width /2.3,
+                            child: TextField(
+                              decoration: InputDecoration(labelText: 'Artist',),
+                              controller: artistController,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left:30),
-                      child: InkWell(
-                        onTap: () => pickImage(ImageSource.gallery),
-                        child: image != null ? ClipOval(
-                          child: Image.file(image!, height: 100, width: 100,),)
-                          :Container(
-                            child: Text('upload photo'),
-                            height: 100, width:100, decoration: BoxDecoration(border: Border.all(color: blueish(), width: 1)),
-                          ),
+                        ],
                       ),
-                    )
-                ],),
+                      Container(
+                        margin: EdgeInsets.only(left:30),
+                        child: InkWell(
+                          onTap: () => pickImage(ImageSource.gallery),
+                          child: image != null ? ClipOval(
+                            child: Image.file(image!, height: 100, width: 100,),)
+                            :Container(
+                              child: Text('upload photo'),
+                              height: 100, width:100, decoration: BoxDecoration(border: Border.all(color: blueish(), width: 1)),
+                            ),
+                        ),
+                      )
+                  ],),
+                ),
                 TextFormField(
-                  decoration: InputDecoration(labelText: 'Description'),
+                  decoration: InputDecoration(labelText: 'Description', border: OutlineInputBorder()),
                   controller: descriptionController,
                   maxLines:10,
                   minLines: 6,
@@ -155,7 +159,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                 //   controller: urlController,
                 // ),
 
-                Container(margin: EdgeInsets.symmetric(vertical: 20),child: Text('upload your first episode!')),
+                Container(margin: EdgeInsets.symmetric(vertical: 20),child: Text('upload your first episode!', style: TextStyle(fontSize: 18),)),
 
                 InkWell(
                   onTap:() async {
@@ -167,7 +171,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
 
                   child:Container(
                     width: double.maxFinite,
-                    height:130,
+                    height:100,
                     decoration: BoxDecoration(border: Border.all(color: Colors.pink, width: 1)),
                     child: file != null ?  Text('$fileName') : Text('pick a file')
                   )
