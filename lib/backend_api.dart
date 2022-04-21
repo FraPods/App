@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:frapods/podcast_info.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'main.dart';
@@ -59,9 +61,23 @@ class BackendApi {
     switch(response.statusCode){
       case 200:
       case 201:
-        _saveString(CURRENT_TOKEN_KEY, nextSessionToken);
-        _saveString(NEXT_TOKEN_KEY, utf8.decode(response.bodyBytes));
-        log("SUCCESSFUL ACCOUNT CREATION AND LOGIN, saved following tokens: " + await _getString(CURRENT_TOKEN_KEY) + ", " + await _getString(NEXT_TOKEN_KEY) + ", " + await _getString(DEVICE_TOKEN_KEY));
+        if(nextSessionToken != "error" && utf8.decode(response.bodyBytes) != "error") {
+          _saveString(CURRENT_TOKEN_KEY, nextSessionToken);
+          _saveString(NEXT_TOKEN_KEY, utf8.decode(response.bodyBytes));
+          log(
+              "SUCCESSFUL ACCOUNT CREATION AND LOGIN, saved following tokens: " +
+                  await _getString(CURRENT_TOKEN_KEY) + ", " +
+                  await _getString(NEXT_TOKEN_KEY) + ", " +
+                  await _getString(DEVICE_TOKEN_KEY));
+          log("login notifier value changed by backendapi");
+          loginNotifier.value = true;
+        } else {
+          log(
+              "auth failed, followingn tokens: " +
+                  await _getString(CURRENT_TOKEN_KEY) + ", " +
+                  await _getString(NEXT_TOKEN_KEY) + ", " +
+                  await _getString(DEVICE_TOKEN_KEY));
+        }
         return "200";
         break;
       case 400:
@@ -110,9 +126,14 @@ class BackendApi {
       case 201:
         log(response.body);
         String token = response.body;
-        _saveString(DEVICE_TOKEN_KEY, token);
-        _saveString(CURRENT_TOKEN_KEY, token);
-        _saveString(NEXT_TOKEN_KEY, token);
+        if(token != "error") {
+          _saveString(DEVICE_TOKEN_KEY, token);
+          _saveString(CURRENT_TOKEN_KEY, token);
+          _saveString(NEXT_TOKEN_KEY, token);
+        }
+
+        log(( await http.get(Uri.parse(api_domain +
+            "verifyDevice.php?deviceToken=$token&sessionToken=$token"))).statusCode.toString());
         return "200";
         break;
       case 422:
@@ -127,8 +148,108 @@ class BackendApi {
 
     }
     return "";
+  }
+
+
+  Future<List<PodcastInfo>> searchOnYoutube(String query, {int maxNum=10}) async{
+    if(maxNum > 10){ maxNum = 10; }
+    List<PodcastInfo> listOfAllSearchResults = [];
+
+    // Gets the first 10 search results from youtube
+    var response = await http.get(Uri.parse(api_domain +
+        "extractYoutubeResults.php?search=$query"));
+    String results = response.body;
+    int statusCode = response.statusCode;
+    if(statusCode == 200){
+
+      for(int i = 0; i < maxNum; i++){
+        int idx = results.indexOf("}");
+        String currentResult = results.substring(0, idx).trim() + "}";
+        results = results.substring(idx+1).trim();
+
+        String title = "";
+        String artist = "";
+        String url = "";
+        String id = "";
+        log("currentresult is " + currentResult);
+        String startStr = "'id': '";
+        String startStrAlternatiave2 = "'id': \""; // It is legit INSANE how much Youtube tries to defeat crawlers, they randomly replace single quotes with double quotes
+        String endStr = "',";
+        int startIndex = currentResult.indexOf(startStr);
+        if(startIndex == -1){
+          startIndex = currentResult.indexOf(startStrAlternatiave2);
+          endStr = "\",";
+        }
+        currentResult = currentResult.substring(startIndex);
+        int endIndex = currentResult.indexOf(endStr);
+        id = currentResult.substring(0 + startStr.length, endIndex);
+
+        log("currentresult is " + currentResult);
+        log("id is " + id);
+        log("artist is " + artist);
+        log("title is " + title);
+
+
+        startStr = "'title': '";
+        startStrAlternatiave2 = "'title': \""; // It is legit INSANE how much Youtube tries to defeat crawlers, they randomly replace single quotes with double quotes
+        endStr = "',";
+        startIndex = currentResult.indexOf(startStr);
+        if(startIndex == -1){
+          startIndex = currentResult.indexOf(startStrAlternatiave2);
+          endStr = "\",";
+        }
+        currentResult = currentResult.substring(startIndex);
+
+        endIndex = currentResult.indexOf(endStr);
+        title = currentResult.substring(0 + startStr.length, endIndex);
+
+        log("currentresult is " + currentResult);
+        log("id is " + id);
+        log("artist is " + artist);
+        log("title is " + title);
+
+
+        startStr = "'channel': '";
+        startStrAlternatiave2 = "'channel': \""; // It is legit INSANE how much Youtube tries to defeat crawlers, they randomly replace single quotes with double quotes
+        endStr = "'}";
+        startIndex = currentResult.indexOf(startStr);
+        if(startIndex == -1){
+          startIndex = currentResult.indexOf(startStrAlternatiave2);
+          endStr = "\"}";
+        }
+        currentResult = currentResult.substring(startIndex);
+        endIndex = currentResult.indexOf(endStr);
+        artist = currentResult.substring(0 + startStr.length, endIndex);
+        log("currentresult is " + currentResult);
+
+        log("id is " + id);
+        log("artist is " + artist);
+        log("title is " + title);
+
+
+
+        listOfAllSearchResults.add(new PodcastInfo(title, "No description available", artist, "GETURL: " + id));
+
+      }
+
+    }
+
+    return listOfAllSearchResults;
+
 
   }
+
+
+  Future<String> getUrlFromYtID(String id) async {
+    log("geturlid is " + id);
+    String url = (await http.get(Uri.parse(api_domain +
+    "extractVideo.php?id=$id"))).body;
+    log("url is: " + url);
+    return url;
+  }
+
+
+
 
   void _saveString(String key, String value) async{
     log("saving string " + value);

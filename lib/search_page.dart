@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frapods/backend_api.dart';
 import 'package:frapods/main.dart';
 import 'package:frapods/podcast_details_page.dart';
 import 'package:frapods/podcast_info.dart';
@@ -94,14 +95,11 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  void sendSearchRequest(String text) {
+  Future<void> sendSearchRequest(String text) async {
     // TODO: Write search request to server function
-
-
-
+    List<PodcastInfo> youtubeResults = await BackendApi().searchOnYoutube(text);
     setState(() {
-      listOfAllSearchResults = [];
-
+      listOfAllSearchResults = youtubeResults;
       listOfAllSearchResults.add(PodcastInfo("Result1Title", "This is the Podcast result 1", "artist1", "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3"));
       listOfAllSearchResults.add(PodcastInfo("Result2Title", "This is the Podcast result 2", "artist2", "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3"));
       listOfAllSearchResults.add(PodcastInfo("Result3Title", "This is the Podcast result 3", "artist3", "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3"));
@@ -139,8 +137,12 @@ class _SearchPageState extends State<SearchPage> {
       children: [
         TextButton(
           style: TextButton.styleFrom(padding:EdgeInsets.fromLTRB(5,0,5,0)),
-          onPressed: () {
-            playPodcast(url: podcastInfo.url);
+          onPressed: () async {
+            if(podcastInfo.url.startsWith("GETURL")){
+              playPodcast(url:  await BackendApi().getUrlFromYtID(podcastInfo.url.substring(8)));
+            } else {
+              playPodcast(url: podcastInfo.url);
+            }
             widget.notifyParent(podcastInfo, true);
         
             Navigator.push(
