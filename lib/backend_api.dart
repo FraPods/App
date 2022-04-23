@@ -117,7 +117,7 @@ class BackendApi {
   }
 
 
-   Future<String> logIn(String username, String password) async {
+  Future<String> logIn(String username, String password) async {
     var response = await http.get(Uri.parse(api_domain +
         "registerDevice.php?username=$username&pwd=$password"));
 
@@ -167,66 +167,12 @@ class BackendApi {
         String currentResult = results.substring(0, idx).trim() + "}";
         results = results.substring(idx+1).trim();
 
-        String title = "";
-        String artist = "";
-        String url = "";
-        String id = "";
-        log("currentresult is " + currentResult);
-        String startStr = "'id': '";
-        String startStrAlternatiave2 = "'id': \""; // It is legit INSANE how much Youtube tries to defeat crawlers, they randomly replace single quotes with double quotes
-        String endStr = "',";
-        int startIndex = currentResult.indexOf(startStr);
-        if(startIndex == -1){
-          startIndex = currentResult.indexOf(startStrAlternatiave2);
-          endStr = "\",";
-        }
-        currentResult = currentResult.substring(startIndex);
-        int endIndex = currentResult.indexOf(endStr);
-        id = currentResult.substring(0 + startStr.length, endIndex);
+        Map<String, dynamic> resultsMap = jsonDecode(results);
 
-        log("currentresult is " + currentResult);
-        log("id is " + id);
-        log("artist is " + artist);
-        log("title is " + title);
-
-
-        startStr = "'title': '";
-        startStrAlternatiave2 = "'title': \""; // It is legit INSANE how much Youtube tries to defeat crawlers, they randomly replace single quotes with double quotes
-        endStr = "',";
-        startIndex = currentResult.indexOf(startStr);
-        if(startIndex == -1){
-          startIndex = currentResult.indexOf(startStrAlternatiave2);
-          endStr = "\",";
-        }
-        currentResult = currentResult.substring(startIndex);
-
-        endIndex = currentResult.indexOf(endStr);
-        title = currentResult.substring(0 + startStr.length, endIndex);
-
-        log("currentresult is " + currentResult);
-        log("id is " + id);
-        log("artist is " + artist);
-        log("title is " + title);
-
-
-        startStr = "'channel': '";
-        startStrAlternatiave2 = "'channel': \""; // It is legit INSANE how much Youtube tries to defeat crawlers, they randomly replace single quotes with double quotes
-        endStr = "'}";
-        startIndex = currentResult.indexOf(startStr);
-        if(startIndex == -1){
-          startIndex = currentResult.indexOf(startStrAlternatiave2);
-          endStr = "\"}";
-        }
-        currentResult = currentResult.substring(startIndex);
-        endIndex = currentResult.indexOf(endStr);
-        artist = currentResult.substring(0 + startStr.length, endIndex);
-        log("currentresult is " + currentResult);
-
-        log("id is " + id);
-        log("artist is " + artist);
-        log("title is " + title);
-
-
+        String title = resultsMap["title"];
+        String artist = resultsMap["channel"];
+        String id = resultsMap["id"];
+        String url = "GETURL: " + id;
 
         listOfAllSearchResults.add(new PodcastInfo(title, "No description available", artist, "GETURL: " + id));
 
@@ -243,7 +189,7 @@ class BackendApi {
   Future<String> getUrlFromYtID(String id) async {
     log("geturlid is " + id);
     String url = (await http.get(Uri.parse(api_domain +
-    "extractVideo.php?id=$id"))).body;
+        "extractVideo.php?id=$id"))).body;
     log("url is: " + url);
     return url;
   }
