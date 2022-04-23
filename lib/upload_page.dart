@@ -150,45 +150,39 @@ class _UploadPageState extends State<UploadPage> {
       child: Card(
         margin: EdgeInsets.symmetric(horizontal: 13, vertical: 10),
         color: Theme.of(context).colorScheme.primaryVariant,
-        child: Row(
-          mainAxisSize: MainAxisSize.max, mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: 200,
-                  margin: EdgeInsets.fromLTRB(10, 13, 0, 5),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Text(
-                      podcastInfo.title,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(fontSize: 18),
-                      // overflow: TextOverflow.fade,
-                      // softWrap: false,
-                    ),
-                  ),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                margin: EdgeInsets.fromLTRB(0, 0, 10, 10),
+                child: Text(
+                  podcastInfo.title,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(fontSize: 19),
+                  overflow: TextOverflow.fade,
+                  softWrap: false,
+                  maxLines: 1,
                 ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(10, 5, 0, 10),
-                  child: Text(
-                    'Description: ' + podcastInfo.description,
-                    textAlign: TextAlign.left,
-                    overflow: TextOverflow.fade,
-                    softWrap: false,
-                    maxLines: 4,
-                    style: TextStyle(fontSize: 15),
-                  ),
+              ),
+              Container(
+                margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                child: Text(
+                  podcastInfo.description.isEmpty?
+                  'Description: no description available'
+                  :
+                  'Description: ' + podcastInfo.description,
+                  textAlign: TextAlign.left,
+                  overflow: TextOverflow.fade,
+                  softWrap: false,
+                  maxLines: 3,
+                  style: TextStyle(fontSize: 16),
                 ),
-              ],
-            ),
-            // IconButton(
-            //   onPressed: (){}, 
-            //   icon: Icon(Icons.add_box_rounded, size: 30), 
-            //   alignment: Alignment.centerLeft,)
+              ),
             ],
           ),
+        ),
         ),
     );
   }

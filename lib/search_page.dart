@@ -170,15 +170,14 @@ class _SearchPageState extends State<SearchPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        margin: EdgeInsets.fromLTRB(10, 5, 0, 0),
-                        child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Text(
-                              podcastInfo.title,
-                              textAlign: TextAlign.left,
-                              style: TextStyle(fontSize: 18),
-                            ),
-                          ),
+                        margin: EdgeInsets.fromLTRB(10, 5,10, 0),
+                        width: MediaQuery.of(context).size.width -120,
+                        child: Text(
+                          podcastInfo.title,
+                          maxLines:2,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(fontSize: 18),overflow: TextOverflow.ellipsis,softWrap: false,
+                        ),
                       ),
                       Container(
                         margin: EdgeInsets.fromLTRB(10, 8, 0, 5),

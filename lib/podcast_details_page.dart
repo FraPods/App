@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
+import 'package:frapods/main.dart';
 import 'package:frapods/main_page.dart';
 import 'package:frapods/podcast_info.dart';
 import 'package:frapods/podcast_player.dart';
@@ -36,21 +37,34 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Center(
-          child: Column(
-            children: <Widget>[
-              Text("Title: " + widget.podcastInfo.title),
-              Text("Description: " + widget.podcastInfo.description),
-              Text("Made by: " + widget.podcastInfo.artist),
-              TextButton(
-                  onPressed: () {assetsAudioPlayer.playOrPause();},
-                  child: Text("Play/Pause")
-              )
-              
+        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 30),
+        child: Column(
+          children: <Widget>[
+            Text(widget.podcastInfo.title,
+            style:TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
+            ),
+            SizedBox(height:5),
+            Text("By "+widget.podcastInfo.artist,
+            style: TextStyle(
+              fontSize: 20, 
+            ),),
+            SizedBox(height:15),
+            Text("Description: " + widget.podcastInfo.description,
+            style: TextStyle(
+              fontSize: 16, 
+            ),),
+            Spacer(),
+            IconButton(
+                onPressed: () {assetsAudioPlayer.playOrPause();},
+                icon: Icon(Icons.pause)
+            )
+            
 
-            ],
-          ),
+          ],
         ),
       ),
     );

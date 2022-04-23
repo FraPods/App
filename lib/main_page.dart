@@ -169,8 +169,17 @@ class _MainPageState extends State<MainPage> {
                         }
                       },
                     ),
-                    Text(currentTitle + " by " + currentArtist,
-                        style: normalTextStyle()),
+                    Flexible(
+                      flex:70,
+                      child: Container(
+                        padding: EdgeInsets.only(right:17),
+                        child: Text(currentTitle + " by " + currentArtist,
+                            maxLines: 1,
+                            style: normalTextStyle(),
+                            overflow: TextOverflow.fade,
+                            softWrap: false,),
+                      ),
+                    ),
                     Spacer(),
                   ],
                 ),
