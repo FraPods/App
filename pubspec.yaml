@@ -31,9 +31,8 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.2
   # Audio Player
-  audio_service: ^0.18.1
-  just_audio: ^0.9.5
-  assets_audio_player: ^3.0.3+1
+
+  audioplayers: ^0.20.1
   shared_preferences: any
   # Upload files
   file_picker: ^4.5.1

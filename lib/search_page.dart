@@ -139,9 +139,10 @@ class _SearchPageState extends State<SearchPage> {
           style: TextButton.styleFrom(padding:EdgeInsets.fromLTRB(5,0,5,0)),
           onPressed: () async {
             if(podcastInfo.url.startsWith("GETURL")){
-              playPodcast(url:  await BackendApi().getUrlFromYtID(podcastInfo.url.substring(8)));
+              String url = await BackendApi().getUrlFromYtID(podcastInfo.url.substring(8));
+              playPodcast(PodcastInfo(podcastInfo.title, podcastInfo.description, podcastInfo.artist, url));
             } else {
-              playPodcast(url: podcastInfo.url);
+              playPodcast(podcastInfo);
             }
             widget.notifyParent(podcastInfo, true);
         
@@ -152,6 +153,16 @@ class _SearchPageState extends State<SearchPage> {
                 return PodcastDetailsPage(podcastInfo: podcastInfo);
               }),
             );
+          },
+          onLongPress: () async {
+            showDialogMessage("Adding song to queue", "This is an experimental feature. You are adding a song to the queue. ");
+
+            if(podcastInfo.url.startsWith("GETURL")){
+              String url = await BackendApi().getUrlFromYtID(podcastInfo.url.substring(8));
+              addSongToQueue(PodcastInfo(podcastInfo.title, podcastInfo.description, podcastInfo.artist, url));
+            } else {
+              addSongToQueue(podcastInfo);
+            }
           },
           child: Container(
             width: double.maxFinite,

@@ -1,6 +1,7 @@
+import 'dart:async';
 import 'dart:developer';
 
-import 'package:audio_service/audio_service.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:frapods/main.dart';
 import 'package:frapods/main_page.dart';
@@ -25,14 +26,11 @@ class PodcastDetailsPage extends StatefulWidget {
 
 class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
   // declare variables here:
-
+  bool _isPlaying = true;
 
   @override
   Widget build(BuildContext context) {
-
-
-
-
+    stream();
 
     return Scaffold(
       appBar: AppBar(),
@@ -59,8 +57,14 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
             ),),
             Spacer(),
             IconButton(
-                onPressed: () {assetsAudioPlayer.playOrPause();},
-                icon: Icon(Icons.pause)
+                onPressed: () {
+                  if(audioPlayer.state == PlayerState.PAUSED){
+                    audioPlayer.resume();
+                  } else {
+                    audioPlayer.pause();
+                  }
+                },
+                icon: _isPlaying? Icon(Icons.pause) : Icon(Icons.play_arrow),
             )
             
 
@@ -69,6 +73,24 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
       ),
     );
   }
+
+
+  stream() {
+    bool isPl = false;
+    StreamSubscription teaplayPauseSubscription =
+    audioPlayer.onPlayerStateChanged.listen((p) {
+      if (p == PlayerState.PLAYING) {
+        isPl = true;
+      } else if (p == PlayerState.PAUSED) {
+        isPl = false;
+      }
+      setState(() {
+        _isPlaying = isPl;
+      });
+    }
+    );
+  }
+
 }
 
 

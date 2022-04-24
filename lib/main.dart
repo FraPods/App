@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frapods/main_page.dart';
+import 'package:frapods/podcast_player.dart';
 
 // import all class files (create one class per page)
 import 'home_page.dart';

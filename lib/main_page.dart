@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:frapods/backend_api.dart';
 import 'package:frapods/home_page.dart';
@@ -160,12 +161,12 @@ class _MainPageState extends State<MainPage> {
                           setState(() {
                             _isPlaying = false;
                           });
-                          assetsAudioPlayer.pause();
+                          audioPlayer.pause();
                         } else {
                           setState(() {
                             _isPlaying = true;
                           });
-                          assetsAudioPlayer.play();
+                          audioPlayer.resume();
                         }
                       },
                     ),
@@ -227,15 +228,19 @@ class _MainPageState extends State<MainPage> {
   }
 
   stream() {
+    bool isPl = false;
     StreamSubscription teaplayPauseSubscription =
-        assetsAudioPlayer.isPlaying.listen((p) {
-      if (_isPlaying != p) {
-        _isPlaying = p;
+        audioPlayer.onPlayerStateChanged.listen((p) {
+      if (p == PlayerState.PLAYING) {
+        isPl = true;
+      } else if (p == PlayerState.PAUSED) {
+        isPl = false;
+      }
         setState(() {
-          _isPlaying = p;
+          _isPlaying = isPl;
         });
       }
-    });
+    );
   }
 
   // to calculate sizes

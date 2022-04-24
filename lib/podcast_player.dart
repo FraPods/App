@@ -1,23 +1,44 @@
-import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:flutter/material.dart';
-import 'home_page.dart';
-import 'main.dart';
-final assetsAudioPlayer = AssetsAudioPlayer();
+import 'dart:developer';
+
+import 'package:audioplayers/audioplayers.dart';
+import 'package:frapods/podcast_info.dart';
+
+List<PodcastInfo> _songQueue = [];
+int _currentQueueIndex = 0;
+AudioPlayer audioPlayer = AudioPlayer(playerId: "my_unique_id");
+var _songCompleteListener;
 
 
-void playPodcast({required String url}) async{
-  try{
-    await assetsAudioPlayer.open(
-        Audio.network(url),
-        autoStart: true,
-        showNotification: true,
-        notificationSettings: const NotificationSettings(
-        seekBarEnabled: true,
+void addSongToQueue(PodcastInfo podcastInfo){
+  _songQueue.add(podcastInfo);
+}
 
-    )
-    );
-  }catch(t){
-   //TODO: ERROR HANDLING
+void songCompleted() async{
+  log("song completed");
+  _currentQueueIndex++;
+  if(_currentQueueIndex == _songQueue.length){
+    //TODO: We are out of songs in the queue
+  } else {
+    audioPlayer.play(_songQueue[_currentQueueIndex].url);
+    _songCompleteListener = audioPlayer.onPlayerCompletion.listen((event) {
+      songCompleted();
+    });
   }
 }
+
+void playPodcast(PodcastInfo podcastInfo) async{
+  audioPlayer.stop();
+  log("playpodcast called");
+  _songQueue.insert(_currentQueueIndex, podcastInfo);
+  int result = await audioPlayer.play(_songQueue[_currentQueueIndex].url);
+  _songCompleteListener = audioPlayer.onPlayerCompletion.listen((event) {
+    songCompleted();
+  });
+  if (result != 1) {
+    //TODO: Error handling
+  }
+}
+
+
+
 
