@@ -52,11 +52,10 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-
     stream();
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
-        key:bottomnavKey,
+          key: bottomnavKey,
           backgroundColor: generateMaterialColorFromColor(Color(0xffebf7ff)),
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
@@ -82,7 +81,7 @@ class _MainPageState extends State<MainPage> {
           ],
           selectedItemColor: Colors.white,
           unselectedItemColor: Colors.grey,
-          currentIndex: _selectedIndex <= 3? _selectedIndex : _navbarIndex,
+          currentIndex: _selectedIndex <= 3 ? _selectedIndex : _navbarIndex,
           //New
           onTap: (int index) {
             setState(() {
@@ -107,10 +106,16 @@ class _MainPageState extends State<MainPage> {
             child: IndexedStack(
               index: _selectedIndex,
               children: [
-                HomePage(setPage: setPage,),
+                HomePage(
+                  setPage: setPage,
+                ),
                 SearchPage(notifyParent: refresh),
-                UploadPage(setPage: setPage,),
-                ProfilePage(setPage: setPage,),
+                UploadPage(
+                  setPage: setPage,
+                ),
+                ProfilePage(
+                  setPage: setPage,
+                ),
                 SettingPage(setPage: setPage),
               ],
             ),
@@ -120,14 +125,17 @@ class _MainPageState extends State<MainPage> {
             child: Container(
               margin: EdgeInsets.only(bottom: 15, right: 10, left: 10),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.horizontal(right: Radius.circular(15), left: Radius.circular(15)),
+                borderRadius: BorderRadius.horizontal(
+                    right: Radius.circular(15), left: Radius.circular(15)),
                 color: Theme.of(context).colorScheme.background,
-                boxShadow: [BoxShadow(
-                  color: Colors.black.withOpacity(0.4),
-                  spreadRadius: 1,
-                  blurRadius: 5,
-                  offset: Offset(4, 7),
-                ),],
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.4),
+                    spreadRadius: 1,
+                    blurRadius: 5,
+                    offset: Offset(4, 7),
+                  ),
+                ],
               ),
               height: 50,
               alignment: Alignment.centerLeft,
@@ -171,14 +179,16 @@ class _MainPageState extends State<MainPage> {
                       },
                     ),
                     Flexible(
-                      flex:70,
+                      flex: 70,
                       child: Container(
-                        padding: EdgeInsets.only(right:17),
-                        child: Text(currentTitle + " by " + currentArtist,
-                            maxLines: 1,
-                            style: normalTextStyle(),
-                            overflow: TextOverflow.fade,
-                            softWrap: false,),
+                        padding: EdgeInsets.only(right: 17),
+                        child: Text(
+                          currentTitle + " by " + currentArtist,
+                          maxLines: 1,
+                          style: normalTextStyle(),
+                          overflow: TextOverflow.fade,
+                          softWrap: false,
+                        ),
                       ),
                     ),
                     Spacer(),
@@ -186,7 +196,7 @@ class _MainPageState extends State<MainPage> {
                 ),
               ),
             ),
-            ),
+          ),
         ],
       ),
 
@@ -214,13 +224,12 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
-  setPage(int index){
-    if(index == -1){
+  setPage(int index) {
+    if (index == -1) {
       setState(() {
         _selectedIndex = _navbarIndex;
       });
-    }
-    else {
+    } else {
       setState(() {
         _selectedIndex = index;
       });
@@ -236,16 +245,15 @@ class _MainPageState extends State<MainPage> {
       } else if (p == PlayerState.PAUSED) {
         isPl = false;
       }
-        setState(() {
-          _isPlaying = isPl;
-        });
-      }
-    );
+      setState(() {
+        _isPlaying = isPl;
+      });
+    });
   }
 
-  // to calculate sizes
-  // void _getSize() {
-  //   //print(size!.height);
-  //   print(MediaQuery.of(context).size.height - 56);
-  // }
+// to calculate sizes
+// void _getSize() {
+//   //print(size!.height);
+//   print(MediaQuery.of(context).size.height - 56);
+// }
 }

@@ -8,15 +8,14 @@ int _currentQueueIndex = 0;
 AudioPlayer audioPlayer = AudioPlayer(playerId: "my_unique_id");
 var _songCompleteListener;
 
-
-void addSongToQueue(PodcastInfo podcastInfo){
+void addSongToQueue(PodcastInfo podcastInfo) {
   _songQueue.add(podcastInfo);
 }
 
-void songCompleted() async{
+void songCompleted() async {
   log("song completed");
   _currentQueueIndex++;
-  if(_currentQueueIndex == _songQueue.length){
+  if (_currentQueueIndex == _songQueue.length) {
     //TODO: We are out of songs in the queue
   } else {
     audioPlayer.play(_songQueue[_currentQueueIndex].url);
@@ -26,7 +25,7 @@ void songCompleted() async{
   }
 }
 
-void playPodcast(PodcastInfo podcastInfo) async{
+void playPodcast(PodcastInfo podcastInfo) async {
   audioPlayer.stop();
   log("playpodcast called");
   _songQueue.insert(_currentQueueIndex, podcastInfo);
@@ -38,7 +37,3 @@ void playPodcast(PodcastInfo podcastInfo) async{
     //TODO: Error handling
   }
 }
-
-
-
-

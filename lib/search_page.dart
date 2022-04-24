@@ -7,12 +7,10 @@ import 'package:frapods/profile_page.dart';
 import 'podcast_player.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({Key? key,required this.notifyParent})
-      : super(key: key);
+  const SearchPage({Key? key, required this.notifyParent}) : super(key: key);
 
   //following parameters MUST be passed:
   final Function(PodcastInfo podcastInfo, bool musicMenuVisible) notifyParent;
-
 
   @override
   State<SearchPage> createState() {
@@ -21,7 +19,6 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-
   // declare variables here:
   int _selectedIndex = 0;
   bool _isSearchBarOpened = false;
@@ -35,7 +32,6 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-
     _isSearchBarOpened = true;
     searchBar = ListTile(
       leading: const Icon(
@@ -68,7 +64,6 @@ class _SearchPageState extends State<SearchPage> {
       appBar: AppBar(
         title: searchBar,
         automaticallyImplyLeading: false,
-
       ),
 
       //End of Title Bar Layout ^^
@@ -76,22 +71,24 @@ class _SearchPageState extends State<SearchPage> {
       body: Center(
         child: Column(
           children: <Widget>[
-            SizedBox(height:10),
+            SizedBox(height: 10),
             Expanded(
               child: ListView.builder(
                 itemCount: listOfAllSearchResults.length,
-                itemBuilder: (BuildContext ctxt, int index) =>
-                    podcastItem(ctxt, index, new PodcastInfo(listOfAllSearchResults[index].title, listOfAllSearchResults[index].description, listOfAllSearchResults[index].artist, listOfAllSearchResults[index].url,)),
+                itemBuilder: (BuildContext ctxt, int index) => podcastItem(
+                    ctxt,
+                    index,
+                    new PodcastInfo(
+                      listOfAllSearchResults[index].title,
+                      listOfAllSearchResults[index].description,
+                      listOfAllSearchResults[index].artist,
+                      listOfAllSearchResults[index].url,
+                    )),
               ),
             ),
-
-
-
           ],
         ),
       ),
-
-
     );
   }
 
@@ -100,11 +97,21 @@ class _SearchPageState extends State<SearchPage> {
     List<PodcastInfo> youtubeResults = await BackendApi().searchOnYoutube(text);
     setState(() {
       listOfAllSearchResults = youtubeResults;
-      listOfAllSearchResults.add(PodcastInfo("Result1Title", "This is the Podcast result 1", "artist1", "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3"));
-      listOfAllSearchResults.add(PodcastInfo("Result2Title", "This is the Podcast result 2", "artist2", "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3"));
-      listOfAllSearchResults.add(PodcastInfo("Result3Title", "This is the Podcast result 3", "artist3", "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3"));
-
-
+      listOfAllSearchResults.add(PodcastInfo(
+          "Result1Title",
+          "This is the Podcast result 1",
+          "artist1",
+          "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3"));
+      listOfAllSearchResults.add(PodcastInfo(
+          "Result2Title",
+          "This is the Podcast result 2",
+          "artist2",
+          "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3"));
+      listOfAllSearchResults.add(PodcastInfo(
+          "Result3Title",
+          "This is the Podcast result 3",
+          "artist3",
+          "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3"));
     });
   }
 
@@ -131,21 +138,22 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   // This is the widget of one search result entry.
-  Widget podcastItem(
-      BuildContext ctxt, int index, PodcastInfo podcastInfo ) {
+  Widget podcastItem(BuildContext ctxt, int index, PodcastInfo podcastInfo) {
     return Column(
       children: [
         TextButton(
-          style: TextButton.styleFrom(padding:EdgeInsets.fromLTRB(5,0,5,0)),
+          style: TextButton.styleFrom(padding: EdgeInsets.fromLTRB(5, 0, 5, 0)),
           onPressed: () async {
-            if(podcastInfo.url.startsWith("GETURL")){
-              String url = await BackendApi().getUrlFromYtID(podcastInfo.url.substring(8));
-              playPodcast(PodcastInfo(podcastInfo.title, podcastInfo.description, podcastInfo.artist, url));
+            if (podcastInfo.url.startsWith("GETURL")) {
+              String url = await BackendApi()
+                  .getUrlFromYtID(podcastInfo.url.substring(8));
+              playPodcast(PodcastInfo(podcastInfo.title,
+                  podcastInfo.description, podcastInfo.artist, url));
             } else {
               playPodcast(podcastInfo);
             }
             widget.notifyParent(podcastInfo, true);
-        
+
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) {
@@ -155,11 +163,14 @@ class _SearchPageState extends State<SearchPage> {
             );
           },
           onLongPress: () async {
-            showDialogMessage("Adding song to queue", "This is an experimental feature. You are adding a song to the queue. ");
+            showDialogMessage("Adding song to queue",
+                "This is an experimental feature. You are adding a song to the queue. ");
 
-            if(podcastInfo.url.startsWith("GETURL")){
-              String url = await BackendApi().getUrlFromYtID(podcastInfo.url.substring(8));
-              addSongToQueue(PodcastInfo(podcastInfo.title, podcastInfo.description, podcastInfo.artist, url));
+            if (podcastInfo.url.startsWith("GETURL")) {
+              String url = await BackendApi()
+                  .getUrlFromYtID(podcastInfo.url.substring(8));
+              addSongToQueue(PodcastInfo(podcastInfo.title,
+                  podcastInfo.description, podcastInfo.artist, url));
             } else {
               addSongToQueue(podcastInfo);
             }
@@ -168,38 +179,42 @@ class _SearchPageState extends State<SearchPage> {
             width: double.maxFinite,
             child: Card(
               elevation: 0,
-              color: Color(0x00000000), //Theme.of(context).colorScheme.primaryVariant,
+              color: Color(0x00000000),
+              //Theme.of(context).colorScheme.primaryVariant,
               child: Row(
                 children: [
                   Container(
-                  height:50,
-                   width: 50,
-                   margin: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-                   decoration: BoxDecoration(border: Border.all(color:Colors.pink, width:2)),
-                   ),
+                    height: 50,
+                    width: 50,
+                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.pink, width: 2)),
+                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        margin: EdgeInsets.fromLTRB(10, 5,10, 0),
-                        width: MediaQuery.of(context).size.width -120,
+                        margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
+                        width: MediaQuery.of(context).size.width - 120,
                         child: Text(
                           podcastInfo.title,
-                          maxLines:2,
+                          maxLines: 2,
                           textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 18),overflow: TextOverflow.ellipsis,softWrap: false,
+                          style: TextStyle(fontSize: 18),
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: false,
                         ),
                       ),
                       Container(
                         margin: EdgeInsets.fromLTRB(10, 8, 0, 5),
                         child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Text(
-                              podcastInfo.artist,
-                              textAlign: TextAlign.left,
-                              style: TextStyle(fontSize: 15),
-                            ),
+                          scrollDirection: Axis.horizontal,
+                          child: Text(
+                            podcastInfo.artist,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontSize: 15),
                           ),
+                        ),
                       ),
                     ],
                   ),
@@ -209,9 +224,12 @@ class _SearchPageState extends State<SearchPage> {
           ),
         ),
         Container(
-          alignment: Alignment.center,
-          width: MediaQuery.of(context).size.width * 0.92,
-          child: Divider(thickness: 1,color: Colors.grey,))
+            alignment: Alignment.center,
+            width: MediaQuery.of(context).size.width * 0.92,
+            child: Divider(
+              thickness: 1,
+              color: Colors.grey,
+            ))
       ],
     );
   }
