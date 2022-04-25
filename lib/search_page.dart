@@ -3,7 +3,6 @@ import 'package:frapods/backend_api.dart';
 import 'package:frapods/main.dart';
 import 'package:frapods/podcast_details_page.dart';
 import 'package:frapods/podcast_info.dart';
-import 'package:frapods/profile_page.dart';
 import 'podcast_player.dart';
 
 class SearchPage extends StatefulWidget {
@@ -94,25 +93,29 @@ class _SearchPageState extends State<SearchPage> {
 
   Future<void> sendSearchRequest(String text) async {
     // TODO: Write search request to server function
-    List<PodcastInfo> youtubeResults = await BackendApi().searchOnYoutube(text);
-    setState(() {
-      listOfAllSearchResults = youtubeResults;
-      listOfAllSearchResults.add(PodcastInfo(
-          "Result1Title",
-          "This is the Podcast result 1",
-          "artist1",
-          "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3"));
-      listOfAllSearchResults.add(PodcastInfo(
-          "Result2Title",
-          "This is the Podcast result 2",
-          "artist2",
-          "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3"));
-      listOfAllSearchResults.add(PodcastInfo(
-          "Result3Title",
-          "This is the Podcast result 3",
-          "artist3",
-          "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3"));
-    });
+
+    if(isYoutubeSourceActivated) {
+      List<PodcastInfo> youtubeResults = await BackendApi().searchOnYoutube(
+          text);
+      setState(() {
+        listOfAllSearchResults = youtubeResults;
+        listOfAllSearchResults.add(PodcastInfo(
+            "Result1Title",
+            "This is the Podcast result 1",
+            "artist1",
+            "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3"));
+        listOfAllSearchResults.add(PodcastInfo(
+            "Result2Title",
+            "This is the Podcast result 2",
+            "artist2",
+            "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3"));
+        listOfAllSearchResults.add(PodcastInfo(
+            "Result3Title",
+            "This is the Podcast result 3",
+            "artist3",
+            "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3"));
+      });
+    }
   }
 
   void showDialogMessage(String title, String message) {

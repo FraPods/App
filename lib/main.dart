@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frapods/main_page.dart';
 import 'package:frapods/podcast_player.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // import all class files (create one class per page)
 import 'home_page.dart';
@@ -21,6 +22,7 @@ class FraPodsApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     BackendApi().autoLogIn();
+    loadSettingsFromDevice();
 
     return ValueListenableBuilder<bool>(
         valueListenable: loginNotifier,
@@ -38,9 +40,9 @@ class FraPodsApp extends StatelessWidget {
                         //primaryColor: Colors.white,
                         colorScheme: ColorScheme.light(
                           primary: Color(0xff3884E6),
-                          primaryVariant: Color(0xFF99C4FD),
+                          primaryContainer: Color(0xFF99C4FD),
                           secondary: Color(0xFF424242),
-                          secondaryVariant: Color(0xff646464),
+                          secondaryContainer: Color(0xff646464),
                           surface: Color(0xffFFFDF4),
                           //ebeeee
                           background: Color(0xffcccccc),
@@ -61,9 +63,9 @@ class FraPodsApp extends StatelessWidget {
                         backgroundColor: backgroundColor(),
                         colorScheme: ColorScheme.dark(
                           primary: Color(0xff0264e3),
-                          primaryVariant: Color(0xff4889DD),
+                          primaryContainer: Color(0xff4889DD),
                           secondary: Color(0xFF646464),
-                          secondaryVariant: Color(0xff909090),
+                          secondaryContainer: Color(0xff909090),
                           surface: Color(0xff424242),
                           background: Color(0xff757575),
                           //Colors.grey.shade700,
@@ -177,15 +179,45 @@ MaterialColor generateMaterialColorFromColor(Color color) {
   });
 }
 
-final darkNotifier = ValueNotifier<bool>(true);
 
+
+const String DARKMODE_ACTIVATED_KEY = "isDarkModeActivated";
+const String YOUTUBE_SOURCE_ACTIVATED_KEY = "isYoutubeSourceActivated";
+const String FRAPODS_SOURCE_ACTIVATED_KEY = "isFrapodsSourceActivated";
+
+
+final darkNotifier = ValueNotifier<bool>(isDarkModeActivated);
 var loginNotifier = ValueNotifier<bool>(false);
+bool isDarkModeActivated = true;
+bool isYoutubeSourceActivated = true;
+bool isFrapodsSourceActivated = true;
 
 GlobalKey bottomnavKey = GlobalKey();
-//GlobalKey appbarKey = GlobalKey();
+// GlobalKey appbarKey = GlobalKey();
 Size? bottomnavSize = bottomnavKey.currentContext!.size;
-//Size? appbarSize = appbarKey.currentContext!.size;
+// Size? appbarSize = appbarKey.currentContext!.size;
 
-//to calculate sizes
+// To calculate sizes
 GlobalKey sizeKey = GlobalKey();
 Size? size = sizeKey.currentContext!.size;
+
+
+void saveBool(String key, bool value) async{
+  (await SharedPreferences.getInstance()).setBool(key, value);
+}
+
+Future<bool> getBool(String key) async {
+  bool? fetchedBool = (await SharedPreferences.getInstance()).getBool(key);
+  if(fetchedBool != null){
+    return fetchedBool;
+  } else {
+    return true;
+  }
+}
+
+void loadSettingsFromDevice() async{
+  isDarkModeActivated = await getBool(DARKMODE_ACTIVATED_KEY);
+  darkNotifier.value = isDarkModeActivated;
+  isFrapodsSourceActivated = await getBool(FRAPODS_SOURCE_ACTIVATED_KEY);
+  isYoutubeSourceActivated = await getBool(YOUTUBE_SOURCE_ACTIVATED_KEY);
+}

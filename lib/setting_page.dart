@@ -49,7 +49,7 @@ class _SettingPageState extends State<SettingPage> {
           child: Column(
               children: <Widget>[
                 Container(
-                  width: double.infinity,
+                  width: double.maxFinite,
                   padding: EdgeInsets.fromLTRB(5, 5, 0, 10),
                   child: Text("Basic Settings", 
                     style: subtitleTextStyle(),
@@ -66,7 +66,7 @@ class _SettingPageState extends State<SettingPage> {
                         textAlign: TextAlign.left,
                       ),
                     ),
-
+                    Spacer(),
                     Transform.scale(
                       scale: 1.2,
                       child: Switch(
@@ -74,11 +74,74 @@ class _SettingPageState extends State<SettingPage> {
                         activeTrackColor: Colors.blue.shade700,
                         value: darkNotifier.value,
                         onChanged: (_) {
+                          saveBool(DARKMODE_ACTIVATED_KEY, !darkNotifier.value);
+                          isDarkModeActivated = !isDarkModeActivated;
                           setState(() {darkNotifier.value = !darkNotifier.value;});
                         }
                       )
                       ),
                   ]
+                ),
+
+                Container(
+                  width: double.maxFinite,
+                  padding: EdgeInsets.fromLTRB(5, 5, 0, 10),
+                  child: Text("Sources",
+                    style: subtitleTextStyle(),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                Row(
+                    children: <Widget>[
+                      Container(
+                        alignment: Alignment.topLeft,
+                        padding: EdgeInsets.fromLTRB(15, 0, 20, 5),
+                        child: Text("FraPods",
+                          style: normalTextStyle2(),
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                      Spacer(),
+                      Transform.scale(
+                          scale: 1.2,
+                          child: Switch(
+                              activeColor: blueish(),
+                              activeTrackColor: Colors.blue.shade700,
+                              value: isFrapodsSourceActivated,
+                              onChanged: (_) {
+                                isFrapodsSourceActivated = !isFrapodsSourceActivated;
+                                setState(() {
+                                });
+                              }
+                          )
+                      ),
+                    ]
+                ),
+                Row(
+                    children: <Widget>[
+                      Container(
+                        alignment: Alignment.topLeft,
+                        padding: EdgeInsets.fromLTRB(15, 0, 20, 5),
+                        child: Text("Youtube:",
+                          style: normalTextStyle2(),
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                      Spacer(),
+                      Transform.scale(
+                          scale: 1.2,
+                          child: Switch(
+                              activeColor: blueish(),
+                              activeTrackColor: Colors.blue.shade700,
+                              value: isYoutubeSourceActivated,
+                              onChanged: (_) {
+                                isYoutubeSourceActivated = !isYoutubeSourceActivated;
+                                setState(() {
+                                });
+                              }
+                          )
+                      ),
+                    ]
                 ),
 
               // Logout Button
