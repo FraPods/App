@@ -191,12 +191,14 @@ const String FRAPODS_SOURCE_ACTIVATED_KEY = "isFrapodsSourceActivated";
 final darkNotifier = ValueNotifier<bool>(isDarkModeActivated);
 var loginNotifier = ValueNotifier<bool>(false);
 var currentPodcasatInfoNotifier = ValueNotifier<PodcastInfo>(PodcastInfo("NONE", "NONE", "NONE", "NONE"));
+var songDurationNotifier = ValueNotifier<Duration>(Duration(seconds: 0));
+var songProgressNotifier = ValueNotifier<Duration>(Duration(seconds: 0));
 
 bool isDarkModeActivated = true;
 bool isYoutubeSourceActivated = true;
 bool isFrapodsSourceActivated = true;
 
-PodcastPlayer podcastPlayer = PodcastPlayer();
+PodcastPlayer podcastPlayer = new PodcastPlayer();
 
 GlobalKey bottomnavKey = GlobalKey();
 Size? bottomnavSize = bottomnavKey.currentContext!.size;

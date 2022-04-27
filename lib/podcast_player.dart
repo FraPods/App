@@ -15,7 +15,19 @@ class PodcastPlayer {
   var _songCompleteListener;
 
 
-  // Public functions:
+  PodcastPlayer() {
+    log("Starting listenening in podcastplayer");
+    audioPlayer.onDurationChanged.listen((Duration duration) {
+      songDurationNotifier.value = duration;
+      log("updated seekbar status");
+    });
+    audioPlayer.onAudioPositionChanged.listen((Duration position) {
+      songProgressNotifier.value = position;
+      log("updated progress status to " + position.toString());
+    });
+  }
+
+  // Public functions :
 
   void playPodcast(PodcastInfo podcastInfo) async {
     audioPlayer.stop();
@@ -27,7 +39,7 @@ class PodcastPlayer {
       _songCompleted();
     });
     if (result != 1) {
-      //TODO: Error handling
+      playPodcast(podcastInfo);
     }
   }
 
@@ -35,8 +47,27 @@ class PodcastPlayer {
     _songQueue.add(podcastInfo);
   }
 
+  void pause(){
+    audioPlayer.pause();
+  }
 
-  // Private interal functions:
+  void resume() {
+    audioPlayer.resume();
+  }
+
+  void seek(Duration duration){
+    audioPlayer.seek(duration);
+    audioPlayer.resume();
+  }
+
+
+
+
+
+  // Private interal stuff:
+
+  Duration currentSongLength = Duration(seconds: 0);
+  Duration currentSongProgress = Duration(seconds: 0);
 
   void _songCompleted() async {
     log("song completed");

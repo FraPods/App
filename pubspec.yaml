@@ -39,6 +39,9 @@ dependencies:
   open_file: ^3.2.1
   image_picker: ^0.8.5
 
+  # Audio Player Progress Bar
+  audio_video_progress_bar: ^0.10.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

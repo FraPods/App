@@ -1,12 +1,15 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:frapods/main.dart';
 import 'package:frapods/main_page.dart';
 import 'package:frapods/podcast_info.dart';
 import 'package:frapods/podcast_player.dart';
+
+import 'duration_state.dart';
 
 class PodcastDetailsPage extends StatefulWidget {
   const PodcastDetailsPage({Key? key, required this.podcastInfo})
@@ -24,70 +27,101 @@ class PodcastDetailsPage extends StatefulWidget {
 class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
   // declare variables here:
   bool _isPlaying = podcastPlayer.audioPlayer.state == PlayerState.PLAYING;
+  Duration songDuration = songDurationNotifier.value;
+  Duration progressDuration = songProgressNotifier.value;
 
   @override
   Widget build(BuildContext context) {
     stream();
-
-    return Scaffold(
-      appBar: AppBar(),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 30),
-        child: Center(
-          child: Column(
-            children: <Widget>[
-              Text(
-                widget.podcastInfo.title,
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 5),
-              Text(
-                "By " + widget.podcastInfo.artist,
-                style: TextStyle(
-                  fontSize: 20,
-                ),
-              ),
-              SizedBox(height: 15),
-              Text(
-                "Description: " + widget.podcastInfo.description,
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-              Spacer(),
-              IconButton(
-                onPressed: () {
-                  if (podcastPlayer.audioPlayer.state == PlayerState.PAUSED) {
-                    podcastPlayer.audioPlayer.resume();
-                  } else {
-                    podcastPlayer.audioPlayer.pause();
-                  }
-                },
-                icon: _isPlaying ? Icon(Icons.pause) : Icon(Icons.play_arrow),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  stream() {
-    bool isPl = false;
-    StreamSubscription teaplayPauseSubscription =
-    podcastPlayer.audioPlayer.onPlayerStateChanged.listen((p) {
-      if (p == PlayerState.PLAYING) {
-        isPl = true;
-      } else if (p == PlayerState.PAUSED) {
-        isPl = false;
+    songDurationNotifier.addListener(() {
+      log("Received listener change");
+      if(mounted) {
+        setState(() {
+          songDuration = songDurationNotifier.value;
+        });
       }
-      setState(() {
-        _isPlaying = isPl;
-      });
     });
+    songProgressNotifier.addListener(() {
+      log("Received listener change");
+      if(mounted) {
+        setState(() {
+          progressDuration = songProgressNotifier.value;
+        });
+      }
+    });
+
+
+          return Scaffold(
+            appBar: AppBar(),
+            body: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 30),
+              child: Center(
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      widget.podcastInfo.title,
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                      "By " + widget.podcastInfo.artist,
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    Text(
+                      "Description: " + widget.podcastInfo.description,
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                    Spacer(),
+                    ProgressBar(
+                      progress: progressDuration,
+                      total: songDuration,
+                      onSeek: (duration) {
+                        podcastPlayer.seek(duration);
+                      },
+                    ),
+
+                    IconButton(
+                      onPressed: () {
+                        if (podcastPlayer.audioPlayer.state ==
+                            PlayerState.PAUSED) {
+                          podcastPlayer.audioPlayer.resume();
+                        } else {
+                          podcastPlayer.audioPlayer.pause();
+                        }
+                      },
+                      icon: _isPlaying ? Icon(Icons.pause) : Icon(
+                          Icons.play_arrow),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
   }
-}
+
+    stream() {
+      bool isPl = false;
+      StreamSubscription playPauseSubscription =
+      podcastPlayer.audioPlayer.onPlayerStateChanged.listen((p) {
+        if (p == PlayerState.PLAYING) {
+          isPl = true;
+        } else if (p == PlayerState.PAUSED) {
+          isPl = false;
+        }
+        if(mounted) {
+          setState(() {
+            _isPlaying = isPl;
+          });
+        }
+      });
+    }
+  }
