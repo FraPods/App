@@ -6,10 +6,9 @@ import 'package:frapods/podcast_info.dart';
 import 'podcast_player.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({Key? key, required this.notifyParent}) : super(key: key);
+  const SearchPage({Key? key}) : super(key: key);
 
   //following parameters MUST be passed:
-  final Function(PodcastInfo podcastInfo, bool musicMenuVisible) notifyParent;
 
   @override
   State<SearchPage> createState() {
@@ -99,21 +98,6 @@ class _SearchPageState extends State<SearchPage> {
           text);
       setState(() {
         listOfAllSearchResults = youtubeResults;
-        listOfAllSearchResults.add(PodcastInfo(
-            "Result1Title",
-            "This is the Podcast result 1",
-            "artist1",
-            "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3"));
-        listOfAllSearchResults.add(PodcastInfo(
-            "Result2Title",
-            "This is the Podcast result 2",
-            "artist2",
-            "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3"));
-        listOfAllSearchResults.add(PodcastInfo(
-            "Result3Title",
-            "This is the Podcast result 3",
-            "artist3",
-            "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3"));
       });
     }
   }
@@ -150,12 +134,12 @@ class _SearchPageState extends State<SearchPage> {
             if (podcastInfo.url.startsWith("GETURL")) {
               String url = await BackendApi()
                   .getUrlFromYtID(podcastInfo.url.substring(8));
-              playPodcast(PodcastInfo(podcastInfo.title,
+              podcastPlayer.playPodcast(PodcastInfo(podcastInfo.title,
                   podcastInfo.description, podcastInfo.artist, url));
             } else {
-              playPodcast(podcastInfo);
+              podcastPlayer.playPodcast(podcastInfo);
             }
-            widget.notifyParent(podcastInfo, true);
+
 
             Navigator.push(
               context,
@@ -172,10 +156,10 @@ class _SearchPageState extends State<SearchPage> {
             if (podcastInfo.url.startsWith("GETURL")) {
               String url = await BackendApi()
                   .getUrlFromYtID(podcastInfo.url.substring(8));
-              addSongToQueue(PodcastInfo(podcastInfo.title,
+              podcastPlayer.addSongToQueue(PodcastInfo(podcastInfo.title,
                   podcastInfo.description, podcastInfo.artist, url));
             } else {
-              addSongToQueue(podcastInfo);
+              podcastPlayer.addSongToQueue(podcastInfo);
             }
           },
           child: Container(

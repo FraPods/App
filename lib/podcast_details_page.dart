@@ -7,7 +7,6 @@ import 'package:frapods/main.dart';
 import 'package:frapods/main_page.dart';
 import 'package:frapods/podcast_info.dart';
 import 'package:frapods/podcast_player.dart';
-import 'package:frapods/title_changed_notification.dart';
 
 class PodcastDetailsPage extends StatefulWidget {
   const PodcastDetailsPage({Key? key, required this.podcastInfo})
@@ -24,7 +23,7 @@ class PodcastDetailsPage extends StatefulWidget {
 
 class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
   // declare variables here:
-  bool _isPlaying = audioPlayer.state == PlayerState.PLAYING;
+  bool _isPlaying = podcastPlayer.audioPlayer.state == PlayerState.PLAYING;
 
   @override
   Widget build(BuildContext context) {
@@ -62,10 +61,10 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
               Spacer(),
               IconButton(
                 onPressed: () {
-                  if (audioPlayer.state == PlayerState.PAUSED) {
-                    audioPlayer.resume();
+                  if (podcastPlayer.audioPlayer.state == PlayerState.PAUSED) {
+                    podcastPlayer.audioPlayer.resume();
                   } else {
-                    audioPlayer.pause();
+                    podcastPlayer.audioPlayer.pause();
                   }
                 },
                 icon: _isPlaying ? Icon(Icons.pause) : Icon(Icons.play_arrow),
@@ -80,7 +79,7 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
   stream() {
     bool isPl = false;
     StreamSubscription teaplayPauseSubscription =
-        audioPlayer.onPlayerStateChanged.listen((p) {
+    podcastPlayer.audioPlayer.onPlayerStateChanged.listen((p) {
       if (p == PlayerState.PLAYING) {
         isPl = true;
       } else if (p == PlayerState.PAUSED) {

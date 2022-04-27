@@ -11,7 +11,6 @@ import 'package:frapods/podcast_info.dart';
 import 'package:frapods/podcast_player.dart';
 import 'package:frapods/profile_page.dart';
 import 'package:frapods/search_page.dart';
-import 'package:frapods/title_changed_notification.dart';
 import 'dart:developer';
 
 class MainPage extends StatefulWidget {
@@ -34,11 +33,6 @@ class _MainPageState extends State<MainPage> {
   bool _musicControlMenuVisible = false;
   bool _isPlaying = false;
 
-  String currentTitle = "";
-  String currentArtist = "";
-  String currentDescription = "";
-  PodcastInfo currentPodcasatInfo = PodcastInfo("...", "...", "...", "...");
-
   int _selectedIndex = 0;
   int _navbarIndex = 0;
   bool _isSearchBarOpened = false;
@@ -53,176 +47,156 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     stream();
-    return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-          key: bottomnavKey,
-          backgroundColor: generateMaterialColorFromColor(Color(0xffebf7ff)),
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              backgroundColor: blueish(),
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              backgroundColor: blueish(),
-              icon: Icon(Icons.search),
-              label: 'Search',
-            ),
-            BottomNavigationBarItem(
-              backgroundColor: blueish(),
-              icon: Icon(Icons.cloud_upload),
-              label: 'Upload',
-            ),
-            BottomNavigationBarItem(
-              backgroundColor: blueish(),
-              icon: Icon(Icons.account_circle),
-              label: 'Account',
-            ),
-          ],
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.grey,
-          currentIndex: _selectedIndex <= 3 ? _selectedIndex : _navbarIndex,
-          //New
-          onTap: (int index) {
-            setState(() {
-              _selectedIndex = index;
-              _navbarIndex = index;
-            });
-          }),
-      body: Column(
-        children: <Widget>[
-          NotificationListener<PodcastChangedNotification>(
-            onNotification: (PodcastChangedNotification notification) {
-              setState(() {
-                currentTitle = notification.podcastInfo.title;
-                currentArtist = notification.podcastInfo.artist;
-                currentDescription = notification.podcastInfo.description;
-              });
-              return true;
-            },
-            child: Container(),
-          ),
-          Expanded(
-            child: IndexedStack(
-              index: _selectedIndex,
-              children: [
-                HomePage(
-                  setPage: setPage,
-                ),
-                SearchPage(notifyParent: refresh),
-                UploadPage(
-                  setPage: setPage,
-                ),
-                ProfilePage(
-                  setPage: setPage,
-                ),
-                SettingPage(setPage: setPage),
-              ],
-            ),
-          ),
-          Visibility(
-            visible: _musicControlMenuVisible,
-            child: Container(
-              margin: EdgeInsets.only(bottom: 15, right: 10, left: 10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.horizontal(
-                    right: Radius.circular(15), left: Radius.circular(15)),
-                color: Theme.of(context).colorScheme.background,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.4),
-                    spreadRadius: 1,
-                    blurRadius: 5,
-                    offset: Offset(4, 7),
+
+    return ValueListenableBuilder<PodcastInfo>(
+        valueListenable: currentPodcasatInfoNotifier,
+        builder: (BuildContext context, PodcastInfo currentPodcastInfo, Widget? child) {
+          return Scaffold(
+            bottomNavigationBar: BottomNavigationBar(
+                key: bottomnavKey,
+                backgroundColor:
+                    generateMaterialColorFromColor(Color(0xffebf7ff)),
+                items: <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    backgroundColor: blueish(),
+                    icon: Icon(Icons.home),
+                    label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    backgroundColor: blueish(),
+                    icon: Icon(Icons.search),
+                    label: 'Search',
+                  ),
+                  BottomNavigationBarItem(
+                    backgroundColor: blueish(),
+                    icon: Icon(Icons.cloud_upload),
+                    label: 'Upload',
+                  ),
+                  BottomNavigationBarItem(
+                    backgroundColor: blueish(),
+                    icon: Icon(Icons.account_circle),
+                    label: 'Account',
                   ),
                 ],
-              ),
-              height: 50,
-              alignment: Alignment.centerLeft,
-              child: GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () {
-                  log("Layout clicked");
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) {
-                      PodcastDetailsPage(podcastInfo: currentPodcasatInfo);
-                      return PodcastDetailsPage(
-                          podcastInfo: currentPodcasatInfo);
-                    }),
-                  );
-                },
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    IconButton(
-                      padding: EdgeInsets.zero,
-                      color: Colors.white,
-                      icon: _isPlaying
-                          ? Icon(
-                              Icons.pause,
-                              size: 40.0,
-                            )
-                          : Icon(Icons.play_arrow, size: 40.0),
-                      onPressed: () {
-                        if (_isPlaying) {
-                          setState(() {
-                            _isPlaying = false;
-                          });
-                          audioPlayer.pause();
-                        } else {
-                          setState(() {
-                            _isPlaying = true;
-                          });
-                          audioPlayer.resume();
-                        }
-                      },
-                    ),
-                    Flexible(
-                      flex: 70,
-                      child: Container(
-                        padding: EdgeInsets.only(right: 17),
-                        child: Text(
-                          currentTitle + " by " + currentArtist,
-                          maxLines: 1,
-                          style: normalTextStyle(),
-                          overflow: TextOverflow.fade,
-                          softWrap: false,
+                selectedItemColor: Colors.white,
+                unselectedItemColor: Colors.grey,
+                currentIndex:
+                    _selectedIndex <= 3 ? _selectedIndex : _navbarIndex,
+                //New
+                onTap: (int index) {
+                  setState(() {
+                    _selectedIndex = index;
+                    _navbarIndex = index;
+                  });
+                }),
+            body: Column(
+              children: <Widget>[
+                Expanded(
+                  child: IndexedStack(
+                    index: _selectedIndex,
+                    children: [
+                      HomePage(
+                        setPage: setPage,
+                      ),
+                      SearchPage(),
+                      UploadPage(
+                        setPage: setPage,
+                      ),
+                      ProfilePage(
+                        setPage: setPage,
+                      ),
+                      SettingPage(setPage: setPage),
+                    ],
+                  ),
+                ),
+                Visibility(
+                  visible: !(currentPodcastInfo.title == "NONE" && currentPodcastInfo.artist == "NONE"),
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 15, right: 10, left: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.horizontal(
+                          right: Radius.circular(15),
+                          left: Radius.circular(15)),
+                      color: Theme.of(context).colorScheme.background,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.4),
+                          spreadRadius: 1,
+                          blurRadius: 5,
+                          offset: Offset(4, 7),
                         ),
+                      ],
+                    ),
+                    height: 50,
+                    alignment: Alignment.centerLeft,
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () {
+                        log("Layout clicked");
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            PodcastDetailsPage(
+                                podcastInfo: currentPodcastInfo);
+                            return PodcastDetailsPage(
+                                podcastInfo: currentPodcastInfo);
+                          }),
+                        );
+                      },
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          IconButton(
+                            padding: EdgeInsets.zero,
+                            color: Colors.white,
+                            icon: _isPlaying
+                                ? Icon(
+                                    Icons.pause,
+                                    size: 40.0,
+                                  )
+                                : Icon(Icons.play_arrow, size: 40.0),
+                            onPressed: () {
+                              if (_isPlaying) {
+                                setState(() {
+                                  _isPlaying = false;
+                                });
+                                podcastPlayer.audioPlayer.pause();
+                              } else {
+                                setState(() {
+                                  _isPlaying = true;
+                                });
+                                podcastPlayer.audioPlayer.resume();
+                              }
+                            },
+                          ),
+                          Flexible(
+                            flex: 70,
+                            child: Container(
+                              padding: EdgeInsets.only(right: 17),
+                              child: Text(
+                                currentPodcastInfo.title + " by " + currentPodcastInfo.artist,
+                                maxLines: 1,
+                                style: normalTextStyle(),
+                                overflow: TextOverflow.fade,
+                                softWrap: false,
+                              ),
+                            ),
+                          ),
+                          Spacer(),
+                        ],
                       ),
                     ),
-                    Spacer(),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          ),
-        ],
-      ),
 
-      // to calculate sizes
-      //floatingActionButton: FloatingActionButton(onPressed:_getSize),
-    );
+            // to calculate sizes
+            //floatingActionButton: FloatingActionButton(onPressed:_getSize),
+          );
+        });
   }
 
-  void updatePodcastInfo(PodcastInfo podcastInfo) {
-    print("DEBUGPODS method page called");
-    setState(() {
-      currentTitle = podcastInfo.title;
-      currentArtist = podcastInfo.artist;
-      currentDescription = podcastInfo.description;
-    });
-  }
-
-  refresh(PodcastInfo podcastInfo, bool musicMenuVisible) {
-    setState(() {
-      currentTitle = podcastInfo.title;
-      currentArtist = podcastInfo.artist;
-      currentDescription = podcastInfo.description;
-      currentPodcasatInfo = podcastInfo;
-      _musicControlMenuVisible = musicMenuVisible;
-    });
-  }
 
   setPage(int index) {
     if (index == -1) {
@@ -239,7 +213,7 @@ class _MainPageState extends State<MainPage> {
   stream() {
     bool isPl = false;
     StreamSubscription teaplayPauseSubscription =
-        audioPlayer.onPlayerStateChanged.listen((p) {
+        podcastPlayer.audioPlayer.onPlayerStateChanged.listen((p) {
       if (p == PlayerState.PLAYING) {
         isPl = true;
       } else if (p == PlayerState.PAUSED) {

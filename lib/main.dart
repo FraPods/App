@@ -1,5 +1,7 @@
+
 import 'package:flutter/material.dart';
 import 'package:frapods/main_page.dart';
+import 'package:frapods/podcast_info.dart';
 import 'package:frapods/podcast_player.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -188,14 +190,17 @@ const String FRAPODS_SOURCE_ACTIVATED_KEY = "isFrapodsSourceActivated";
 
 final darkNotifier = ValueNotifier<bool>(isDarkModeActivated);
 var loginNotifier = ValueNotifier<bool>(false);
+var currentPodcasatInfoNotifier = ValueNotifier<PodcastInfo>(PodcastInfo("NONE", "NONE", "NONE", "NONE"));
+
 bool isDarkModeActivated = true;
 bool isYoutubeSourceActivated = true;
 bool isFrapodsSourceActivated = true;
 
+PodcastPlayer podcastPlayer = PodcastPlayer();
+
 GlobalKey bottomnavKey = GlobalKey();
-// GlobalKey appbarKey = GlobalKey();
 Size? bottomnavSize = bottomnavKey.currentContext!.size;
-// Size? appbarSize = appbarKey.currentContext!.size;
+
 
 // To calculate sizes
 GlobalKey sizeKey = GlobalKey();
