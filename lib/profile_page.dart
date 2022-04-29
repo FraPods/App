@@ -38,10 +38,26 @@ class _ProfilePageState extends State<ProfilePage> {
         height: pageHeight,
         child: ListView(
           children: [Padding(
-            padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
             child: Center(child: Column(
                 children: <Widget>[
-                  Card(),
+                  Card(
+                    //margin: EdgeInsets.symmetric(horizontal: 13, vertical: 10),
+                    color: Theme.of(context).colorScheme.primaryContainer,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                      height: pageHeight /4,
+                      child:Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                        Row(children: [
+                          Container(decoration: BoxDecoration(border: Border.all(color: Colors.pink, width: 2)),
+                          height: 20,width: 50,)
+
+                        ],)
+                      ],)
+                    )
+                  ),
                 ],
               ),
             ),

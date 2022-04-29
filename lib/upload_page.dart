@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:frapods/podcast_details_page.dart';
 import 'package:open_file/open_file.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -85,7 +86,7 @@ class _UploadPageState extends State<UploadPage> {
                 children: <Widget>[
                   Container(
                     width: double.maxFinite,
-                    height: MediaQuery.of(context).size.height > 350 ? pageHeight * 0.0965517 : 33,
+                    height: 70,
                     child: TextButton(
                       onPressed: () => _newPodcast(context),
                       child: Text('+ New Podcast'),
@@ -121,7 +122,7 @@ class _UploadPageState extends State<UploadPage> {
 
                         Container(
                           margin: EdgeInsets.symmetric(vertical: 10),
-                          height: MediaQuery.of(context).size.height > 350 ? pageHeight * 0.5102814 : 178,
+                          height: MediaQuery.of(context).size.height > 350 ? pageHeight * 0.5102814 : 200,
                           child: podcasts.isEmpty?
                           Center(
                             child: (Text('Empty List.....', style: TextStyle(fontSize:18)))
@@ -145,11 +146,17 @@ class _UploadPageState extends State<UploadPage> {
 
   Widget myPodcast (PodcastInfo podcastInfo){
     return InkWell(
-      onTap:(){},
+      onTap:(){
+        // TODO: link to podcast detail page
+        // MaterialPageRoute(builder: (context) {
+        //   PodcastDetailsPage(podcastInfo: podcastInfo);
+        //   return PodcastDetailsPage(podcastInfo: podcastInfo);
+        // });
+      },
       //onHover: ,
       child: Card(
         margin: EdgeInsets.symmetric(horizontal: 13, vertical: 10),
-        color: Theme.of(context).colorScheme.primaryVariant,
+        color: Theme.of(context).colorScheme.primaryContainer,
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
           child: Column(
@@ -166,20 +173,31 @@ class _UploadPageState extends State<UploadPage> {
                   maxLines: 1,
                 ),
               ),
-              Container(
-                margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                child: Text(
-                  podcastInfo.description.isEmpty?
-                  'Description: no description available'
-                  :
-                  'Description: ' + podcastInfo.description,
-                  textAlign: TextAlign.left,
-                  overflow: TextOverflow.fade,
-                  softWrap: false,
-                  maxLines: 3,
-                  style: TextStyle(fontSize: 16),
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    //width: MediaQuery.of(context).size.width /2,
+                    padding: EdgeInsets.fromLTRB(0, 0, 5, 0),
+                    child: Text(
+                      podcastInfo.description.isEmpty?
+                      'Description: no description available'
+                      :
+                      'Description: ' + podcastInfo.description,
+                      textAlign: TextAlign.left,
+                      overflow: TextOverflow.fade,
+                      softWrap: false,
+                      maxLines: 3,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+              //     IconButton(onPressed: (){}, icon: Icon(Icons.edit, size: 18,), padding: EdgeInsets.all(0),
+              //  alignment: Alignment.centerLeft,),
+              // IconButton(onPressed: (){}, icon: Icon(Icons.delete, size: 18), padding: EdgeInsets.all(0),
+              //  alignment: Alignment.centerLeft,)
+                ],
               ),
+              
             ],
           ),
         ),
