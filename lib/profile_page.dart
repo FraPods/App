@@ -36,30 +36,46 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: Container(
         height: pageHeight,
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         child: ListView(
-          children: [Padding(
-            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-            child: Center(child: Column(
-                children: <Widget>[
-                  Card(
-                    //margin: EdgeInsets.symmetric(horizontal: 13, vertical: 10),
-                    color: Theme.of(context).colorScheme.primaryContainer,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                      height: pageHeight /4,
-                      child:Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                        Row(children: [
-                          Container(decoration: BoxDecoration(border: Border.all(color: Colors.pink, width: 2)),
-                          height: 20,width: 50,)
+          children: [Center(child: Column(
+              children: <Widget>[
+                Card(
+                  //margin: EdgeInsets.symmetric(horizontal: 13, vertical: 10),
+                  color: Theme.of(context).colorScheme.primaryContainer,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                    height: pageHeight /4,
+                    child:Column(
+                      //crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                      Row(children: [
+                        Container(decoration: BoxDecoration(border: Border.all(color: Colors.pink, width: 2)),
+                        height: pageHeight /4 /2,width: pageHeight /4 /2,),
+                        SizedBox(width: 15,),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Container(
+                                margin: EdgeInsets.only(right:5),
+                                child: Text('Username', 
+                                  style: TextStyle(fontSize: 18),
+                                  maxLines: 1,
+                                  textAlign: TextAlign.left,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: false,),
+                              ),
+                            )
 
-                        ],)
+                          ],
+                        )
+
                       ],)
-                    )
-                  ),
-                ],
-              ),
+                    ],)
+                  )
+                ),
+              ],
             ),
           ),
           ],

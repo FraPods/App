@@ -122,7 +122,8 @@ class _UploadPageState extends State<UploadPage> {
 
                         Container(
                           margin: EdgeInsets.symmetric(vertical: 10),
-                          height: MediaQuery.of(context).size.height > 350 ? pageHeight * 0.5102814 : 200,
+                          height: //MediaQuery.of(context).size.height > 350 ? pageHeight * 0.5102814 : 200,
+                          370,
                           child: podcasts.isEmpty?
                           Center(
                             child: (Text('Empty List.....', style: TextStyle(fontSize:18)))
@@ -176,19 +177,21 @@ class _UploadPageState extends State<UploadPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Container(
-                    //width: MediaQuery.of(context).size.width /2,
-                    padding: EdgeInsets.fromLTRB(0, 0, 5, 0),
-                    child: Text(
-                      podcastInfo.description.isEmpty?
-                      'Description: no description available'
-                      :
-                      'Description: ' + podcastInfo.description,
-                      textAlign: TextAlign.left,
-                      overflow: TextOverflow.fade,
-                      softWrap: false,
-                      maxLines: 3,
-                      style: TextStyle(fontSize: 16),
+                  Expanded(
+                    child: Container(
+                      //width: MediaQuery.of(context).size.width /2,
+                      padding: EdgeInsets.only(right:5),
+                      child: Text(
+                        podcastInfo.description.isEmpty?
+                        'Description: no description available'
+                        :
+                        'Description: ' + podcastInfo.description,
+                        textAlign: TextAlign.left,
+                        overflow: TextOverflow.fade,
+                        softWrap: false,
+                        maxLines: 3,
+                        style: TextStyle(fontSize: 16),
+                      ),
                     ),
                   ),
               //     IconButton(onPressed: (){}, icon: Icon(Icons.edit, size: 18,), padding: EdgeInsets.all(0),
