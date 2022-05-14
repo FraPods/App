@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:frapods/main_page.dart';
 import 'package:frapods/podcast_info.dart';
@@ -116,6 +115,25 @@ TextStyle titleTextStyle() {
   ;
 }
 
+TextStyle loginTextStyle() {
+  return TextStyle(
+    fontSize: 15,
+  );
+}
+
+TextStyle shadowTextStyle2() {
+  return TextStyle(
+    fontSize: 18,
+  );
+}
+
+TextStyle loginTitleTextStyle() {
+  return TextStyle(
+    fontSize: 32,
+    fontWeight: FontWeight.bold,
+  );
+}
+
 TextStyle normalTextStyle() {
   return TextStyle(
     fontSize: 16,
@@ -181,16 +199,14 @@ MaterialColor generateMaterialColorFromColor(Color color) {
   });
 }
 
-
-
 const String DARKMODE_ACTIVATED_KEY = "isDarkModeActivated";
 const String YOUTUBE_SOURCE_ACTIVATED_KEY = "isYoutubeSourceActivated";
 const String FRAPODS_SOURCE_ACTIVATED_KEY = "isFrapodsSourceActivated";
 
-
 final darkNotifier = ValueNotifier<bool>(isDarkModeActivated);
 var loginNotifier = ValueNotifier<bool>(false);
-var currentPodcasatInfoNotifier = ValueNotifier<PodcastInfo>(PodcastInfo("NONE", "NONE", "NONE", "NONE"));
+var currentPodcasatInfoNotifier =
+    ValueNotifier<PodcastInfo>(PodcastInfo("NONE", "NONE", "NONE", "NONE"));
 var songDurationNotifier = ValueNotifier<Duration>(Duration(seconds: 0));
 var songProgressNotifier = ValueNotifier<Duration>(Duration(seconds: 0));
 
@@ -203,26 +219,24 @@ PodcastPlayer podcastPlayer = new PodcastPlayer();
 GlobalKey bottomnavKey = GlobalKey();
 Size? bottomnavSize = bottomnavKey.currentContext!.size;
 
-
 // To calculate sizes
 GlobalKey sizeKey = GlobalKey();
 Size? size = sizeKey.currentContext!.size;
 
-
-void saveBool(String key, bool value) async{
+void saveBool(String key, bool value) async {
   (await SharedPreferences.getInstance()).setBool(key, value);
 }
 
 Future<bool> getBool(String key) async {
   bool? fetchedBool = (await SharedPreferences.getInstance()).getBool(key);
-  if(fetchedBool != null){
+  if (fetchedBool != null) {
     return fetchedBool;
   } else {
     return true;
   }
 }
 
-void loadSettingsFromDevice() async{
+void loadSettingsFromDevice() async {
   isDarkModeActivated = await getBool(DARKMODE_ACTIVATED_KEY);
   darkNotifier.value = isDarkModeActivated;
   isFrapodsSourceActivated = await getBool(FRAPODS_SOURCE_ACTIVATED_KEY);

@@ -1,4 +1,7 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:frapods/main_page.dart';
 import 'main.dart';
 import 'backend_api.dart';
@@ -14,7 +17,8 @@ class LoginPage extends StatefulWidget {
 }
 
 // Here is the layout and the action triggers
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage>
+    with SingleTickerProviderStateMixin {
   // declare variables here:
   TextEditingController _usernameTextController = TextEditingController();
   TextEditingController _passwordTextController = TextEditingController();
@@ -28,246 +32,154 @@ class _LoginPageState extends State<LoginPage> {
   //   super.dispose();
   // }
 
+  bool isLogin = true;
+  late Animation<double> containerSize;
+  late AnimationController animationController;
+  Duration animationDuration = Duration(milliseconds: 250);
+
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+    animationController =
+        AnimationController(vsync: this, duration: animationDuration);
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
+    double viewInset =
+        MediaQuery.of(context).viewInsets.bottom; //keyboard check
+    double defaultLoginSize = size.height - (size.height * 0.2);
+    double defaultRegisterSize = size.height - (size.height * 0.1);
+
+    containerSize = Tween<double>(
+            begin: size.height * 0.1, end: defaultRegisterSize)
+        .animate(
+            CurvedAnimation(parent: animationController, curve: Curves.linear));
+
     return Scaffold(
-      appBar: AppBar(
-        title: Image.asset(
-          'assets/icon-round.png',
-          fit: BoxFit.fitHeight,
-          height: 40,
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 8),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  "FraPods",
-                  style: titleTextStyle(),
-                ),
-
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                  child: TextFormField(
-                    style: normalTextStyle(),
-                    controller: _usernameTextController,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(), labelText: 'Username'),
-                  ),
-                ),
-
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                  child: TextField(
-                    style: normalTextStyle(),
-                    obscureText: true,
-                    enableSuggestions: false,
-                    autocorrect: false,
-                    controller: _passwordTextController,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(), labelText: 'Password'),
-                  ),
-                ),
-
-                Visibility(
-                  visible: _showSignUp,
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                        child: TextField(
-                          controller: _firstnameTextController,
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: 'Firstname'),
-                        ),
+      body: Stack(
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: SingleChildScrollView(
+              child: Container(
+                width: size.width,
+                height: defaultLoginSize,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Welcome',
+                      style: loginTitleTextStyle(),
+                    ),
+                    SizedBox(height: 40),
+                    Image.asset(
+                      'assets/icon-round.png',
+                      height: 250,
+                      width: 250,
+                    ),
+                    SizedBox(height: 40),
+                    Container(
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      width: size.width * 0.8,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: backgroundColor()),
+                      child: TextField(
+                        decoration: InputDecoration(
+                            icon: Icon(Icons.email, color: blueish()),
+                            hintText: 'Username',
+                            border: InputBorder.none),
                       ),
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                        child: TextField(
-                          controller: _lastnameTextController,
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: 'Lastname'),
-                        ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      width: size.width * 0.8,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: backgroundColor()),
+                      child: TextField(
+                        obscureText: true,
+                        decoration: InputDecoration(
+                            icon: Icon(Icons.lock, color: blueish()),
+                            hintText: 'Password',
+                            border: InputBorder.none),
                       ),
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                        child: TextField(
-                          controller: _emailTextController,
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: 'E-Mail'),
+                    ),
+                    InkWell(
+                      onTap: () {},
+                      borderRadius: BorderRadius.circular(30),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        alignment: Alignment.center,
+                        width: size.width * 0.8,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: blueish(),
                         ),
-                      ),
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: OutlinedButton(
-                                  onPressed: () => signUp(
-                                        _usernameTextController.text.trim(),
-                                        _passwordTextController.text.trim(),
-                                        _firstnameTextController.text.trim(),
-                                        _lastnameTextController.text.trim(),
-                                        _emailTextController.text.trim(),
-                                      ),
-                                  child: const Text("Sign Up")),
-                            ),
-                          ],
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          setState(() {
-                            _showSignUp = false;
-                          });
-                        },
                         child: Text(
-                          "Already have an account? Log In",
-                          style: shadowTextStyle(),
+                          'Login',
+                          style: loginTextStyle(),
                         ),
                       ),
-                    ],
-                  ),
+                    )
+                  ],
                 ),
-
-                Visibility(
-                  visible: !_showSignUp,
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: OutlinedButton(
-                                onPressed: () => logIn(
-                                    _usernameTextController.text.toString(),
-                                    _passwordTextController.text.toString()),
-                                child: const Text("Log In"),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      TextButton(
-                          onPressed: () {
-                            setState(() {
-                              _showSignUp = true;
-                            });
-                          },
-                          child: Text(
-                            "Don't have an account? Sign Up",
-                            style: shadowTextStyle(),
-                          ))
-                    ],
-                  ),
-                ),
-
-                // Layout with Sign Up button
-              ],
+              ),
             ),
+          ),
+          AnimatedBuilder(
+            animation: animationController,
+            builder: (context, child) {
+              return buildRegisterContainer();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildRegisterContainer() {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Container(
+        width: double.infinity,
+        height: containerSize.value,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(100),
+            topRight: Radius.circular(100),
+          ),
+          color: backgroundColor(),
+        ),
+        alignment: Alignment.center,
+        child: GestureDetector(
+          onTap: () {
+            animationController.forward();
+            setState(() {
+              isLogin = !isLogin;
+            });
+          },
+          child: Text(
+            "Don't have an account? Sign Up",
+            style: normalTextStyle(),
           ),
         ),
       ),
-
-      // temporary button for testing
-      floatingActionButton: FloatingActionButton(
-        child: Text('skip login'),
-        onPressed: () {
-        setState(() {
-        loginNotifier.value = true;
-        });
-      }),
     );
   }
-
-  // Write class-internal methods here
-
-  Future<void> logIn(String username, String password) async {
-    if (username.isEmpty) {
-      showDialogMessage("Login failed", "Please enter a username!");
-      return;
-    }
-    if (password.isEmpty) {
-      showDialogMessage("Login failed", "Please enter a password!");
-      return;
-    } else {
-      String result = await BackendApi().logIn(username, password);
-      switch (result) {
-        case "200":
-          showDialogMessage("Login: Authentication",
-              "FraPods uses 2 factor authentication. You will receive an E-Mail asking you to verify this device. Click the link and then restart this app to log in!");
-          break;
-      }
-    }
-  }
-
-  Future<void> signUp(String username, String password, String firstname,
-      String lastname, String email) async {
-    if (username.isEmpty) {
-      showDialogMessage("Sign Up failed", "Please enter a username!");
-      return;
-    } else if (password.isEmpty) {
-      showDialogMessage("Sign Up failed", "Please enter a password!");
-      return;
-    } else if (firstname.isEmpty) {
-      showDialogMessage("Sign Up failed", "Please enter your Firstname!");
-      return;
-    } else if (lastname.isEmpty) {
-      showDialogMessage("Sign Up failed", "Please enter your Lastname!");
-      return;
-    } else if (email.isEmpty) {
-      showDialogMessage("Sign Up failed", "Please enter your E-Mail address");
-    } else {
-      //TODO Waiting animation here (eg. circle spinning").
-
-      String result = await BackendApi()
-          .createAccount(username, password, firstname, lastname, email);
-      switch (result) {
-        case "200":
-          showDialogMessage("Registration was successful!",
-              "The registration was successful. You can now log in!");
-          setState(() {
-            _showSignUp = false;
-          });
-          break;
-      }
-    }
-  }
-
-  void showDialogMessage(String title, String message) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: Text(title),
-          content: Text(message),
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            TextButton(
-              child: Text("Close"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-// All class-internal methods should go above this line
 }
