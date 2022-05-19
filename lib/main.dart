@@ -1,10 +1,13 @@
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:frapods/main_page.dart';
 import 'package:frapods/podcast_info.dart';
 import 'package:frapods/podcast_player.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:frapods/playlist_info.dart';
+import 'package:localstorage/localstorage.dart';
 // import all class files (create one class per page)
 import 'home_page.dart';
 import 'login_page.dart';
@@ -19,12 +22,19 @@ void main() {
 // Each Page should have its own file (eg. "the_page.dart").  No spaces and no capital letters.
 
 class FraPodsApp extends StatelessWidget {
+
+  void init() async {
+    BackendApi().autoLogIn();
+    loadSettingsFromDevice();
+    await loadAllPlaylistsFromDevice();
+  }
+
   const FraPodsApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    BackendApi().autoLogIn();
-    loadSettingsFromDevice();
+
+  init();
 
     return ValueListenableBuilder<bool>(
         valueListenable: loginNotifier,
@@ -227,4 +237,42 @@ void loadSettingsFromDevice() async{
   darkNotifier.value = isDarkModeActivated;
   isFrapodsSourceActivated = await getBool(FRAPODS_SOURCE_ACTIVATED_KEY);
   isYoutubeSourceActivated = await getBool(YOUTUBE_SOURCE_ACTIVATED_KEY);
+}
+
+
+
+final LocalStorage storage = LocalStorage('storage');
+List<PlaylistData> listOfAllPlaylists = [PlaylistData("queue", [])];
+int currentPlaylistInList = 0;
+
+
+Future<void> savePlaylistToDevice(PlaylistData playlistData) async {
+
+  if(playlistData.name != "queue") {
+    String key = playlistData.name;
+    List<PodcastInfo> songList = playlistData.podcasts;
+    String jsonStr = jsonEncode(songList);
+    await storage.setItem(key, jsonStr);
+
+    // Update playlist register
+    var registerString = await storage.getItem("register");
+    List<String> registerList = [];
+    if (registerString == Null || registerString == null) {
+      await storage.setItem("register", jsonEncode([key]));
+    } else {
+      registerList = List.from(jsonDecode(registerString) as List);
+
+      registerList.add(key);
+      await storage.setItem("register", jsonEncode(registerList));
+    }
+  }
+
+}
+
+Future<void> loadAllPlaylistsFromDevice() async {
+  List<String> keys = List.from(jsonDecode(await storage.getItem("register")));
+  for(String key in keys){
+    List<PodcastInfo> currentPlaylist = (jsonDecode(await storage.getItem(key)) as List).map((podcastInfoJson) => PodcastInfo.fromJson(podcastInfoJson)).toList();
+    listOfAllPlaylists.add(PlaylistData(key, currentPlaylist));
+  }
 }

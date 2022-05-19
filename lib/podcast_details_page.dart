@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
-
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
-import 'package:audioplayers/audioplayers.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:frapods/main.dart';
 import 'package:frapods/main_page.dart';
@@ -26,7 +25,7 @@ class PodcastDetailsPage extends StatefulWidget {
 
 class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
   // declare variables here:
-  bool _isPlaying = podcastPlayer.audioPlayer.state == PlayerState.PLAYING;
+  bool _isPlaying = podcastPlayer.audioPlayer.playing;
   Duration songDuration = songDurationNotifier.value;
   Duration progressDuration = songProgressNotifier.value;
 
@@ -34,7 +33,6 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
   Widget build(BuildContext context) {
     stream();
     songDurationNotifier.addListener(() {
-      log("Received listener change");
       if(mounted) {
         setState(() {
           songDuration = songDurationNotifier.value;
@@ -42,7 +40,6 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
       }
     });
     songProgressNotifier.addListener(() {
-      log("Received listener change");
       if(mounted) {
         setState(() {
           progressDuration = songProgressNotifier.value;
@@ -91,9 +88,8 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
 
                     IconButton(
                       onPressed: () {
-                        if (podcastPlayer.audioPlayer.state ==
-                            PlayerState.PAUSED) {
-                          podcastPlayer.audioPlayer.resume();
+                        if (!podcastPlayer.audioPlayer.playing) {
+                          podcastPlayer.audioPlayer.play();
                         } else {
                           podcastPlayer.audioPlayer.pause();
                         }
@@ -108,20 +104,12 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
           );
   }
 
-    stream() {
-      bool isPl = false;
-      StreamSubscription playPauseSubscription =
-      podcastPlayer.audioPlayer.onPlayerStateChanged.listen((p) {
-        if (p == PlayerState.PLAYING) {
-          isPl = true;
-        } else if (p == PlayerState.PAUSED) {
-          isPl = false;
-        }
-        if(mounted) {
-          setState(() {
-            _isPlaying = isPl;
-          });
-        }
+  stream() {
+    StreamSubscription teaplayPauseSubscription =
+    podcastPlayer.audioPlayer.playingStream.listen((bool isPl) {
+      setState(() {
+        _isPlaying = isPl;
       });
-    }
+    });
+  }
   }

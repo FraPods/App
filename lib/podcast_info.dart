@@ -16,6 +16,20 @@ class PodcastInfo{
     this.url = url;
   }
 
+
+  Map toJson() {
+    return {
+      'title': title,
+      'description': description,
+      'artist': artist,
+      'url': url,
+    };
+  }
+
+  factory PodcastInfo.fromJson(dynamic json) {
+    return PodcastInfo(json['title'] as String, json['description'] as String, json['artist'] as String, json['url'] as String);
+  }
+
   PodcastInfo.only ({this.title ="",this.description = "", this.artist = "", this.url = ""});
 
 }

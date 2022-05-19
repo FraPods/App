@@ -1,50 +1,56 @@
 import 'dart:developer';
-
-import 'package:audioplayers/audioplayers.dart';
+import 'dart:io';
+import 'package:flutter/services.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:frapods/main.dart';
 import 'package:frapods/podcast_info.dart';
 
 
 class PodcastPlayer {
+  AudioPlayer audioPlayer = AudioPlayer();
+  var songFinishedListener;
 
 
-  List<PodcastInfo> _songQueue = [];
-  int _currentQueueIndex = 0;
-  AudioPlayer audioPlayer = AudioPlayer(playerId: "my_unique_id");
-  var _songCompleteListener;
 
 
   PodcastPlayer() {
+    songFinishedListener = null;
+    songFinishedListener = audioPlayer.processingStateStream.listen((ProcessingState processingState) {
+      if(processingState == ProcessingState.completed){
+        log("STATE IS COMPLETED");
+        _play(listOfAllPlaylists[currentPlaylistInList].getNextSong());
+      }
+    });
+
+
     log("Starting listenening in podcastplayer");
-    audioPlayer.onDurationChanged.listen((Duration duration) {
-      songDurationNotifier.value = duration;
-      log("updated seekbar status");
+    audioPlayer.durationStream.listen((Duration? duration) {
+      if(duration != null){
+        songDurationNotifier.value = duration;
+      }
     });
-    audioPlayer.onAudioPositionChanged.listen((Duration position) {
+    audioPlayer.positionStream.listen((Duration position) {
       songProgressNotifier.value = position;
-      log("updated progress status to " + position.toString());
     });
+  }
+
+  void _play(PodcastInfo podcastInfo) async {
+    audioPlayer.stop();
+    audioPlayer.setUrl(podcastInfo.url);
+    audioPlayer.play();
   }
 
   // Public functions :
 
   void playPodcast(PodcastInfo podcastInfo) async {
-    audioPlayer.stop();
-    log("playpodcast called");
-    _songQueue.insert(_currentQueueIndex, podcastInfo);
-    currentPodcasatInfoNotifier.value = podcastInfo;
-    int result = await audioPlayer.play(_songQueue[_currentQueueIndex].url);
-    _songCompleteListener = audioPlayer.onPlayerCompletion.listen((event) {
-      _songCompleted();
-    });
-    if (result != 1) {
-      playPodcast(podcastInfo);
-    }
+    int currentIndex = listOfAllPlaylists[currentPlaylistInList].currentIndex;
+    listOfAllPlaylists[currentPlaylistInList].insertSinglePodcast(podcastInfo, currentIndex);
+    _play(listOfAllPlaylists[currentPlaylistInList].getNextSong());
   }
 
   void addSongToQueue(PodcastInfo podcastInfo) {
-    _songQueue.add(podcastInfo);
+    listOfAllPlaylists[0].addSinglePodcast(podcastInfo);
   }
 
   void pause(){
@@ -52,12 +58,12 @@ class PodcastPlayer {
   }
 
   void resume() {
-    audioPlayer.resume();
+    audioPlayer.play();
   }
 
   void seek(Duration duration){
     audioPlayer.seek(duration);
-    audioPlayer.resume();
+    audioPlayer.play();
   }
 
 
@@ -69,19 +75,6 @@ class PodcastPlayer {
   Duration currentSongLength = Duration(seconds: 0);
   Duration currentSongProgress = Duration(seconds: 0);
 
-  void _songCompleted() async {
-    log("song completed");
-    _currentQueueIndex++;
-    if (_currentQueueIndex == _songQueue.length) {
-      //TODO: We are out of songs in the queue
-    } else {
-      audioPlayer.play(_songQueue[_currentQueueIndex].url);
-      currentPodcasatInfoNotifier.value = _songQueue[_currentQueueIndex];
-      _songCompleteListener = audioPlayer.onPlayerCompletion.listen((event) {
-        _songCompleted();
-      });
-    }
-  }
 
 
 
