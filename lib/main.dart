@@ -13,8 +13,16 @@ import 'home_page.dart';
 import 'login_page.dart';
 import 'setting_page.dart';
 import 'backend_api.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 
-void main() {
+
+
+Future<void> main() async {
+  await JustAudioBackground.init(
+    androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
+    androidNotificationChannelName: 'Audio playback',
+    androidNotificationOngoing: true,
+  );
   runApp(const FraPodsApp());
 }
 

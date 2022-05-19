@@ -103,9 +103,9 @@ class _MainPageState extends State<MainPage> {
                       UploadPage(
                         setPage: setPage,
                       ),
-                      ProfilePage(
-                        setPage: setPage,
-                      ),
+                      //ProfilePage(
+                       // setPage: setPage,
+                      //),
                       SettingPage(setPage: setPage),
                     ],
                   ),

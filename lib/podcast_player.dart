@@ -1,10 +1,12 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:frapods/main.dart';
 import 'package:frapods/podcast_info.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 
 
 class PodcastPlayer {
@@ -37,7 +39,15 @@ class PodcastPlayer {
 
   void _play(PodcastInfo podcastInfo) async {
     await audioPlayer.stop();
-    await audioPlayer.setUrl(podcastInfo.url);
+    await audioPlayer.setAudioSource(AudioSource.uri(
+      Uri.parse(podcastInfo.url),
+      tag: MediaItem(
+          id: "1",
+          title: podcastInfo.title,
+          artist: podcastInfo.artist,
+          displayDescription: podcastInfo.description,
+      ),
+    ));
     await audioPlayer.play();
   }
 

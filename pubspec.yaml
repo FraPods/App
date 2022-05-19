@@ -32,6 +32,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   # Audio Player
   just_audio: ^0.9.21
+  just_audio_background: ^0.0.1-beta.5
+
   shared_preferences: any
   # Upload files
   file_picker: ^4.5.1
