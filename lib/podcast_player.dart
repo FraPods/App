@@ -36,9 +36,9 @@ class PodcastPlayer {
   }
 
   void _play(PodcastInfo podcastInfo) async {
-    audioPlayer.stop();
-    audioPlayer.setUrl(podcastInfo.url);
-    audioPlayer.play();
+    await audioPlayer.stop();
+    await audioPlayer.setUrl(podcastInfo.url);
+    await audioPlayer.play();
   }
 
   // Public functions :

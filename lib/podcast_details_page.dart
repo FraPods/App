@@ -28,9 +28,11 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
   bool _isPlaying = podcastPlayer.audioPlayer.playing;
   Duration songDuration = songDurationNotifier.value;
   Duration progressDuration = songProgressNotifier.value;
+  PodcastInfo currentlyPlayingPodcastInfo = PodcastInfo("", "", "", "");
 
   @override
   Widget build(BuildContext context) {
+    currentlyPlayingPodcastInfo = widget.podcastInfo;
     stream();
     songDurationNotifier.addListener(() {
       if(mounted) {
@@ -47,69 +49,75 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
       }
     });
 
-
+    return ValueListenableBuilder<PodcastInfo>(
+        valueListenable: currentPodcasatInfoNotifier,
+        builder: (BuildContext context, PodcastInfo currentPodcastInfo,
+            Widget? child) {
           return Scaffold(
-            appBar: AppBar(),
-            body: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 30),
-              child: Center(
-                child: Column(
-                  children: <Widget>[
-                    Text(
-                      widget.podcastInfo.title,
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      "By " + widget.podcastInfo.artist,
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                    ),
-                    SizedBox(height: 15),
-                    Text(
-                      "Description: " + widget.podcastInfo.description,
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                    Spacer(),
-                    ProgressBar(
-                      progress: progressDuration,
-                      total: songDuration,
-                      onSeek: (duration) {
-                        podcastPlayer.seek(duration);
-                      },
-                    ),
-
-                    IconButton(
-                      onPressed: () {
-                        if (!podcastPlayer.audioPlayer.playing) {
-                          podcastPlayer.audioPlayer.play();
-                        } else {
-                          podcastPlayer.audioPlayer.pause();
-                        }
-                      },
-                      icon: _isPlaying ? Icon(Icons.pause) : Icon(
-                          Icons.play_arrow),
-                    )
-                  ],
+        appBar: AppBar(),
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 30),
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                Text(
+                  currentPodcastInfo.title,
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-              ),
+                SizedBox(height: 5),
+                Text(
+                  "By " + currentPodcastInfo.artist,
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                SizedBox(height: 15),
+                Text(
+                  "Description: " + currentPodcastInfo.description,
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+                Spacer(),
+                ProgressBar(
+                  progress: progressDuration,
+                  total: songDuration,
+                  onSeek: (duration) {
+                    podcastPlayer.seek(duration);
+                  },
+                ),
+
+                IconButton(
+                  onPressed: () {
+                    if (!podcastPlayer.audioPlayer.playing) {
+                      podcastPlayer.audioPlayer.play();
+                    } else {
+                      podcastPlayer.audioPlayer.pause();
+                    }
+                  },
+                  icon: _isPlaying ? Icon(Icons.pause) : Icon(
+                      Icons.play_arrow),
+                )
+              ],
             ),
-          );
+          ),
+        ),
+      );
+    });
   }
 
   stream() {
     StreamSubscription teaplayPauseSubscription =
     podcastPlayer.audioPlayer.playingStream.listen((bool isPl) {
-      setState(() {
-        _isPlaying = isPl;
-      });
+      if (mounted) {
+        setState(() {
+          _isPlaying = isPl;
+        });
+      }
     });
   }
   }
