@@ -164,7 +164,7 @@ class _UploadPageState extends State<UploadPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.fromLTRB(0, 0, 10, 10),
+                margin: EdgeInsets.fromLTRB(0, 0, 5, 10),
                 child: Text(
                   podcastInfo.title,
                   textAlign: TextAlign.left,
@@ -179,7 +179,7 @@ class _UploadPageState extends State<UploadPage> {
                 children: [
                   Expanded(
                     child: Container(
-                      //width: MediaQuery.of(context).size.width /2,
+                      width: MediaQuery.of(context).size.width /2,
                       padding: EdgeInsets.only(right:5),
                       child: Text(
                         podcastInfo.description.isEmpty?
@@ -187,7 +187,7 @@ class _UploadPageState extends State<UploadPage> {
                         :
                         'Description: ' + podcastInfo.description,
                         textAlign: TextAlign.left,
-                        overflow: TextOverflow.fade,
+                        overflow: TextOverflow.ellipsis,
                         softWrap: false,
                         maxLines: 3,
                         style: TextStyle(fontSize: 16),
