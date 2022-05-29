@@ -117,8 +117,7 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
                       podcastPlayer.audioPlayer.pause();
                     }
                   },
-                  icon: _isPlaying ? Icon(Icons.pause) : Icon(
-                      Icons.play_arrow),
+                  icon: _isPlaying ? const Icon(Icons.pause) : const Icon(Icons.play_arrow),
                 )
               ],
             ),
