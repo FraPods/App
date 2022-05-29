@@ -175,7 +175,7 @@ class BackendApi {
   Future<List<PodcastInfo>> searchOnFrapods(String query, {int maxNum=10}) async {
     List<PodcastInfo> listOfResults = [];
 
-    var response = await http.get(Uri.parse(api_domain + "search.php?s=" + query));
+    var response = await http.get(Uri.parse(api_domain + "search.php?s=" + query + "&username=" + _getString(USERNAME_KEY) + "&deviceToken=" + _getString(DEVICE_TOKEN_KEY) + "&sessionToken=" + _getString(CURRENT_TOKEN_KEY)));
     String results = response.body;
 
     if(results != "") {
