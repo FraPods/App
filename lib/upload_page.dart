@@ -35,7 +35,7 @@ class _UploadPageState extends State<UploadPage> {
     //   title: xtitle, description: xdescription, artist: xartist, url: xurl
     // );
     setState(() {
-      podcasts.add(PodcastInfo(xtitle, xdescription, xartist, xurl));
+      podcasts.add(PodcastInfo(xtitle, xdescription, xartist, xurl, ""));
     });
   }
   
@@ -130,7 +130,7 @@ class _UploadPageState extends State<UploadPage> {
                           )
                           : ListView.builder(
                             itemCount: podcasts.length,
-                            itemBuilder: (ctx, index) => myPodcast(PodcastInfo(podcasts[index].title, podcasts[index].description, podcasts[index].artist, podcasts[index].url,))),
+                            itemBuilder: (ctx, index) => myPodcast(PodcastInfo(podcasts[index].title, podcasts[index].description, podcasts[index].artist, podcasts[index].url, ""))),
                         )
                       ]),
                     ),

@@ -43,6 +43,8 @@ dependencies:
   # Audio Player Progress Bar
   audio_video_progress_bar: ^0.10.0
 
+  assorted_layout_widgets: ^6.0.0
+
 
   localstorage: ^4.0.0
 

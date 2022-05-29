@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
   bool _isPlaying = podcastPlayer.audioPlayer.playing;
   Duration songDuration = songDurationNotifier.value;
   Duration progressDuration = songProgressNotifier.value;
-  PodcastInfo currentlyPlayingPodcastInfo = PodcastInfo("", "", "", "");
+  PodcastInfo currentlyPlayingPodcastInfo = PodcastInfo("", "", "", "", "");
 
   @override
   Widget build(BuildContext context) {
@@ -58,31 +59,48 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 30),
           child: Center(
-            child: Column(
+            child:
+            Column(
               children: <Widget>[
-                Text(
-                  currentPodcastInfo.title,
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
+                ColumnSuper (
+                  alignment: Alignment.bottomCenter,
+                  innerDistance: -23.0,
+                  children: <Widget> [
+                    ShaderMask(shaderCallback: (rect) {
+                      return const LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Colors.black, Colors.transparent],
+                      ).createShader(Rect.fromLTRB(0, rect.height / 3, rect.width, rect.height));
+                    },
+                        blendMode: BlendMode.dstIn,
+                        child: Image.network(currentPodcastInfo.thumbnail)
+                    ),
+                    Text(
+                      currentPodcastInfo.title,
+                      style: const TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ]
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Text(
                   "By " + currentPodcastInfo.artist,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 20,
                   ),
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 Text(
                   "Description: " + currentPodcastInfo.description,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 ProgressBar(
                   progress: progressDuration,
                   total: songDuration,
