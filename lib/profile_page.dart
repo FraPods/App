@@ -36,42 +36,52 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: Container(
         height: pageHeight,
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
         child: ListView(
           children: [Center(child: Column(
               children: <Widget>[
                 Card(
-                  elevation: 10,
-                  //margin: EdgeInsets.symmetric(horizontal: 13, vertical: 10),
+                  elevation: 5,
                   color: Theme.of(context).colorScheme.surface,
+                  margin: EdgeInsets.only(right: 0),
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                    height: pageHeight /4,
+                    padding: EdgeInsets.symmetric(horizontal: 17, vertical: 15),
+                    height:150,
                     child:Column(
                       //crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                        Container(decoration: BoxDecoration(border: Border.all(color: Colors.pink, width: 2)),
-                        height: pageHeight /8,width: pageHeight /8,),
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.pink, width: 2),
+                            borderRadius: BorderRadius.horizontal(
+                              right: Radius.circular(10),
+                              left: Radius.circular(10),
+                          )
+                          ),
+                          height: 90, width: 90,
+                          ),
                         SizedBox(width: 20,),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(height: 7,),
+                            
                             Container(
                               padding: EdgeInsets.only(right:5),
-                              //width: MediaQuery.of(context).size.width  - 75,
-                              child: Text('Username', 
-                                style: TextStyle(fontSize: 24),
+                              width: MediaQuery.of(context).size.width - 175,
+                              //height: ,
+                              child: Text('Use fgme', 
+                                style: TextStyle(fontSize: 23),
                                 maxLines: 1,
                                 textAlign: TextAlign.left,
                                 overflow: TextOverflow.ellipsis,
                                 softWrap: false,),
                             ),
-                            SizedBox(height: 10,),
+                            SizedBox(height:15),
                             // Container(
                             //   padding:EdgeInsets.only(right:5),
                             //   width: MediaQuery.of(context).size.width -pageHeight/4,
@@ -82,28 +92,60 @@ class _ProfilePageState extends State<ProfilePage> {
                             //   overflow: TextOverflow.ellipsis,
                             //   softWrap: false,),
                             // ),
-                             Text('Posts: 16', style: TextStyle(fontSize: 17),),
+                            Text('My posts: 16', style: TextStyle(fontSize: 18),),
+                            SizedBox(height: 15,)
                           ],
                         )
                       ],),
+                    Container(
+                      alignment:Alignment.bottomRight,
+                      child:InkWell(
+                        onTap:(){
+                          widget.setPage(4);
+                        },
+                       child:Text('Edit account >>', style: TextStyle(fontSize: 16),)
+                     )
+                    ),
+                    //SizedBox(height:1)
                     ],)
                   )
                 ),
-              SizedBox(height: 20,),
+              SizedBox(height: 25,),
 
-              InkWell(
-                child: Container(
-                  height: 30,
-                  width: MediaQuery.of(context).size.width /2,
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 1,color: Colors.amber),
-                    borderRadius: BorderRadius.horizontal(
-                      right: Radius.circular(5),
-                      left: Radius.circular(5)),
-                    ),
-                  child: Center(child: Text('My playlist')),
-                ),
-                onTap: (){},
+              Container(
+                height: 160,
+                width: double.maxFinite,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.secondaryContainer,
+                  border:Border.all(width:1),
+                  borderRadius: BorderRadius.horizontal(
+                    right: Radius.circular(5),
+                    left: Radius.circular(5)),
+                  ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text('My Playlists', style: TextStyle(fontSize: 18)),
+                      SizedBox(height:17),
+                      Row(
+                        mainAxisAlignment:MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            height: 80, width: 80, decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.amber)),
+                          ),
+                          Container(
+                            height: 80, width: 80, decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.amber)),
+                          ),
+                          Container(
+                            height: 80, width: 80, decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.amber)),
+                          ),
+                        ],
+                      )
+                  ],)
+                  
+                  ),
               )
               ],
             ),
