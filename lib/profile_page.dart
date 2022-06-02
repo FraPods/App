@@ -36,9 +36,10 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: Container(
         height: pageHeight,
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
         child: ListView(
-          children: [Center(child: Column(
+          children: [Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
+            child: Column(
               children: <Widget>[
                 Card(
                   elevation: 5,
@@ -111,42 +112,96 @@ class _ProfilePageState extends State<ProfilePage> {
                   )
                 ),
               SizedBox(height: 25,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  InkWell(
+                    child: Container(
+                      decoration:(BoxDecoration(
+                        //border: Border.all(width:1),
+                        borderRadius: BorderRadius.horizontal(
+                        right: Radius.circular(7),
+                        left: Radius.circular(7)),
+                        color: Theme.of(context).colorScheme.secondaryContainer)),
+                      height: 70,
+                      width: (MediaQuery.of(context).size.width - 30)/2 - 10,
+                      child: Center(child: Text('History',  style:TextStyle(fontSize: 18))),
+                    ),
+                    onTap:(){}
+                  ),
+                  InkWell(
+                    child: Container(
+                      decoration:(BoxDecoration(
+                        //border: Border.all(width:1),
+                        borderRadius: BorderRadius.horizontal(
+                        right: Radius.circular(7),
+                        left: Radius.circular(7)),
+                        color: Theme.of(context).colorScheme.secondaryContainer)),
+                      height: 70,
+                      width: (MediaQuery.of(context).size.width - 30)/2 - 10,
+                      child: Center(child: Text('????',  style:TextStyle(fontSize: 18))),
+                    ),
+                    onTap:(){}
+                  ),
+                ],),
+              SizedBox(height: 25,),
 
               Container(
-                height: 160,
+                height: 170,
                 width: double.maxFinite,
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.secondaryContainer,
-                  border:Border.all(width:1),
+                  //border:Border.all(width:1),
                   borderRadius: BorderRadius.horizontal(
                     right: Radius.circular(5),
                     left: Radius.circular(5)),
                   ),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                  padding: EdgeInsets.fromLTRB(15, 5, 10, 10),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('My Playlists', style: TextStyle(fontSize: 18)),
-                      SizedBox(height:17),
+                      Text('My Playlists:', style: TextStyle(fontSize: 19, decoration: TextDecoration.underline)),
+                      SizedBox(height:20),
                       Row(
-                        mainAxisAlignment:MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment:MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            height: 80, width: 80, decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.amber)),
+                            height: 90, width: 90, decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.amber)),
                           ),
+                          SizedBox(width: 7,),
                           Container(
-                            height: 80, width: 80, decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.amber)),
+                            height: 90, width: 90, decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.amber)),
                           ),
+                          SizedBox(width: 7,),
                           Container(
-                            height: 80, width: 80, decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.amber)),
+                            height: 90, width: 90, decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.amber)),
                           ),
-                        ],
-                      )
+                          SizedBox(width: 7,),
+                          Container(
+                            //decoration: BoxDecoration(border: Border.all(width: 1)),
+                            child: InkWell(
+                              child: Icon(Icons.keyboard_double_arrow_right_sharp, size:40),
+                              onTap: (){},),
+                          )
+                        ],),
+                        // SizedBox(height:10),
+                        // Center(
+                        //   //decoration: BoxDecoration(border: Border.all(width: 1)),
+                        //   child: InkWell(
+                        //     child: Icon(Icons.arrow_drop_down,size:40),
+                        //     onTap: (){},
+                        //   ),
+                        // )
                   ],)
                   
                   ),
-              )
+              ),
+
+              SizedBox(height: 25,),
+
+
               ],
             ),
           ),
