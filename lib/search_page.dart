@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:frapods/backend_api.dart';
 import 'package:frapods/main.dart';
@@ -70,18 +72,19 @@ class _SearchPageState extends State<SearchPage> {
       body: Center(
         child: Column(
           children: <Widget>[
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Expanded(
               child: ListView.builder(
                 itemCount: listOfAllSearchResults.length,
                 itemBuilder: (BuildContext ctxt, int index) => podcastItem(
                     ctxt,
                     index,
-                    new PodcastInfo(
+                    PodcastInfo(
                       listOfAllSearchResults[index].title,
                       listOfAllSearchResults[index].description,
                       listOfAllSearchResults[index].artist,
                       listOfAllSearchResults[index].url,
+                      listOfAllSearchResults[index].thumbnail
                     )),
               ),
             ),
@@ -94,13 +97,35 @@ class _SearchPageState extends State<SearchPage> {
   Future<void> sendSearchRequest(String text) async {
     // TODO: Write search request to server function
 
-    if(isYoutubeSourceActivated) {
-      List<PodcastInfo> youtubeResults = await BackendApi().searchOnYoutube(
-          text);
-      setState(() {
-        listOfAllSearchResults = youtubeResults;
-      });
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+          ),
+        );
+      }
+    );
+
+    List<PodcastInfo> frapodsResults = [];
+    List<PodcastInfo> youtubeResults = [];
+
+    if(isFrapodsSourceActivated) {
+       frapodsResults = await BackendApi().searchOnFrapods(text);
     }
+
+    if(isYoutubeSourceActivated) {
+      youtubeResults = await BackendApi().searchOnYoutube(text);
+    }
+
+    Navigator.of(context).pop();
+
+    setState(() {
+      listOfAllSearchResults.addAll(frapodsResults);
+      listOfAllSearchResults.addAll(youtubeResults);
+    });
   }
 
   void showDialogMessage(String title, String message) {
@@ -132,15 +157,28 @@ class _SearchPageState extends State<SearchPage> {
         TextButton(
           style: TextButton.styleFrom(padding: EdgeInsets.fromLTRB(5, 0, 5, 0)),
           onPressed: () async {
+            showDialog(
+                barrierDismissible: false,
+                context: context,
+                builder: (context) {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                    ),
+                  );
+                }
+            );
+
             if (podcastInfo.url.startsWith("GETURL")) {
               String url = await BackendApi()
                   .getUrlFromYtID(podcastInfo.url.substring(8));
               podcastPlayer.playPodcast(PodcastInfo(podcastInfo.title,
-                  podcastInfo.description, podcastInfo.artist, url));
+                  podcastInfo.description, podcastInfo.artist, url, podcastInfo.thumbnail));
             } else {
               podcastPlayer.playPodcast(podcastInfo);
             }
 
+            Navigator.of(context).pop();
 
             Navigator.push(
               context,
@@ -158,7 +196,7 @@ class _SearchPageState extends State<SearchPage> {
               String url = await BackendApi()
                   .getUrlFromYtID(podcastInfo.url.substring(8));
               podcastPlayer.addSongToQueue(PodcastInfo(podcastInfo.title,
-                  podcastInfo.description, podcastInfo.artist, url));
+                  podcastInfo.description, podcastInfo.artist, url, podcastInfo.thumbnail));
             } else {
               podcastPlayer.addSongToQueue(podcastInfo);
             }
@@ -175,8 +213,7 @@ class _SearchPageState extends State<SearchPage> {
                     height: 60,
                     width: 60,
                     margin: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.pink, width: 2)),
+                    child: Image.network(podcastInfo.thumbnail),
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -215,7 +252,7 @@ class _SearchPageState extends State<SearchPage> {
         Container(
             alignment: Alignment.center,
             width: MediaQuery.of(context).size.width * 0.92,
-            child: Divider(
+            child: const Divider(
               thickness: 1,
               color: Colors.grey,
             ))
