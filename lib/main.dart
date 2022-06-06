@@ -208,7 +208,7 @@ const String FRAPODS_SOURCE_ACTIVATED_KEY = "isFrapodsSourceActivated";
 
 final darkNotifier = ValueNotifier<bool>(isDarkModeActivated);
 var loginNotifier = ValueNotifier<bool>(false);
-var currentPodcasatInfoNotifier = ValueNotifier<PodcastInfo>(PodcastInfo("NONE", "NONE", "NONE", "NONE"));
+var currentPodcasatInfoNotifier = ValueNotifier<PodcastInfo>(PodcastInfo("NONE", "NONE", "NONE", "NONE", "NONE"));
 var songDurationNotifier = ValueNotifier<Duration>(Duration(seconds: 0));
 var songProgressNotifier = ValueNotifier<Duration>(Duration(seconds: 0));
 

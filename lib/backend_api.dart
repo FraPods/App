@@ -9,7 +9,8 @@ import 'main.dart';
 
 
 
-const String api_domain = "https://podcast-api.kleysley.com/Backend/";
+const String api_domain = "http://192.168.0.105/Backend/";
+//const String api_domain = "https://podcast-api.kleysley.com/Backend/";
 
 class BackendApi {
 
@@ -162,86 +163,42 @@ class BackendApi {
     int statusCode = response.statusCode;
     if(statusCode == 200){
 
-      for(int i = 0; i < maxNum; i++){
-        int idx = results.indexOf("}");
-        String currentResult = results.substring(0, idx).trim() + "}";
-        results = results.substring(idx+1).trim();
+      final videos = jsonDecode(results);
 
-        String title = "";
-        String artist = "";
-        String url = "";
-        String id = "";
-        log("currentresult is " + currentResult);
-        String startStr = "'id': '";
-        String startStrAlternatiave2 = "'id': \""; // It is legit INSANE how much Youtube tries to defeat crawlers, they randomly replace single quotes with double quotes
-        String endStr = "',";
-        int startIndex = currentResult.indexOf(startStr);
-        if(startIndex == -1){
-          startIndex = currentResult.indexOf(startStrAlternatiave2);
-          endStr = "\",";
-        }
-        currentResult = currentResult.substring(startIndex);
-        int endIndex = currentResult.indexOf(endStr);
-        id = currentResult.substring(0 + startStr.length, endIndex);
-
-        log("currentresult is " + currentResult);
-        log("id is " + id);
-        log("artist is " + artist);
-        log("title is " + title);
-
-
-        startStr = "'title': '";
-        startStrAlternatiave2 = "'title': \""; // It is legit INSANE how much Youtube tries to defeat crawlers, they randomly replace single quotes with double quotes
-        endStr = "',";
-        startIndex = currentResult.indexOf(startStr);
-        if(startIndex == -1){
-          startIndex = currentResult.indexOf(startStrAlternatiave2);
-          endStr = "\",";
-        }
-        currentResult = currentResult.substring(startIndex);
-
-        endIndex = currentResult.indexOf(endStr);
-        title = currentResult.substring(0 + startStr.length, endIndex);
-
-        log("currentresult is " + currentResult);
-        log("id is " + id);
-        log("artist is " + artist);
-        log("title is " + title);
-
-
-        startStr = "'channel': '";
-        startStrAlternatiave2 = "'channel': \""; // It is legit INSANE how much Youtube tries to defeat crawlers, they randomly replace single quotes with double quotes
-        endStr = "'}";
-        startIndex = currentResult.indexOf(startStr);
-        if(startIndex == -1){
-          startIndex = currentResult.indexOf(startStrAlternatiave2);
-          endStr = "\"}";
-        }
-        currentResult = currentResult.substring(startIndex);
-        endIndex = currentResult.indexOf(endStr);
-        artist = currentResult.substring(0 + startStr.length, endIndex);
-        log("currentresult is " + currentResult);
-
-        log("id is " + id);
-        log("artist is " + artist);
-        log("title is " + title);
-
-        listOfAllSearchResults.add(new PodcastInfo(title, "No description available", artist, "GETURL: " + id));
-
+      for(int i = 0; i < videos.length; i++) {
+        listOfAllSearchResults.add(PodcastInfo(videos[i]["title"], "", videos[i]["channel"] + " (YouTube)", "GETURL: " + videos[i]["id"], api_domain + "getJpegFile.php?file=" + videos[i]["thumb"]));
       }
 
     }
 
     return listOfAllSearchResults;
 
+  }
 
+  Future<List<PodcastInfo>> searchOnFrapods(String query, {int maxNum=10}) async {
+    List<PodcastInfo> listOfResults = [];
+
+    var response = await http.get(Uri.parse(api_domain + "search.php?s=" + query));
+    String results = response.body;
+
+    if(results != "") {
+
+      final podcasts = json.decode(results);
+
+      podcasts.forEach((podcast) => {
+        listOfResults.add(PodcastInfo(podcast["title"], "", podcast["creator_name"] + " (Frapods)", api_domain + "MP3Stream.php?file_id=" + podcast["id"].toString(), ""))
+      });
+
+    }
+
+    return listOfResults;
   }
 
 
   Future<String> getUrlFromYtID(String id) async {
     log("geturlid is " + id);
     String url = (await http.get(Uri.parse(api_domain +
-        "extractVideo.php?id=$id"))).body;
+        "getVideoURL.php?id=$id"))).body;
     log("url is: " + url);
     return url;
   }
