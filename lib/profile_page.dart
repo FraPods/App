@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frapods/playlist_info.dart';
+import 'package:frapods/podcast_info.dart';
 import 'setting_page.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -18,6 +20,13 @@ class _ProfilePageState extends State<ProfilePage> {
   // declare variables here:
   TextEditingController _emailTextController = TextEditingController();
   TextEditingController _passwordTextController = TextEditingController();
+  List<PlaylistData> playlists = [
+    PlaylistData('pl1', [PodcastInfo('p1','xxxx','art','url','')]),
+    PlaylistData('pl2', [PodcastInfo('p1','xxxx','art','url','')]),
+    PlaylistData('pl3', [PodcastInfo('p1','xxxx','art','url','')]),
+    PlaylistData('pl3', [PodcastInfo('p1','xxxx','art','url','')]),
+    PlaylistData('pl3', [PodcastInfo('p1','xxxx','art','url','')]),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +47,7 @@ class _ProfilePageState extends State<ProfilePage> {
         height: pageHeight,
         child: ListView(
           children: [Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 30),
             child: Column(
               children: <Widget>[
                 Card(
@@ -111,7 +120,45 @@ class _ProfilePageState extends State<ProfilePage> {
                     ],)
                   )
                 ),
-              SizedBox(height: 25,),
+              SizedBox(height: 30,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  InkWell(
+                    child: Container(
+                      decoration:(BoxDecoration(
+                        //border: Border.all(width:1),
+                        borderRadius: BorderRadius.horizontal(
+                        right: Radius.circular(7),
+                        left: Radius.circular(7)),
+                        color: Theme.of(context).colorScheme.secondaryContainer)),
+                      height: 70,
+                      width: (MediaQuery.of(context).size.width - 30)/2 - 10,
+                      child: Center(child: Text('Post New',  style:TextStyle(fontSize: 18))),
+                    ),
+                    onTap:(){
+                      widget.setPage(3);
+                    }
+                  ),
+                  InkWell(
+                    child: Container(
+                      decoration:(BoxDecoration(
+                        //border: Border.all(width:1),
+                        borderRadius: BorderRadius.horizontal(
+                        right: Radius.circular(7),
+                        left: Radius.circular(7)),
+                        color: Theme.of(context).colorScheme.secondaryContainer)),
+                      height: 70,
+                      width: (MediaQuery.of(context).size.width - 30)/2 - 10,
+                      child: Center(child: Text('My Podcasts',  style:TextStyle(fontSize: 18))),
+                    ),
+                    onTap:(){}
+                  ),
+                  
+                ],),
+                SizedBox(height: 30,),
+
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -139,12 +186,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         color: Theme.of(context).colorScheme.secondaryContainer)),
                       height: 70,
                       width: (MediaQuery.of(context).size.width - 30)/2 - 10,
-                      child: Center(child: Text('????',  style:TextStyle(fontSize: 18))),
+                      child: Center(child: Text('??????',  style:TextStyle(fontSize: 18))),
                     ),
                     onTap:(){}
                   ),
+                  
                 ],),
-              SizedBox(height: 25,),
+              SizedBox(height: 30,),
 
               Container(
                 height: 170,
@@ -162,30 +210,22 @@ class _ProfilePageState extends State<ProfilePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('My Playlists:', style: TextStyle(fontSize: 19, decoration: TextDecoration.underline)),
+                      Text('My Playlists:', style: TextStyle(fontSize: 20, decoration: TextDecoration.underline)),
                       SizedBox(height:20),
-                      Row(
-                        mainAxisAlignment:MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            height: 90, width: 90, decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.amber)),
+                      Container(
+                        height: 90,
+                        child: playlists.isEmpty?
+                        Center(
+                          child: Text('No playlists yet...',
+                          style:TextStyle(fontSize: 18),
+                            ))
+                        :
+                        ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: playlists.length,
+                          itemBuilder: (ctx, index) => myPlaylists(PlaylistData(playlists[index].name, playlists[index].podcasts)),
                           ),
-                          SizedBox(width: 7,),
-                          Container(
-                            height: 90, width: 90, decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.amber)),
-                          ),
-                          SizedBox(width: 7,),
-                          Container(
-                            height: 90, width: 90, decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.amber)),
-                          ),
-                          SizedBox(width: 7,),
-                          Container(
-                            //decoration: BoxDecoration(border: Border.all(width: 1)),
-                            child: InkWell(
-                              child: Icon(Icons.keyboard_double_arrow_right_sharp, size:40),
-                              onTap: (){},),
-                          )
-                        ],),
+                      ),
                         // SizedBox(height:10),
                         // Center(
                         //   //decoration: BoxDecoration(border: Border.all(width: 1)),
@@ -198,16 +238,28 @@ class _ProfilePageState extends State<ProfilePage> {
                   
                   ),
               ),
-
-              SizedBox(height: 25,),
-
-
-              ],
-            ),
+              ],),
           ),
           ],
         ),
       ),
+    );
+  }
+  Widget myPlaylists (PlaylistData playlistData){
+    return InkWell(
+      onTap: (){},
+      child: Row(
+        children: [
+          Container(
+            height: 90, 
+            width: 90, 
+            decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.amber)),
+            child:Center(child: Text(playlistData.name, style: TextStyle(fontSize: 16,),)),
+          ),
+          SizedBox(width: 7,),
+        ],
+      ),
+      
     );
   }
 }

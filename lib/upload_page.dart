@@ -24,10 +24,7 @@ class UploadPage extends StatefulWidget {
 
 class _UploadPageState extends State<UploadPage> {
   // declare variables here:
-  List<PodcastInfo> podcasts = [
-    // PodcastInfo.only(title: 'podcast1', description: 'xxxxxxxxxxxxxxxx', artist: 'aaa bbbb', url: 'www.test.com'),
-    // PodcastInfo('podcast2','xxxxxxxxxxxxxxxxx','ccc dddd','www.test2.com'),
-  ];
+  List<PodcastInfo> podcasts = [];
 
 
   void _addNewPodcast(String xtitle, String xartist, String xdescription, String xurl){
@@ -61,11 +58,11 @@ class _UploadPageState extends State<UploadPage> {
     return Scaffold(
       appBar: AppBar(
         // key:appbarKey,
-        title: Image.asset(
-          'assets/icon-round.png',
-          fit: BoxFit.fitHeight,
-          height: 40,
-        ),
+        leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                    widget.setPage(-1);
+              }),
         actions: [
           IconButton(icon: Icon(Icons.settings),
             onPressed: () {
@@ -146,65 +143,61 @@ class _UploadPageState extends State<UploadPage> {
   }
 
   Widget myPodcast (PodcastInfo podcastInfo){
-    return InkWell(
-      onTap:(){
-        // TODO: link to podcast detail page
-        // MaterialPageRoute(builder: (context) {
-        //   PodcastDetailsPage(podcastInfo: podcastInfo);
-        //   return PodcastDetailsPage(podcastInfo: podcastInfo);
-        // });
-      },
-      //onHover: ,
-      child: Card(
-        margin: EdgeInsets.symmetric(horizontal: 13, vertical: 10),
-        color: Theme.of(context).colorScheme.primaryContainer,
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                margin: EdgeInsets.fromLTRB(0, 0, 5, 10),
-                child: Text(
-                  podcastInfo.title,
-                  textAlign: TextAlign.left,
-                  style: TextStyle(fontSize: 19),
-                  overflow: TextOverflow.fade,
-                  softWrap: false,
-                  maxLines: 1,
-                ),
+    return Card(
+      margin: EdgeInsets.symmetric(horizontal: 13, vertical: 10),
+      color: Theme.of(context).colorScheme.primaryContainer,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              margin: EdgeInsets.fromLTRB(0, 0, 5, 10),
+              child: Text(
+                podcastInfo.title,
+                textAlign: TextAlign.left,
+                style: TextStyle(fontSize: 19),
+                overflow: TextOverflow.fade,
+                softWrap: false,
+                maxLines: 1,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Container(
-                      width: MediaQuery.of(context).size.width /2,
-                      padding: EdgeInsets.only(right:5),
-                      child: Text(
-                        podcastInfo.description.isEmpty?
-                        'Description: no description available'
-                        :
-                        'Description: ' + podcastInfo.description,
-                        textAlign: TextAlign.left,
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: false,
-                        maxLines: 3,
-                        style: TextStyle(fontSize: 16),
-                      ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width /2,
+                    padding: EdgeInsets.only(right:5),
+                    child: Text(
+                      podcastInfo.description.isEmpty?
+                      'Description: no description available'
+                      :
+                      'Description: ' + podcastInfo.description,
+                      textAlign: TextAlign.left,
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: false,
+                      maxLines: 3,
+                      style: TextStyle(fontSize: 16),
                     ),
                   ),
-              //     IconButton(onPressed: (){}, icon: Icon(Icons.edit, size: 18,), padding: EdgeInsets.all(0),
-              //  alignment: Alignment.centerLeft,),
-              // IconButton(onPressed: (){}, icon: Icon(Icons.delete, size: 18), padding: EdgeInsets.all(0),
-              //  alignment: Alignment.centerLeft,)
-                ],
-              ),
-              
-            ],
-          ),
+                ),
+            //     IconButton(onPressed: (){}, icon: Icon(Icons.edit, size: 18,), padding: EdgeInsets.all(0),
+            //  alignment: Alignment.centerLeft,),
+            // IconButton(onPressed: (){}, icon: Icon(Icons.delete, size: 18), padding: EdgeInsets.all(0),
+            //  alignment: Alignment.centerLeft,)
+              ],
+            ),
+            SizedBox(height: 20,),
+            InkWell(
+              onTap:(){},
+              child:Container(
+              //alignment: Alignment.bottomRight,
+              decoration: BoxDecoration(border:Border.all(width: 1)),
+              child: Text('Edit podcast')))
+          ],
         ),
-        ),
-    );
+      ),
+      );
   }
 }
