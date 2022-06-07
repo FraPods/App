@@ -201,13 +201,12 @@ class _UploadPageState extends State<UploadPage> {
                       ),
                     ),
                   ),
-                ),
+                
             //     IconButton(onPressed: (){}, icon: Icon(Icons.edit, size: 18,), padding: EdgeInsets.all(0),
             //  alignment: Alignment.centerLeft,),
             // IconButton(onPressed: (){}, icon: Icon(Icons.delete, size: 18), padding: EdgeInsets.all(0),
             //  alignment: Alignment.centerLeft,)
-              ],
-            ),
+            
             SizedBox(height: 20,),
             InkWell(
               onTap:(){},
@@ -215,9 +214,10 @@ class _UploadPageState extends State<UploadPage> {
               //alignment: Alignment.bottomRight,
               decoration: BoxDecoration(border:Border.all(width: 1)),
               child: Text('Edit podcast')))
-          ],
-        ),
+          ])
+        ]),
       ),
+      )
       );
   }
 }
