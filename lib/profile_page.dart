@@ -21,11 +21,11 @@ class _ProfilePageState extends State<ProfilePage> {
   TextEditingController _emailTextController = TextEditingController();
   TextEditingController _passwordTextController = TextEditingController();
   List<PlaylistData> playlists = [
-    PlaylistData('pl1', [PodcastInfo('p1','xxxx','art','url','')]),
-    PlaylistData('pl2', [PodcastInfo('p1','xxxx','art','url','')]),
-    PlaylistData('pl3', [PodcastInfo('p1','xxxx','art','url','')]),
-    PlaylistData('pl3', [PodcastInfo('p1','xxxx','art','url','')]),
-    PlaylistData('pl3', [PodcastInfo('p1','xxxx','art','url','')]),
+    PlaylistData('pl1', [PodcastInfo('p1','xxxx','art','url','', 1)]),
+    PlaylistData('pl2', [PodcastInfo('p1','xxxx','art','url','', 2)]),
+    PlaylistData('pl3', [PodcastInfo('p1','xxxx','art','url','', 3)]),
+    PlaylistData('pl3', [PodcastInfo('p1','xxxx','art','url','', 4)]),
+    PlaylistData('pl3', [PodcastInfo('p1','xxxx','art','url','', 5)]),
   ];
 
   @override
