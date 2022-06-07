@@ -29,7 +29,7 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
   bool _isPlaying = podcastPlayer.audioPlayer.playing;
   Duration songDuration = songDurationNotifier.value;
   Duration progressDuration = songProgressNotifier.value;
-  PodcastInfo currentlyPlayingPodcastInfo = PodcastInfo("", "", "", "", "");
+  PodcastInfo currentlyPlayingPodcastInfo = PodcastInfo("", "", "", "", "", 0);
 
   @override
   Widget build(BuildContext context) {
@@ -117,8 +117,7 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
                       podcastPlayer.audioPlayer.pause();
                     }
                   },
-                  icon: _isPlaying ? Icon(Icons.pause) : Icon(
-                      Icons.play_arrow),
+                  icon: _isPlaying ? const Icon(Icons.pause) : const Icon(Icons.play_arrow),
                 )
               ],
             ),
