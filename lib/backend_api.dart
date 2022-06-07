@@ -14,13 +14,11 @@ const String api_domain = "http://192.168.0.105/Backend/";
 
 class BackendApi {
 
-  final String CURRENT_TOKEN_KEY = "currentToken";
-  final String DEVICE_TOKEN_KEY = "currentToken";
-  final String NEXT_TOKEN_KEY = "currentToken";
+  final String CURRENT_TOKEN_KEY = "currenttoken";
+  final String DEVICE_TOKEN_KEY = "devicetoken";
+  final String NEXT_TOKEN_KEY = "nexttoken";
   final String USERNAME_KEY = "username";
   bool isLoggedIn = false;
-
-
 
   Future<String> createAccount(String username, String password,
       String firstname, String lastname, String email) async {
@@ -33,7 +31,6 @@ class BackendApi {
     switch(response.statusCode){
       case 200:
       case 201:
-        _saveString(USERNAME_KEY, username);
         return "200";
         break;
       case 422:
@@ -50,10 +47,6 @@ class BackendApi {
     return "";
 
   }
-
-
-
-
 
   Future<String> _authenticate(String username, String deviceToken, String nextSessionToken) async {
     log("authenticate called");
@@ -74,7 +67,7 @@ class BackendApi {
           loginNotifier.value = true;
         } else {
           log(
-              "auth failed, followingn tokens: " +
+              "auth failed, following tokens: " +
                   await _getString(CURRENT_TOKEN_KEY) + ", " +
                   await _getString(NEXT_TOKEN_KEY) + ", " +
                   await _getString(DEVICE_TOKEN_KEY));
@@ -108,6 +101,9 @@ class BackendApi {
     String username = await _getString(USERNAME_KEY);
     String deviceToken = await _getString(DEVICE_TOKEN_KEY);
     String sessionToken = await _getString(NEXT_TOKEN_KEY);
+    log(username);
+    log(deviceToken);
+    log(sessionToken);
     var response = await _authenticate(username, deviceToken, sessionToken);
     log("response:autologin: " + response);
     if(await _getString(DEVICE_TOKEN_KEY) != "error") {
@@ -128,6 +124,7 @@ class BackendApi {
         log(response.body);
         String token = response.body;
         if(token != "error") {
+          _saveString(USERNAME_KEY, username);
           _saveString(DEVICE_TOKEN_KEY, token);
           _saveString(CURRENT_TOKEN_KEY, token);
           _saveString(NEXT_TOKEN_KEY, token);
@@ -178,7 +175,7 @@ class BackendApi {
   Future<List<PodcastInfo>> searchOnFrapods(String query, {int maxNum=10}) async {
     List<PodcastInfo> listOfResults = [];
 
-    var response = await http.get(Uri.parse(api_domain + "search.php?s=" + query));
+    var response = await http.get(Uri.parse(api_domain + "search.php?s=" + query + "&username=" + _getString(USERNAME_KEY) + "&deviceToken=" + _getString(DEVICE_TOKEN_KEY) + "&sessionToken=" + _getString(CURRENT_TOKEN_KEY)));
     String results = response.body;
 
     if(results != "") {

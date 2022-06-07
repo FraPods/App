@@ -152,9 +152,23 @@ class _LoginPageState extends State<LoginPage> {
                           children: <Widget>[
                             Expanded(
                               child: OutlinedButton(
-                                onPressed: () => logIn(
-                                    _usernameTextController.text.toString(),
-                                    _passwordTextController.text.toString()),
+                                onPressed: () => {
+                                  showDialog(
+                                    barrierDismissible: false,
+                                    context: context,
+                                    builder: (context) {
+                                      return const Center(
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                        ),
+                                      );
+                                    }
+                                  ),
+                                  logIn(_usernameTextController.text.toString(), _passwordTextController.text.toString()),
+                                  Future.delayed(const Duration(milliseconds: 100), () {
+                                    Navigator.of(context).pop();
+                                  })
+                                },
                                 child: const Text("Log In"),
                               ),
                             ),

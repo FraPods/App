@@ -34,7 +34,7 @@ dependencies:
   just_audio: ^0.9.21
   just_audio_background: ^0.0.1-beta.5
 
-  shared_preferences: any
+  shared_preferences: ^0.5.6
   # Upload files
   file_picker: ^4.5.1
   open_file: ^3.2.1
@@ -44,7 +44,6 @@ dependencies:
   audio_video_progress_bar: ^0.10.0
 
   assorted_layout_widgets: ^6.0.0
-
 
   localstorage: ^4.0.0
 
