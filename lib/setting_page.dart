@@ -96,7 +96,7 @@ class _SettingPageState extends State<SettingPage> {
                       Container(
                         alignment: Alignment.topLeft,
                         padding: EdgeInsets.fromLTRB(15, 0, 20, 5),
-                        child: Text("FraPods",
+                        child: Text("FraPods:",
                           style: normalTextStyle2(),
                           textAlign: TextAlign.left,
                         ),
