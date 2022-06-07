@@ -56,7 +56,7 @@ class _MainPageState extends State<MainPage> {
             bottomNavigationBar: BottomNavigationBar(
                 key: bottomnavKey,
                 backgroundColor:
-                generateMaterialColorFromColor(Color(0xffebf7ff)),
+                blueish(),
                 items: <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
                     backgroundColor: blueish(),
@@ -68,11 +68,11 @@ class _MainPageState extends State<MainPage> {
                     icon: Icon(Icons.search),
                     label: 'Search',
                   ),
-                  BottomNavigationBarItem(
-                    backgroundColor: blueish(),
-                    icon: Icon(Icons.cloud_upload),
-                    label: 'Upload',
-                  ),
+                  // BottomNavigationBarItem(
+                  //   backgroundColor: blueish(),
+                  //   icon: Icon(Icons.cloud_upload),
+                  //   label: 'Upload',
+                  // ),
                   BottomNavigationBarItem(
                     backgroundColor: blueish(),
                     icon: Icon(Icons.account_circle),
@@ -82,7 +82,7 @@ class _MainPageState extends State<MainPage> {
                 selectedItemColor: Colors.white,
                 unselectedItemColor: Colors.grey,
                 currentIndex:
-                _selectedIndex <= 3 ? _selectedIndex : _navbarIndex,
+                _selectedIndex <= 2 ? _selectedIndex : _navbarIndex,
                 //New
                 onTap: (int index) {
                   setState(() {
@@ -100,12 +100,12 @@ class _MainPageState extends State<MainPage> {
                         setPage: setPage,
                       ),
                       SearchPage(),
+                      ProfilePage(
+                       setPage: setPage,
+                      ),
                       UploadPage(
                         setPage: setPage,
                       ),
-                      //ProfilePage(
-                       // setPage: setPage,
-                      //),
                       SettingPage(setPage: setPage),
                     ],
                   ),

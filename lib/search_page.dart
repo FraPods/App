@@ -207,8 +207,8 @@ class _SearchPageState extends State<SearchPage> {
               child: Row(
                 children: [
                   Container(
-                    height: 50,
-                    width: 50,
+                    height: 60,
+                    width: 60,
                     margin: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
                     child: Image.network(podcastInfo.thumbnail),
                   ),
@@ -217,7 +217,7 @@ class _SearchPageState extends State<SearchPage> {
                     children: [
                       Container(
                         margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
-                        width: MediaQuery.of(context).size.width - 120,
+                        width: MediaQuery.of(context).size.width - 130,
                         child: Text(
                           podcastInfo.title,
                           maxLines: 2,
@@ -229,6 +229,7 @@ class _SearchPageState extends State<SearchPage> {
                       ),
                       Container(
                         margin: EdgeInsets.fromLTRB(10, 8, 0, 5),
+                        width: MediaQuery.of(context).size.width - 130,
                         child: SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Text(

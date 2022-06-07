@@ -54,6 +54,7 @@ class FraPodsApp extends StatelessWidget {
                     title: 'FraPods',
                     themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
                     theme: ThemeData(
+                        scaffoldBackgroundColor: isDark? backgroundColor() : Color.fromARGB(255, 229, 232, 235),
                         appBarTheme: AppBarTheme(
                             backgroundColor: blueish(),
                             foregroundColor: Colors.white),
@@ -62,8 +63,8 @@ class FraPodsApp extends StatelessWidget {
                           primary: Color(0xff3884E6),
                           primaryContainer: Color(0xFF99C4FD),
                           secondary: Color(0xFF424242),
-                          secondaryContainer: Color(0xff646464),
-                          surface: Color(0xffFFFDF4),
+                          secondaryContainer: Color.fromARGB(255, 255, 253, 246),//Color(0xffFFFDF4),
+                          surface: Color.fromARGB(255, 192, 200, 211),//Color.fromARGB(255, 214, 214, 214),
                           //ebeeee
                           background: Color(0xffcccccc),
                           error: Color(0xffb00020),
@@ -80,13 +81,13 @@ class FraPodsApp extends StatelessWidget {
                             foregroundColor: Colors.white),
                         // primarySwatch: generateMaterialColorFromColor(Color(0xFF004AAD)),
                         // primaryColor: Colors.white,
-                        backgroundColor: backgroundColor(),
+                        //backgroundColor: backgroundColor(),
                         colorScheme: ColorScheme.dark(
                           primary: Color(0xff0264e3),
                           primaryContainer: Color(0xff4889DD),
                           secondary: Color(0xFF646464),
                           secondaryContainer: Color(0xff909090),
-                          surface: Color(0xff424242),
+                          surface: Color.fromARGB(255, 66, 67, 70),
                           background: Color(0xff757575),
                           //Colors.grey.shade700,
                           error: Color(0xffcf6679),
