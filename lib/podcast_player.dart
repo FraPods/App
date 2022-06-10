@@ -76,9 +76,9 @@ class PodcastPlayer {
     audioPlayer.play();
   }
 
-
-
-
+  void dispose() {
+    audioPlayer.dispose();
+  }
 
   // Private interal stuff:
 
