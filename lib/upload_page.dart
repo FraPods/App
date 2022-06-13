@@ -190,7 +190,9 @@ class _UploadPageState extends State<UploadPage> {
                   Expanded(
                     child: Container(
                       //width: MediaQuery.of(context).size.width /2,
+                      
                       padding: const EdgeInsets.only(right:5),
+
                       child: Text(
                         podcastInfo.description.isEmpty?  'Description: no description available' : 'Description: ' + podcastInfo.description,
                         textAlign: TextAlign.left,
