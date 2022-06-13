@@ -210,6 +210,7 @@ class BackendApi {
     return listOfResults;
   }
 
+
   Future<PodcastInfo> getPodcastData(int id, {int maxNum=10}) async {
     PodcastInfo result = PodcastInfo("", "", "", "", "", 0);
 
@@ -287,11 +288,16 @@ class BackendApi {
   }*/
 
   Future<String> getUrlFromYtID(String id) async {
-    log("geturlid is " + id);
-    String url = (await http.get(Uri.parse(api_domain +
-        "getVideoURL.php?id=$id"))).body;
-    log("url is: " + url);
+    String url = (await http.get(Uri.parse(api_domain + "getVideoURL.php?id=$id"))).body;
     return url;
+  }
+
+  Future<dynamic> getAccountData(String username, bool self) async {
+    if(self) username = await _getString(USERNAME_KEY);
+    String result = (await http.get(Uri.parse(api_domain + "getAccountData.php?username=$username"))).body;
+    final jsonData = json.decode(result);
+    log(jsonData["username"]);
+    return jsonData;
   }
 
   void _saveString(String key, String value) async{
