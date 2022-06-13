@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frapods/backend_api.dart';
 import 'package:frapods/playlist_info.dart';
 import 'package:frapods/podcast_info.dart';
 import 'setting_page.dart';
@@ -18,20 +19,31 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   // declare variables here:
-  TextEditingController _emailTextController = TextEditingController();
-  TextEditingController _passwordTextController = TextEditingController();
+  final TextEditingController _emailTextController = TextEditingController();
+  final TextEditingController _passwordTextController = TextEditingController();
   List<PlaylistData> playlists = [
-    PlaylistData('pl1', [PodcastInfo('p1','xxxx','art','url','')]),
-    PlaylistData('pl2', [PodcastInfo('p1','xxxx','art','url','')]),
-    PlaylistData('pl3', [PodcastInfo('p1','xxxx','art','url','')]),
-    PlaylistData('pl3', [PodcastInfo('p1','xxxx','art','url','')]),
-    PlaylistData('pl3', [PodcastInfo('p1','xxxx','art','url','')]),
+    PlaylistData('pl1', [PodcastInfo('p1','xxxx','art','url','', 0)]),
+    PlaylistData('pl2', [PodcastInfo('p1','xxxx','art','url','', 0)]),
+    PlaylistData('pl3', [PodcastInfo('p1','xxxx','art','url','', 0)]),
+    PlaylistData('pl3', [PodcastInfo('p1','xxxx','art','url','', 0)]),
+    PlaylistData('pl3', [PodcastInfo('p1','xxxx','art','url','', 0)]),
   ];
+
+  String username = "";
+  bool firstLoad = true;
+  String noPodcasts = "0";
 
   @override
   Widget build(BuildContext context) {
     //define variables here
     double pageHeight = MediaQuery.of(context).size.height - 56;
+    if(firstLoad) {
+      firstLoad = false;
+      BackendApi().getAccountData("", true).then((value) => {
+        noPodcasts = value["noPodcasts"].toString(),
+        setState(() => username = (value["username"] == null) ? "unknown" : value["username"])
+      });
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -47,15 +59,15 @@ class _ProfilePageState extends State<ProfilePage> {
         height: pageHeight,
         child: ListView(
           children: [Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
             child: Column(
               children: <Widget>[
                 Card(
                   elevation: 5,
                   color: Theme.of(context).colorScheme.surface,
-                  margin: EdgeInsets.only(right: 0),
+                  margin: const EdgeInsets.only(right: 0),
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 17, vertical: 15),
+                    padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 15),
                     height:150,
                     child:Column(
                       //crossAxisAlignment: CrossAxisAlignment.center,
@@ -67,25 +79,25 @@ class _ProfilePageState extends State<ProfilePage> {
                         Container(
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.pink, width: 2),
-                            borderRadius: BorderRadius.horizontal(
+                            borderRadius: const BorderRadius.horizontal(
                               right: Radius.circular(10),
                               left: Radius.circular(10),
                           )
                           ),
                           height: 90, width: 90,
                           ),
-                        SizedBox(width: 20,),
+                        const SizedBox(width: 20,),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             
                             Container(
-                              padding: EdgeInsets.only(right:5),
+                              padding: const EdgeInsets.only(right:5),
                               width: MediaQuery.of(context).size.width - 175,
                               //height: ,
-                              child: Text('Use fgme', 
-                                style: TextStyle(fontSize: 23),
+                              child: Text(username,
+                                style: const TextStyle(fontSize: 23),
                                 maxLines: 1,
                                 textAlign: TextAlign.left,
                                 overflow: TextOverflow.ellipsis,
@@ -102,7 +114,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             //   overflow: TextOverflow.ellipsis,
                             //   softWrap: false,),
                             // ),
-                            Text('My posts: 16', style: TextStyle(fontSize: 18),),
+                            Text('My posts: ' + noPodcasts, style: TextStyle(fontSize: 18),),
                             SizedBox(height: 15,)
                           ],
                         )
