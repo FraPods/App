@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 //import 'dart:html';
 import 'dart:typed_data';
+import 'package:flutter/cupertino.dart';
 import 'package:frapods/backend_api.dart';
 import 'package:frapods/podcast_info.dart';
 import 'package:path/path.dart';
@@ -43,10 +44,11 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
   bool step1 = true;
   bool getWidgetData = true;
   bool edit = false;
-  double? popupHeight = 0.25;
+  double? popupHeight = 0.6;
   PodcastInfo newPodcast = PodcastInfo("", "", "", "", "", 0);
   int newPodcastId = 0;
   int thumbnailId = 0;
+  File? imageTemporary;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +62,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
       getWidgetData = false;
       step1 = false;
       edit = true;
-      popupHeight = 0.5;
+      popupHeight = 0.6;
       BackendApi().getPodcastData(widget.id).then((value) {
         setState(() { this.image = value.thumbnail; newPodcast = value; });
       });
@@ -70,6 +72,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
       try{
         final image = await ImagePicker().pickImage(source: source);
         if (image == null) return;
+        setState(()=> imageTemporary = File(image.path));
         thumbnailId = await BackendApi().uploadThumbnail(image.readAsBytes());
         setState (() => this.image =  api_domain + "getImage.php?size=512&bw=0&circle=0&file_id=" + thumbnailId.toString() );
       } on PlatformException catch (e) {
@@ -103,7 +106,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
       if(file != null) {
         newPodcastId = await BackendApi().uploadPodcast(file);
         newPodcast = await BackendApi().getPodcastData(newPodcastId);
-        setState(() => { step1 = false, popupHeight = 0.5 });
+        setState(() => { step1 = false, popupHeight = 0.6 });
       }
     }
 
@@ -137,6 +140,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
             children: [
               Card(
                   elevation: 0,
+                  color: Theme.of(context).colorScheme.background,
                   child: Container(
                     margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                     child: Column(
@@ -149,9 +153,9 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                                 style: subtitleTextStyle())
                         ),
 
-                        Container(margin: const EdgeInsets.symmetric(vertical: 20),
+                        Container(margin: const EdgeInsets.only(bottom: 20, top:10),
                             child: const Text('Upload your podcast!',
-                              style: TextStyle(fontSize: 18),)),
+                              style: TextStyle(fontSize: 20),)),
 
                         InkWell(
                             onTap: () async {
@@ -164,11 +168,27 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
 
                             child: Container(
                                 width: double.maxFinite,
-                                height: 40,
-                                decoration: BoxDecoration(border: Border.all(
-                                    color: Colors.pink, width: 1)),
-                                child: file != null ? Text(fileName) : const Text(
-                                    'pick a file')
+                                height: 120,
+                                child: Card(
+                                  color:Theme.of(context).colorScheme.secondary,
+                                  child: file != null ? Text(
+                                    fileName,
+                                    style: TextStyle(fontSize: 16),
+                                    textAlign:TextAlign.center,
+                                    softWrap: false,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    ) 
+                                    : Center(
+                                      child: const Text(
+                                        'pick a file', 
+                                        textAlign:TextAlign.center,
+                                        style: TextStyle(fontSize: 19),
+                                        softWrap: false,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,),
+                                  ),
+                                )
                             )
                         ),
 
@@ -198,6 +218,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
           child: ListView(
           children: [
             Card(
+              color: Theme.of(context).colorScheme.background,
               elevation: 0,
               child: Container(
                 margin: EdgeInsets.symmetric(vertical:10, horizontal: 15),
@@ -209,15 +230,17 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                       width: double.maxFinite,
                       child: Text('Podcast Details', textAlign: TextAlign.center,style:subtitleTextStyle())
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: Row(
-                        children: [
-                          Column(
+                    Row(
+                      //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom:30.0, left: 5, top: 10),
+                          child: Column(
                             children: [
                               Container(
                                 //margin: EdgeInsets.fromLTRB(left, top, right, bottom),
-                                width: MediaQuery.of(context).size.width /2.3,
+                                width: MediaQuery.of(context).size.width-190,
+                                height: 60,
                                 child: TextField(
                                   decoration: const InputDecoration(labelText: 'Title', ),
                                   controller: titleController..text = newPodcast.title,
@@ -225,7 +248,8 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                                 ),
                               ),
                               Container(
-                                width: MediaQuery.of(context).size.width /2.3,
+                                width: MediaQuery.of(context).size.width-190,
+                                height: 60,
                                 child: TextField(
                                   decoration: const InputDecoration(labelText: 'Artist',),
                                   controller: artistController..text = newPodcast.artist,
@@ -233,20 +257,36 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                               ),
                             ],
                           ),
-                          Container(
-                            margin: const EdgeInsets.only(left:30),
-                            child: InkWell(
-                              onTap: () => pickImage(ImageSource.gallery),
-                              child: image != null ? Container(
-                                child: Image.network(image, height: 100, width: 100))
+                        ),
+                         Column(
+                           children: [
+                             Container(
+                              margin: const EdgeInsets.only(left:25,),
+                              //decoration: BoxDecoration(border:Border.all(width: 1)),
+                              height: 110, width: 110,
+                              child: InkWell(
+                                onTap: () => pickImage(ImageSource.gallery),
+                              child: imageTemporary != null ? Container(child: Image.file(imageTemporary!, height: 110, width: 110))
                                 :Container(
-                                  child: const Text('upload thumbnail'),
-                                  height: 100, width:100, decoration: BoxDecoration(border: Border.all(color: blueish(), width: 1)),
+                                  child: Center(
+                                    child: Text('Upload Thumbnail', 
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(fontSize: 15),)
+                                  ),
+                                  decoration: BoxDecoration(
+                                    border:Border.all(width: 1, color: Theme.of(context).colorScheme.onBackground),
+                                    borderRadius: BorderRadius.horizontal(
+                                      right: Radius.circular(7),
+                                      left: Radius.circular(7)
+                                    ),
+                                  ),
+                                  height: 110, width:110,
                                 ),
-                            ),
-                          )
-                      ],),
-                    ),
+                              ),
+                             ),
+                             SizedBox(height: 5,)
+                           ],)
+                    ],),
                     TextFormField(
                       decoration: InputDecoration(labelText: 'Description', border: OutlineInputBorder()),
                       controller: descriptionController..text = newPodcast.description,

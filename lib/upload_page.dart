@@ -28,10 +28,7 @@ class UploadPage extends StatefulWidget {
 
 class _UploadPageState extends State<UploadPage> {
   // declare variables here:
-  List<PodcastInfo> podcasts = [
-    // PodcastInfo.only(title: 'podcast1', description: 'xxxxxxxxxxxxxxxx', artist: 'aaa bbbb', url: 'www.test.com'),
-    // PodcastInfo('podcast2','xxxxxxxxxxxxxxxxx','ccc dddd','www.test2.com'),
-  ];
+  List<PodcastInfo> podcasts = [];
 
   void _addNewPodcast(String xtitle, String xartist, String xdescription, String xurl){
     // final newpod = PodcastInfo.only(
@@ -49,6 +46,7 @@ class _UploadPageState extends State<UploadPage> {
   
   void _newPodcast (BuildContext ctx, {int id = 0}) {
     showModalBottomSheet(
+      backgroundColor: Theme.of(context).colorScheme.background,
       context: ctx,
       builder: (_){
         return AddNewPodcast(_addNewPodcast, id);
@@ -73,11 +71,11 @@ class _UploadPageState extends State<UploadPage> {
     return Scaffold(
       appBar: AppBar(
         // key:appbarKey,
-        title: Image.asset(
-          'assets/icon-round.png',
-          fit: BoxFit.fitHeight,
-          height: 40,
-        ),
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              widget.setPage(-1);
+            }),
         actions: [
           IconButton(icon: Icon(Icons.settings),
             onPressed: () {
@@ -204,13 +202,15 @@ class _UploadPageState extends State<UploadPage> {
                       ),
                     ),
                   ),
-              //     IconButton(onPressed: (){}, icon: Icon(Icons.edit, size: 18,), padding: EdgeInsets.all(0),
-              //  alignment: Alignment.centerLeft,),
-              // IconButton(onPressed: (){}, icon: Icon(Icons.delete, size: 18), padding: EdgeInsets.all(0),
-              //  alignment: Alignment.centerLeft,)
                 ],
               ),
-              
+              SizedBox(height: 20,),
+              InkWell(
+                  onTap:(){},
+                  child:Container(
+                  //alignment: Alignment.bottomRight,
+                  decoration: BoxDecoration(border:Border.all(width: 1)),
+                  child: Text('Edit podcast')))
             ],
           ),
         ),

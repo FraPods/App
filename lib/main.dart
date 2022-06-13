@@ -62,11 +62,11 @@ class FraPodsApp extends StatelessWidget {
                         colorScheme: ColorScheme.light(
                           primary: Color(0xff3884E6),
                           primaryContainer: Color(0xFF99C4FD),
-                          secondary: Color(0xFF424242),
+                          secondary: Color.fromARGB(255, 133, 144, 158),
                           secondaryContainer: Color.fromARGB(255, 255, 253, 246),//Color(0xffFFFDF4),
                           surface: Color.fromARGB(255, 192, 200, 211),//Color.fromARGB(255, 214, 214, 214),
                           //ebeeee
-                          background: Color(0xffcccccc),
+                          background: Color.fromARGB(255, 225, 225, 225),
                           error: Color(0xffb00020),
                           onPrimary: Colors.black,
                           onSecondary: Colors.black,
@@ -85,10 +85,10 @@ class FraPodsApp extends StatelessWidget {
                         colorScheme: ColorScheme.dark(
                           primary: Color(0xff0264e3),
                           primaryContainer: Color(0xff4889DD),
-                          secondary: Color(0xFF646464),
+                          secondary: Color.fromARGB(255, 141, 149, 158),
                           secondaryContainer: Color(0xff909090),
                           surface: Color.fromARGB(255, 66, 67, 70),
-                          background: Color(0xff757575),
+                          background: Color.fromARGB(255, 84, 84, 84),
                           //Colors.grey.shade700,
                           error: Color(0xffcf6679),
                           onPrimary: Colors.white,
@@ -151,7 +151,7 @@ TextStyle normalTextStyle2() {
 
 TextStyle subtitleTextStyle() {
   return TextStyle(
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: FontWeight.bold,
     //color: Colors.white,
   );
@@ -182,7 +182,7 @@ Color blueish() {
 }
 
 Color backgroundColor() {
-  return Color(0xFF292929);
+  return Color.fromARGB(255, 56, 57, 58);//Color.fromARGB(255, 52, 52, 52);
 }
 
 MaterialColor generateMaterialColorFromColor(Color color) {

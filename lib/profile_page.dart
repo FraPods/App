@@ -22,11 +22,12 @@ class _ProfilePageState extends State<ProfilePage> {
   TextEditingController _passwordTextController = TextEditingController();
   List<PlaylistData> playlists = [
     PlaylistData('pl1', [PodcastInfo('p1','xxxx','art','url','', 1)]),
-    PlaylistData('pl2', [PodcastInfo('p1','xxxx','art','url','', 2)]),
+    PlaylistData('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhpl2', [PodcastInfo('p1','xxxx','art','url','', 2)]),
     PlaylistData('pl3', [PodcastInfo('p1','xxxx','art','url','', 3)]),
     PlaylistData('pl3', [PodcastInfo('p1','xxxx','art','url','', 4)]),
     PlaylistData('pl3', [PodcastInfo('p1','xxxx','art','url','', 5)]),
   ];
+  bool _allPlaylists = false;
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +121,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ],)
                   )
                 ),
-              SizedBox(height: 30,),
+              SizedBox(height: 25,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -156,7 +157,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   
                 ],),
-                SizedBox(height: 30,),
+                SizedBox(height: 25,),
 
 
               Row(
@@ -192,10 +193,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   
                 ],),
-              SizedBox(height: 30,),
+              SizedBox(height: 25,),
 
               Container(
-                height: 170,
+                //height: 170,
                 width: double.maxFinite,
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.secondaryContainer,
@@ -205,7 +206,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     left: Radius.circular(5)),
                   ),
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(15, 5, 10, 10),
+                  padding: playlists.isEmpty? EdgeInsets.fromLTRB(15, 15, 15, 10):EdgeInsets.fromLTRB(15, 15, 15, 0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -213,27 +214,50 @@ class _ProfilePageState extends State<ProfilePage> {
                       Text('My Playlists:', style: TextStyle(fontSize: 20, decoration: TextDecoration.underline)),
                       SizedBox(height:20),
                       Container(
-                        height: 90,
+                        //height: playlists.isEmpty? 90 : double.infinity,
                         child: playlists.isEmpty?
                         Center(
                           child: Text('No playlists yet...',
                           style:TextStyle(fontSize: 18),
                             ))
-                        :
-                        ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: playlists.length,
-                          itemBuilder: (ctx, index) => myPlaylists(PlaylistData(playlists[index].name, playlists[index].podcasts)),
+                        : 
+                        GridView.builder(
+                          shrinkWrap: true,
+                          itemCount: _allPlaylists? playlists.length : 3,
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3, 
+                            mainAxisSpacing: 15,
+                            crossAxisSpacing: 20,
                           ),
+                          itemBuilder: (context, index) {
+                            return myPlaylists(PlaylistData(playlists[index].name, playlists[index].podcasts));
+                          }
+                            
+                          )
                       ),
-                        // SizedBox(height:10),
-                        // Center(
-                        //   //decoration: BoxDecoration(border: Border.all(width: 1)),
-                        //   child: InkWell(
-                        //     child: Icon(Icons.arrow_drop_down,size:40),
-                        //     onTap: (){},
-                        //   ),
-                        // )
+                        SizedBox(height:2),
+                        Visibility(
+                          visible: !_allPlaylists && playlists.isNotEmpty,
+                          child: Center(
+                            child: InkWell(
+                              child: Icon(Icons.arrow_drop_down,size:40),
+                              onTap: (){
+                                setState((){ _allPlaylists=true;});
+                              },
+                            ),
+                          ),
+                        ),
+                        Visibility(
+                          visible: _allPlaylists && playlists.isNotEmpty,
+                          child: Center(
+                            child: InkWell(
+                              child: Icon(Icons.arrow_drop_up,size:40),
+                              onTap: (){
+                                setState((){ _allPlaylists=false;});
+                              },
+                            ),
+                          ),
+                        ),
                   ],)
                   
                   ),
@@ -246,21 +270,32 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
   Widget myPlaylists (PlaylistData playlistData){
-    return InkWell(
-      onTap: (){},
-      child: Row(
-        children: [
-          Container(
-            height: 90, 
-            width: 90, 
-            decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.amber)),
-            child:Center(child: Text(playlistData.name, style: TextStyle(fontSize: 16,),)),
-          ),
-          SizedBox(width: 7,),
-        ],
-      ),
-      
-    );
+    return //Row (
+      //children: [
+        //SizedBox(width: 0,),
+        InkWell(
+          onTap: (){},
+          child: 
+            Container(
+              height: 80, 
+              width: 80, 
+              decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.amber)),
+              child:Center(
+                child: Container(
+                  width: 75,
+                  child: Text(
+                    playlistData.name, 
+                    style: TextStyle(fontSize: 16,),
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    softWrap: false,
+                    ),
+                )
+              ),
+            ),
+          );
+    // ]);
   }
 }
 
