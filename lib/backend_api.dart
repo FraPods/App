@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:frapods/playlist_info.dart';
 import 'package:frapods/podcast_info.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -237,7 +238,6 @@ class BackendApi {
   }
 
   Future<int> uploadPodcast(Uint8List? file) async {
-    log("Uploading Podcast...");
     var map = Map<String, dynamic>();
     map['data'] = file.toString();
     map['username'] = await _getString(USERNAME_KEY);
@@ -251,7 +251,6 @@ class BackendApi {
   }
 
   Future<int> uploadThumbnail(Future<Uint8List> file) async {
-    log("Uploading Thumbnail...");
     var map = Map<String, dynamic>();
     map['data'] = (await file).toString();
     map['username'] = await _getString(USERNAME_KEY);
@@ -300,7 +299,17 @@ class BackendApi {
     return jsonData;
   }
 
-  void _saveString(String key, String value) async{
+  Future<List<PlaylistData>> getOwnPlaylists() async {
+    List<PlaylistData> playlists = [];
+    String textualResult = (await http.get(Uri.parse(api_domain + "getUserPlaylists.php?username=" + (await _getString(USERNAME_KEY))))).body;
+    final jsonData = json.decode(textualResult);
+    jsonData.forEach((jsonPlaylist) => {
+      playlists.add(PlaylistData(jsonPlaylist["title"], []))
+    });
+    return playlists;
+  }
+
+  void _saveString(String key, String value) async {
     log("saving string " + value);
     (await SharedPreferences.getInstance()).setString(key, value);
   }
