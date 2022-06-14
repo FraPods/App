@@ -191,7 +191,9 @@ class _UploadPageState extends State<UploadPage> {
                   Expanded(
                     child: Container(
                       //width: MediaQuery.of(context).size.width /2,
-                      padding: EdgeInsets.only(right:5),
+
+                      padding: const EdgeInsets.only(right:5),
+
                       child: Text(
                         podcastInfo.description.isEmpty?  'Description: no description available' : 'Description: ' + podcastInfo.description,
                         textAlign: TextAlign.left,
@@ -202,19 +204,20 @@ class _UploadPageState extends State<UploadPage> {
                       ),
                     ),
                   ),
-                ],
-              ),
-              SizedBox(height: 20,),
-              InkWell(
+                const SizedBox(height: 20),
+                InkWell(
                   onTap:(){},
                   child:Container(
                   //alignment: Alignment.bottomRight,
                   decoration: BoxDecoration(border:Border.all(width: 1)),
-                  child: Text('Edit podcast')))
-            ],
-          ),
+                  child: Text('Edit podcast'))
+                )
+              ],
+            ),
+          ],
         ),
-        ),
+      ),
+    )
     );
   }
 }
