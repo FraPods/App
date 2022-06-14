@@ -40,7 +40,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
   Uint8List? file;
   String fileName = 'no file';
   File? audioFile;
-  String image = api_domain + "getImage.php?file_id=0&bw=0&circle=0&size=512";
+  String image = "";
   bool step1 = true;
   bool getWidgetData = true;
   bool edit = false;
@@ -64,7 +64,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
       popupHeight = 0.6;
       BackendApi().getPodcastData(widget.id).then((value) {
         setState(() {
-          this.image = value.thumbnail;
+          if(value.thumbnail != (api_domain + "getImage.php?size=512&bw=0&circle=0&file_id=0")) { image = value.thumbnail; }
           newPodcast = value;
         });
       });
@@ -76,9 +76,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
         if (image == null) return;
         setState(() => imageTemporary = File(image.path));
         thumbnailId = await BackendApi().uploadThumbnail(image.readAsBytes());
-        setState(() => this.image =
-            api_domain + "getImage.php?size=512&bw=0&circle=0&file_id=" +
-                thumbnailId.toString());
+        setState(() => this.image = api_domain + "getImage.php?size=512&bw=0&circle=0&file_id=" + thumbnailId.toString());
       } on PlatformException catch (e) {
         print('Failed to pick image: $e');
       }
@@ -123,7 +121,6 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
             'Artist name is empty', 'Please enter an artist for your podcast!');
       } else {
         var submitId = edit ? widget.id : newPodcastId;
-        print(submitId);
         PodcastInfo newData = PodcastInfo(
             titleController.text, descriptionController.text,
             artistController.text, urlController.text, thumbnailId.toString(),
@@ -302,11 +299,21 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                                   width: 110,
                                   child: InkWell(
                                     onTap: () => pickImage(ImageSource.gallery),
-                                    child: imageTemporary != null ? Container(
-                                        child: Image.file(
-                                            imageTemporary!, height: 110,
-                                            width: 110))
-                                        : Container(
+                                    child: image != "" ? Container(
+                                        margin: const EdgeInsets.all(2),
+                                        child: Image.network(
+                                            image,
+                                            height: 110,
+                                            width: 110,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(width: 1, color: Theme.of(context).colorScheme.onBackground),
+                                          borderRadius: const BorderRadius.horizontal(right: Radius.circular(7), left: Radius.circular(7))
+                                        ),
+                                        height: 110,
+                                        width: 110,
+                                      ) : Container(
                                       child: Center(
                                           child: Text('Upload Thumbnail',
                                             textAlign: TextAlign.center,
