@@ -154,7 +154,7 @@ class _SearchPageState extends State<SearchPage> {
     return Column(
       children: [
         TextButton(
-          style: TextButton.styleFrom(padding: EdgeInsets.fromLTRB(5, 0, 5, 0)),
+          style: TextButton.styleFrom(padding: const EdgeInsets.fromLTRB(5, 0, 5, 0)),
           onPressed: () async {
             showDialog(
                 barrierDismissible: false,
@@ -202,40 +202,40 @@ class _SearchPageState extends State<SearchPage> {
             width: double.maxFinite,
             child: Card(
               elevation: 0,
-              color: Color(0x00000000),
+              color: const Color(0x00000000),
               //Theme.of(context).colorScheme.primaryVariant,
               child: Row(
                 children: [
                   Container(
                     height: 60,
                     width: 60,
-                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                    margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
                     child: Image.network(podcastInfo.thumbnail),
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
+                        margin: const EdgeInsets.fromLTRB(10, 5, 10, 0),
                         width: MediaQuery.of(context).size.width - 130,
                         child: Text(
                           podcastInfo.title,
                           maxLines: 2,
                           textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 18),
+                          style: const TextStyle(fontSize: 18),
                           overflow: TextOverflow.ellipsis,
                           softWrap: false,
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.fromLTRB(10, 8, 0, 5),
+                        margin: const EdgeInsets.fromLTRB(10, 8, 0, 5),
                         width: MediaQuery.of(context).size.width - 130,
                         child: SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Text(
                             podcastInfo.artist,
                             textAlign: TextAlign.left,
-                            style: TextStyle(fontSize: 15),
+                            style: const TextStyle(fontSize: 15),
                           ),
                         ),
                       ),

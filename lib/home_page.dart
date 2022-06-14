@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         actions: [
           IconButton(
-            icon: Icon(Icons.settings),
+            icon: const Icon(Icons.settings),
             onPressed: () {
               widget.setPage(4);
             },
@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
         title: Row(
           children: [
             logo,
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(16.0),
               child: Text("FraPods"),
             )
@@ -72,7 +72,7 @@ class _HomePageState extends State<HomePage> {
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             TextButton(
-              child: Text("Close"),
+              child: const Text("Close"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
