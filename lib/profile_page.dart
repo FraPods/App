@@ -22,11 +22,11 @@ class _ProfilePageState extends State<ProfilePage> {
   final TextEditingController _emailTextController = TextEditingController();
   final TextEditingController _passwordTextController = TextEditingController();
   List<PlaylistData> playlists = [
-    PlaylistData('pl1', [PodcastInfo('p1','xxxx','art','url','', 1)]),
+    /*PlaylistData('pl1', [PodcastInfo('p1','xxxx','art','url','', 1)]),
     PlaylistData('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhpl2', [PodcastInfo('p1','xxxx','art','url','', 2)]),
     PlaylistData('pl3', [PodcastInfo('p1','xxxx','art','url','', 3)]),
     PlaylistData('pl3', [PodcastInfo('p1','xxxx','art','url','', 4)]),
-    PlaylistData('pl3', [PodcastInfo('p1','xxxx','art','url','', 5)]),
+    PlaylistData('pl3', [PodcastInfo('p1','xxxx','art','url','', 5)]),*/
   ];
   bool _allPlaylists = false;
 
@@ -40,6 +40,9 @@ class _ProfilePageState extends State<ProfilePage> {
     double pageHeight = MediaQuery.of(context).size.height - 56;
     if(firstLoad) {
       firstLoad = false;
+      BackendApi().getOwnPlaylists().then((value) => {
+        setState(() => playlists = value)
+      });
       BackendApi().getAccountData("", true).then((value) => {
         noPodcasts = value["noPodcasts"].toString(),
         setState(() => username = (value["username"] == null) ? "unknown" : value["username"])
