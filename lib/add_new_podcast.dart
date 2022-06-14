@@ -4,7 +4,6 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:frapods/backend_api.dart';
 import 'package:frapods/podcast_info.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart';
 
 import 'package:flutter/material.dart';
@@ -95,7 +94,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
             actions: <Widget>[
               // usually buttons at the bottom of the dialog
               TextButton(
-                child: Text("Close"),
+                child: const Text("Close"),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -192,14 +191,14 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                                       .secondary,
                                   child: file != null ? Text(
                                     fileName,
-                                    style: TextStyle(fontSize: 16),
+                                    style: const TextStyle(fontSize: 16),
                                     textAlign: TextAlign.center,
                                     softWrap: false,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   )
-                                      : Center(
-                                    child: const Text(
+                                      : const Center(
+                                    child: Text(
                                       'pick a file',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(fontSize: 19),
@@ -216,10 +215,10 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            OutlinedButton(child: Text('Upload'),
+                            OutlinedButton(child: const Text('Upload'),
                               onPressed: () => submitAudio(context),),
-                            SizedBox(width: 15,),
-                            OutlinedButton(child: Text('Cancel'),
+                            const SizedBox(width: 15,),
+                            OutlinedButton(child: const Text('Cancel'),
                               onPressed: () => Navigator.of(context).pop(),),
                           ],
                         )
@@ -243,12 +242,12 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                       .background,
                   elevation: 0,
                   child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                    margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                            margin: EdgeInsets.all(10),
+                            margin: const EdgeInsets.all(10),
                             width: double.maxFinite,
                             child: Text(
                                 'Podcast Details', textAlign: TextAlign.center,
@@ -307,7 +306,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                                             imageTemporary!, height: 110,
                                             width: 110))
                                         : Container(
-                                      child: Center(
+                                      child: const Center(
                                           child: Text('Upload Thumbnail',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(fontSize: 15),)
@@ -318,7 +317,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                                             .of(context)
                                             .colorScheme
                                             .onBackground),
-                                        borderRadius: BorderRadius.horizontal(
+                                        borderRadius: const BorderRadius.horizontal(
                                             right: Radius.circular(7),
                                             left: Radius.circular(7)
                                         ),
@@ -327,11 +326,11 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: 5,)
+                                const SizedBox(height: 5,)
                               ],)
                           ],),
                         TextFormField(
-                          decoration: InputDecoration(labelText: 'Description',
+                          decoration: const InputDecoration(labelText: 'Description',
                               border: OutlineInputBorder()),
                           controller: descriptionController
                             ..text = newPodcast.description,
@@ -351,8 +350,8 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                             OutlinedButton(
                               child: Text((edit ? 'Update' : 'Publish')),
                               onPressed: () => submitData(context),),
-                            SizedBox(width: 15,),
-                            OutlinedButton(child: Text('Cancel'),
+                            const SizedBox(width: 15,),
+                            OutlinedButton(child: const Text('Cancel'),
                               onPressed: () => Navigator.of(context).pop(),),
                           ],
                         )

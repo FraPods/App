@@ -48,9 +48,9 @@ class _ProfilePageState extends State<ProfilePage> {
 
     return Scaffold(
       appBar: AppBar(
-           title: Icon(Icons.account_circle),
+           title: const Icon(Icons.account_circle),
            actions: [
-           IconButton(icon: Icon(Icons.settings),
+           IconButton(icon: const Icon(Icons.settings),
             onPressed: () {
               widget.setPage(4);
             },)
@@ -104,7 +104,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 overflow: TextOverflow.ellipsis,
                                 softWrap: false,),
                             ),
-                            SizedBox(height:15),
+                            const SizedBox(height:15),
                             // Container(
                             //   padding:EdgeInsets.only(right:5),
                             //   width: MediaQuery.of(context).size.width -pageHeight/4,
@@ -115,8 +115,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             //   overflow: TextOverflow.ellipsis,
                             //   softWrap: false,),
                             // ),
-                            Text('My posts: ' + noPodcasts, style: TextStyle(fontSize: 18),),
-                            SizedBox(height: 15,)
+                            Text('My posts: ' + noPodcasts, style: const TextStyle(fontSize: 18),),
+                            const SizedBox(height: 15,)
                           ],
                         )
                       ],),
@@ -126,14 +126,14 @@ class _ProfilePageState extends State<ProfilePage> {
                         onTap:(){
                           widget.setPage(4);
                         },
-                       child:Text('Edit account >>', style: TextStyle(fontSize: 16),)
+                       child:const Text('Edit account >>', style: TextStyle(fontSize: 16),)
                      )
                     ),
                     //SizedBox(height:1)
                     ],)
                   )
                 ),
-              SizedBox(height: 25,),
+                const SizedBox(height: 25,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -141,13 +141,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Container(
                       decoration:(BoxDecoration(
                         //border: Border.all(width:1),
-                        borderRadius: BorderRadius.horizontal(
+                        borderRadius: const BorderRadius.horizontal(
                         right: Radius.circular(7),
                         left: Radius.circular(7)),
                         color: Theme.of(context).colorScheme.secondaryContainer)),
                       height: 70,
                       width: (MediaQuery.of(context).size.width - 30)/2 - 10,
-                      child: Center(child: Text('Post New',  style:TextStyle(fontSize: 18))),
+                      child: const Center(child: Text('Post New',  style:TextStyle(fontSize: 18))),
                     ),
                     onTap:(){
                       widget.setPage(3);
@@ -157,19 +157,19 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Container(
                       decoration:(BoxDecoration(
                         //border: Border.all(width:1),
-                        borderRadius: BorderRadius.horizontal(
+                        borderRadius: const BorderRadius.horizontal(
                         right: Radius.circular(7),
                         left: Radius.circular(7)),
                         color: Theme.of(context).colorScheme.secondaryContainer)),
                       height: 70,
                       width: (MediaQuery.of(context).size.width - 30)/2 - 10,
-                      child: Center(child: Text('My Podcasts',  style:TextStyle(fontSize: 18))),
+                      child: const Center(child: Text('My Podcasts',  style:TextStyle(fontSize: 18))),
                     ),
                     onTap:(){}
                   ),
                   
                 ],),
-                SizedBox(height: 25,),
+                const SizedBox(height: 25,),
 
 
               Row(
@@ -179,13 +179,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Container(
                       decoration:(BoxDecoration(
                         //border: Border.all(width:1),
-                        borderRadius: BorderRadius.horizontal(
+                        borderRadius: const BorderRadius.horizontal(
                         right: Radius.circular(7),
                         left: Radius.circular(7)),
                         color: Theme.of(context).colorScheme.secondaryContainer)),
                       height: 70,
                       width: (MediaQuery.of(context).size.width - 30)/2 - 10,
-                      child: Center(child: Text('History',  style:TextStyle(fontSize: 18))),
+                      child: const Center(child: Text('History',  style:TextStyle(fontSize: 18))),
                     ),
                     onTap:(){}
                   ),
@@ -193,19 +193,19 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Container(
                       decoration:(BoxDecoration(
                         //border: Border.all(width:1),
-                        borderRadius: BorderRadius.horizontal(
+                        borderRadius: const BorderRadius.horizontal(
                         right: Radius.circular(7),
                         left: Radius.circular(7)),
                         color: Theme.of(context).colorScheme.secondaryContainer)),
                       height: 70,
                       width: (MediaQuery.of(context).size.width - 30)/2 - 10,
-                      child: Center(child: Text('??????',  style:TextStyle(fontSize: 18))),
+                      child: const Center(child: Text('??????',  style:TextStyle(fontSize: 18))),
                     ),
                     onTap:(){}
                   ),
                   
                 ],),
-              SizedBox(height: 25,),
+                const SizedBox(height: 25,),
 
               Container(
                 //height: 170,
@@ -213,22 +213,22 @@ class _ProfilePageState extends State<ProfilePage> {
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.secondaryContainer,
                   //border:Border.all(width:1),
-                  borderRadius: BorderRadius.horizontal(
+                  borderRadius: const BorderRadius.horizontal(
                     right: Radius.circular(5),
                     left: Radius.circular(5)),
                   ),
                 child: Padding(
-                  padding: playlists.isEmpty? EdgeInsets.fromLTRB(15, 15, 15, 10):EdgeInsets.fromLTRB(15, 15, 15, 0),
+                  padding: playlists.isEmpty? const EdgeInsets.fromLTRB(15, 15, 15, 10):EdgeInsets.fromLTRB(15, 15, 15, 0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('My Playlists:', style: TextStyle(fontSize: 20, decoration: TextDecoration.underline)),
-                      SizedBox(height:20),
+                      const Text('My Playlists:', style: TextStyle(fontSize: 20, decoration: TextDecoration.underline)),
+                      const SizedBox(height:20),
                       Container(
                         //height: playlists.isEmpty? 90 : double.infinity,
                         child: playlists.isEmpty?
-                        Center(
+                        const Center(
                           child: Text('No playlists yet...',
                           style:TextStyle(fontSize: 18),
                             ))
@@ -236,7 +236,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         GridView.builder(
                           shrinkWrap: true,
                           itemCount: _allPlaylists? playlists.length : 3,
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3,
                             mainAxisSpacing: 15,
                             crossAxisSpacing: 20,
@@ -247,12 +247,12 @@ class _ProfilePageState extends State<ProfilePage> {
 
                           )
                       ),
-                        SizedBox(height:2),
+                      const SizedBox(height:2),
                         Visibility(
                           visible: !_allPlaylists && playlists.isNotEmpty,
                           child: Center(
                             child: InkWell(
-                              child: Icon(Icons.arrow_drop_down,size:40),
+                              child: const Icon(Icons.arrow_drop_down,size:40),
                               onTap: (){
                                 setState((){ _allPlaylists=true;});
                               },
@@ -263,7 +263,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           visible: _allPlaylists && playlists.isNotEmpty,
                           child: Center(
                             child: InkWell(
-                              child: Icon(Icons.arrow_drop_up,size:40),
+                              child: const Icon(Icons.arrow_drop_up,size:40),
                               onTap: (){
                                 setState((){ _allPlaylists=false;});
                               },
@@ -297,7 +297,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   width: 75,
                   child: Text(
                     playlistData.name,
-                    style: TextStyle(fontSize: 16,),
+                    style: const TextStyle(fontSize: 16,),
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,

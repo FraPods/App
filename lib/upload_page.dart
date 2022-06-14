@@ -72,12 +72,12 @@ class _UploadPageState extends State<UploadPage> {
       appBar: AppBar(
         // key:appbarKey,
         leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             onPressed: () {
               widget.setPage(-1);
             }),
         actions: [
-          IconButton(icon: Icon(Icons.settings),
+          IconButton(icon: const Icon(Icons.settings),
             onPressed: () {
               widget.setPage(4);
             },)
@@ -90,7 +90,7 @@ class _UploadPageState extends State<UploadPage> {
         child: ListView(
           children: [
           Padding(
-              padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
               child: 
               Column(
                 children: <Widget>[
@@ -99,11 +99,11 @@ class _UploadPageState extends State<UploadPage> {
                     height: 70,
                     child: TextButton(
                       onPressed: () => _newPodcast(context),
-                      child: Text('+ New Podcast'),
+                      child: const Text('+ New Podcast'),
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(Theme.of(context).colorScheme.primary),
                         foregroundColor: MaterialStateProperty.all<Color>(Theme.of(context).colorScheme.onPrimary),
-                        textStyle: MaterialStateProperty.all<TextStyle>(TextStyle(fontSize: 23, letterSpacing: 0.7))
+                        textStyle: MaterialStateProperty.all<TextStyle>(const TextStyle(fontSize: 23, letterSpacing: 0.7))
                       )
                     ),
                   ),
@@ -115,11 +115,11 @@ class _UploadPageState extends State<UploadPage> {
                     child: Card(elevation: 15, 
                       shadowColor: Colors.black,
                       color: Theme.of(context).colorScheme.surface,
-                      margin: EdgeInsets.only(top: 30),
+                      margin: const EdgeInsets.only(top: 30),
                       child: Column(children: [
                         Container(
-                          padding: EdgeInsets.only(top: 20, bottom: 10),
-                            child: Center(
+                          padding: const EdgeInsets.only(top: 20, bottom: 10),
+                            child: const Center(
                               child: Text(
                                 'Existing Podcasts',
                                 style: TextStyle(
@@ -131,11 +131,11 @@ class _UploadPageState extends State<UploadPage> {
                         ),
 
                         Container(
-                          margin: EdgeInsets.symmetric(vertical: 10),
+                          margin: const EdgeInsets.symmetric(vertical: 10),
                           height: //MediaQuery.of(context).size.height > 350 ? pageHeight * 0.5102814 : 200,
                           370,
                           child: podcasts.isEmpty?
-                          Center(
+                          const Center(
                             child: (Text('Empty List.....', style: TextStyle(fontSize:18)))
                           )
                           : ListView.builder(
@@ -167,19 +167,19 @@ class _UploadPageState extends State<UploadPage> {
       },
       //onHover: ,
       child: Card(
-        margin: EdgeInsets.symmetric(horizontal: 13, vertical: 10),
+        margin: const EdgeInsets.symmetric(horizontal: 13, vertical: 10),
         color: Theme.of(context).colorScheme.primaryContainer,
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.fromLTRB(0, 0, 10, 10),
+                margin: const EdgeInsets.fromLTRB(0, 0, 10, 10),
                 child: Text(
                   podcastInfo.title,
                   textAlign: TextAlign.left,
-                  style: TextStyle(fontSize: 19),
+                  style: const TextStyle(fontSize: 19),
                   overflow: TextOverflow.fade,
                   softWrap: false,
                   maxLines: 1,
@@ -200,7 +200,7 @@ class _UploadPageState extends State<UploadPage> {
                         overflow: TextOverflow.fade,
                         softWrap: false,
                         maxLines: 3,
-                        style: TextStyle(fontSize: 16),
+                        style: const TextStyle(fontSize: 16),
                       ),
                     ),
                   ),
@@ -210,7 +210,7 @@ class _UploadPageState extends State<UploadPage> {
                   child:Container(
                   //alignment: Alignment.bottomRight,
                   decoration: BoxDecoration(border:Border.all(width: 1)),
-                  child: Text('Edit podcast'))
+                  child: const Text('Edit podcast'))
                 )
               ],
             ),

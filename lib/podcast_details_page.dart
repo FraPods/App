@@ -57,7 +57,7 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
           return Scaffold(
         appBar: AppBar(),
         body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 30),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 30),
           child: Center(
             child:
             Column(
