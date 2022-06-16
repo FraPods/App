@@ -10,8 +10,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'main.dart';
 
-const String api_domain = "http://192.168.0.105/Backend/";
-//const String api_domain = "https://podcast-api.kleysley.com/Backend/";
+//const String api_domain = "http://192.168.0.105/Backend/";
+const String api_domain = "https://podcast-api.kleysley.com/Backend/";
 
 class BackendApi {
 
