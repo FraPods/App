@@ -68,76 +68,101 @@ class _LoginPageState extends State<LoginPage>
     return Scaffold(
       body: Stack(
         children: [
-          Align(
-            alignment: Alignment.center,
-            child: SingleChildScrollView(
+          //animation cancel
+          Visibility(
+            visible: !isLogin,
+            child: Align(
+              alignment: Alignment.topCenter,
               child: Container(
                 width: size.width,
-                height: defaultLoginSize,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Welcome',
-                      style: loginTitleTextStyle(),
-                    ),
-                    SizedBox(height: 40),
-                    Image.asset(
-                      'assets/icon-round.png',
-                      height: 250,
-                      width: 250,
-                    ),
-                    SizedBox(height: 40),
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 10),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                      width: size.width * 0.8,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: backgroundColor()),
-                      child: TextField(
-                        decoration: InputDecoration(
-                            icon: Icon(Icons.email, color: blueish()),
-                            hintText: 'Username',
-                            border: InputBorder.none),
+                height: size.height * 0.1,
+                alignment: Alignment.bottomCenter,
+                child: IconButton(
+                    icon: const Icon(Icons.close_rounded),
+                    onPressed: () {
+                      animationController.reverse();
+                      setState(() {
+                        isLogin = !isLogin;
+                      });
+                    },
+                    color: Colors.white),
+              ),
+            ),
+          ),
+
+          Visibility(
+            visible: isLogin,
+            child: Align(
+              alignment: Alignment.center,
+              child: SingleChildScrollView(
+                child: Container(
+                  width: size.width,
+                  height: defaultLoginSize,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Welcome to',
+                        style: loginTitleTextStyle(),
                       ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 10),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                      width: size.width * 0.8,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: backgroundColor()),
-                      child: TextField(
-                        obscureText: true,
-                        decoration: InputDecoration(
-                            icon: Icon(Icons.lock, color: blueish()),
-                            hintText: 'Password',
-                            border: InputBorder.none),
+                      SizedBox(height: 40),
+                      Image.asset(
+                        'assets/icon-round.png',
+                        height: 250,
+                        width: 250,
                       ),
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      borderRadius: BorderRadius.circular(30),
-                      child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        alignment: Alignment.center,
+                      SizedBox(height: 40),
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 10),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                         width: size.width * 0.8,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: blueish(),
-                        ),
-                        child: Text(
-                          'Login',
-                          style: loginTextStyle(),
+                            borderRadius: BorderRadius.circular(30),
+                            color: backgroundColor()),
+                        child: TextField(
+                          decoration: InputDecoration(
+                              icon: Icon(Icons.email, color: blueish()),
+                              hintText: 'Username',
+                              border: InputBorder.none),
                         ),
                       ),
-                    )
-                  ],
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 10),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        width: size.width * 0.8,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color: backgroundColor()),
+                        child: TextField(
+                          obscureText: true,
+                          decoration: InputDecoration(
+                              icon: Icon(Icons.lock, color: blueish()),
+                              hintText: 'Password',
+                              border: InputBorder.none),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {},
+                        borderRadius: BorderRadius.circular(30),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          alignment: Alignment.center,
+                          width: size.width * 0.8,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color: blueish(),
+                          ),
+                          child: Text(
+                            'Login',
+                            style: loginTextStyle(),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -148,7 +173,125 @@ class _LoginPageState extends State<LoginPage>
               return buildRegisterContainer();
             },
           ),
+          Visibility(
+            visible: !isLogin,
+            child: Align(
+              alignment: Alignment.center,
+              child: SingleChildScrollView(
+                child: Container(
+                  width: size.width,
+                  height: defaultLoginSize,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Sign Up',
+                        style: loginTitleTextStyle(),
+                      ),
+                      SizedBox(height: 40),
+                      Image.asset(
+                        'assets/icon-round.png',
+                        height: 250,
+                        width: 250,
+                      ),
+                      SizedBox(height: 40),
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 10),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        width: size.width * 0.8,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color: backgroundColor2()),
+                        child: TextField(
+                          decoration: InputDecoration(
+                              icon: Icon(Icons.person, color: blueish()),
+                              hintText: 'First Name',
+                              border: InputBorder.none),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 10),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        width: size.width * 0.8,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color: backgroundColor2()),
+                        child: TextField(
+                          decoration: InputDecoration(
+                              icon: Icon(Icons.person_add, color: blueish()),
+                              hintText: 'Last Name',
+                              border: InputBorder.none),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 10),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        width: size.width * 0.8,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color: backgroundColor2()),
+                        child: TextField(
+                          decoration: InputDecoration(
+                              icon: Icon(Icons.email, color: blueish()),
+                              hintText: 'E-Mail',
+                              border: InputBorder.none),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 10),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        width: size.width * 0.8,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color: backgroundColor2()),
+                        child: TextField(
+                          obscureText: true,
+                          decoration: InputDecoration(
+                              icon: Icon(Icons.lock, color: blueish()),
+                              hintText: 'Password',
+                              border: InputBorder.none),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {},
+                        borderRadius: BorderRadius.circular(30),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          alignment: Alignment.center,
+                          width: size.width * 0.8,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color: blueish(),
+                          ),
+                          child: Text(
+                            'Sign Up',
+                            style: loginTextStyle(),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
+      ),
+      // temporary button for testing
+      floatingActionButton: FloatingActionButton(
+        child: Text('skip login'),
+        onPressed: () {
+          setState(
+            () {
+              loginNotifier.value = true;
+            },
+          );
+        },
       ),
     );
   }
@@ -174,10 +317,12 @@ class _LoginPageState extends State<LoginPage>
               isLogin = !isLogin;
             });
           },
-          child: Text(
-            "Don't have an account? Sign Up",
-            style: normalTextStyle(),
-          ),
+          child: isLogin
+              ? Text(
+                  "Don't have an account? Sign Up",
+                  style: normalTextStyle(),
+                )
+              : null,
         ),
       ),
     );

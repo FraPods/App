@@ -184,6 +184,10 @@ Color backgroundColor() {
   return Color(0xFF292929);
 }
 
+Color backgroundColor2() {
+  return Color(0xff424242);
+}
+
 MaterialColor generateMaterialColorFromColor(Color color) {
   return MaterialColor(color.value, {
     50: Color.fromRGBO(color.red, color.green, color.blue, 0.1),
