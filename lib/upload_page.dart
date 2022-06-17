@@ -28,7 +28,9 @@ class UploadPage extends StatefulWidget {
 
 class _UploadPageState extends State<UploadPage> {
   // declare variables here:
-  List<PodcastInfo> podcasts = [];
+  List<PodcastInfo> podcasts = [
+    PodcastInfo('p1111111111111111111111111111','xxsxxxxxxx xxxxx x x x x xxxxx xxxx x xxxxx xx','art','url','', 1)
+  ];
 
   void _addNewPodcast(String xtitle, String xartist, String xdescription, String xurl){
     // final newpod = PodcastInfo.only(
@@ -76,12 +78,12 @@ class _UploadPageState extends State<UploadPage> {
             onPressed: () {
               widget.setPage(-1);
             }),
-        actions: [
-          IconButton(icon: const Icon(Icons.settings),
-            onPressed: () {
-              widget.setPage(4);
-            },)
-         ],
+        // actions: [
+        //   IconButton(icon: const Icon(Icons.settings),
+        //     onPressed: () {
+        //       widget.setPage(4);
+        //     },)
+        //  ],
       ),
 
       body: Container(
@@ -123,7 +125,7 @@ class _UploadPageState extends State<UploadPage> {
                               child: Text(
                                 'Existing Podcasts',
                                 style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 21,
                                   letterSpacing: 0.5
                                 ),
                               )
@@ -170,7 +172,7 @@ class _UploadPageState extends State<UploadPage> {
         margin: const EdgeInsets.symmetric(horizontal: 13, vertical: 10),
         color: Theme.of(context).colorScheme.primaryContainer,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -200,22 +202,27 @@ class _UploadPageState extends State<UploadPage> {
                         overflow: TextOverflow.fade,
                         softWrap: false,
                         maxLines: 3,
-                        style: const TextStyle(fontSize: 16),
+                        style: const TextStyle(fontSize: 17),
                       ),
                     ),
                   ),
-                const SizedBox(height: 20),
-                InkWell(
-                  onTap:(){},
-                  child:Container(
-                  //alignment: Alignment.bottomRight,
-                  decoration: BoxDecoration(border:Border.all(width: 1)),
-                  child: const Text('Edit podcast'))
-                )
+                
               ],
             ),
-          ],
-        ),
+            const SizedBox(height: 15),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                InkWell(
+                onTap:(){},
+                child: const Icon(Icons.edit_rounded)),
+                SizedBox(width:5),
+                InkWell(
+                onTap:(){},
+                child: const Icon(Icons.delete_outline_rounded)),
+              ],
+            )
+          ],),
       ),
     )
     );

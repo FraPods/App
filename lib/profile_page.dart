@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frapods/backend_api.dart';
 import 'package:frapods/playlist_info.dart';
+import 'package:frapods/playlists_page.dart';
 import 'package:frapods/podcast_info.dart';
 import 'setting_page.dart';
 
@@ -22,9 +23,9 @@ class _ProfilePageState extends State<ProfilePage> {
   final TextEditingController _emailTextController = TextEditingController();
   final TextEditingController _passwordTextController = TextEditingController();
   List<PlaylistData> playlists = [
-    /*PlaylistData('pl1', [PodcastInfo('p1','xxxx','art','url','', 1)]),
+    PlaylistData('pl1', [PodcastInfo('p1','xxxx','art','url','', 1)]),
     PlaylistData('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhpl2', [PodcastInfo('p1','xxxx','art','url','', 2)]),
-    PlaylistData('pl3', [PodcastInfo('p1','xxxx','art','url','', 3)]),
+    /*PlaylistData('pl3', [PodcastInfo('p1','xxxx','art','url','', 3)]),
     PlaylistData('pl3', [PodcastInfo('p1','xxxx','art','url','', 4)]),
     PlaylistData('pl3', [PodcastInfo('p1','xxxx','art','url','', 5)]),*/
   ];
@@ -33,6 +34,17 @@ class _ProfilePageState extends State<ProfilePage> {
   String username = "";
   bool firstLoad = true;
   String noPodcasts = "0";
+
+  void _playlistInfo (BuildContext ctx,  PlaylistData pld, {int id = 0}) {
+    showModalBottomSheet(
+      backgroundColor: Theme.of(context).colorScheme.background,
+      context: ctx,
+      builder: (_){
+        return PlaylistsPage(playlistData: pld,);
+      },
+      isScrollControlled: true
+      );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -226,19 +238,34 @@ class _ProfilePageState extends State<ProfilePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('My Playlists:', style: TextStyle(fontSize: 20, decoration: TextDecoration.underline)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                        const Text('My Playlists:', style: TextStyle(fontSize: 20, decoration: TextDecoration.underline)),
+                        Container(
+                          margin: const EdgeInsets.only(right:5),
+                          child: InkWell(
+                            onTap:(){},
+                            child: const Icon(Icons.add)
+                          ),
+                        ),
+                        ],
+                      ),
                       const SizedBox(height:20),
                       Container(
                         //height: playlists.isEmpty? 90 : double.infinity,
                         child: playlists.isEmpty?
-                        const Center(
-                          child: Text('No playlists yet...',
-                          style:TextStyle(fontSize: 18),
-                            ))
+                        Container(
+                          height: 120,
+                          child: const Center(
+                            child: Text('No playlists yet...',
+                            style:TextStyle(fontSize: 18),
+                              )),
+                        )
                         :
                         GridView.builder(
                           shrinkWrap: true,
-                          itemCount: _allPlaylists? playlists.length : 3,
+                          itemCount: _allPlaylists? playlists.length: playlists.length <3? playlists.length: 3,
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3,
                             mainAxisSpacing: 15,
@@ -289,7 +316,7 @@ class _ProfilePageState extends State<ProfilePage> {
       //children: [
         //SizedBox(width: 0,),
         InkWell(
-          onTap: (){},
+          onTap: () => _playlistInfo(context, playlistData),
           child:
             Container(
               height: 80,

@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:frapods/main_page.dart';
@@ -46,7 +44,7 @@ class _LoginPageState extends State<LoginPage>
   @override
   void initState() {
     super.initState();
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     animationController =
         AnimationController(vsync: this, duration: animationDuration);
   }
@@ -56,10 +54,10 @@ class _LoginPageState extends State<LoginPage>
     Size size = MediaQuery.of(context).size;
 
     double viewInset = MediaQuery.of(context).viewInsets.bottom; //keyboard check
-    double defaultLoginSize = size.height - (size.height * 0.2);
-    double defaultRegisterSize = size.height - (size.height * 0.1);
+    double defaultLoginSize = size.height - (size.height * 0.15);
+    double defaultRegisterSize = size.height - (size.height * 0.15);
 
-    containerSize = Tween<double>(begin: size.height * 0.1, end: defaultRegisterSize).animate(CurvedAnimation(parent: animationController, curve: Curves.linear));
+    containerSize = Tween<double>(begin: size.height * 0.15, end: defaultRegisterSize).animate(CurvedAnimation(parent: animationController, curve: Curves.linear));
 
     return Scaffold(
       body: Stack(
@@ -71,7 +69,7 @@ class _LoginPageState extends State<LoginPage>
               alignment: Alignment.topCenter,
               child: Container(
                 width: size.width,
-                height: size.height * 0.1,
+                height: size.height * 0.15,
                 alignment: Alignment.bottomCenter,
                 child: IconButton(
                     icon: const Icon(Icons.close_rounded),
@@ -96,8 +94,9 @@ class _LoginPageState extends State<LoginPage>
                   height: defaultLoginSize,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      const SizedBox(height:30),
                       Text(
                         'Welcome to',
                         style: loginTitleTextStyle(),
@@ -108,7 +107,7 @@ class _LoginPageState extends State<LoginPage>
                         height: 250,
                         width: 250,
                       ),
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 30),
                       Container(
                         margin: const EdgeInsets.symmetric(vertical: 10),
                         padding:
@@ -174,15 +173,16 @@ class _LoginPageState extends State<LoginPage>
           Visibility(
             visible: !isLogin,
             child: Align(
-              alignment: Alignment.center,
-              child: SingleChildScrollView(
-                child: Container(
-                  width: size.width,
-                  height: defaultLoginSize,
-                  child: Column(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                width: size.width,
+                height: defaultLoginSize,
+                child: ListView(
+                  children: [Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      //SizedBox(height:10),
                       Text(
                         'Sign Up',
                         style: loginTitleTextStyle(),
@@ -193,7 +193,7 @@ class _LoginPageState extends State<LoginPage>
                         height: 250,
                         width: 250,
                       ),
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 25),
                       Container(
                         margin: const EdgeInsets.symmetric(vertical: 10),
                         padding:
@@ -275,9 +275,10 @@ class _LoginPageState extends State<LoginPage>
                             style: loginTextStyle(),
                           ),
                         ),
-                      )
+                      ),
+                      SizedBox(height:40)
                     ],
-                  ),
+                  ),]
                 ),
               ),
             ),
@@ -365,8 +366,8 @@ class _LoginPageState extends State<LoginPage>
         height: containerSize.value,
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(100),
-            topRight: Radius.circular(100),
+            topLeft: Radius.circular(70),
+            topRight: Radius.circular(70),
           ),
           color: backgroundColor(),
         ),

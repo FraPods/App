@@ -61,7 +61,7 @@ class FraPodsApp extends StatelessWidget {
                         //primaryColor: Colors.white,
                         colorScheme: ColorScheme.light(
                           primary: Color(0xff3884E6),
-                          primaryContainer: Color(0xFF99C4FD),
+                          primaryContainer: Color.fromARGB(255, 165, 190, 227),
                           secondary: Color.fromARGB(255, 133, 144, 158),
                           secondaryContainer: Color.fromARGB(255, 255, 253, 246),//Color(0xffFFFDF4),
                           surface: Color.fromARGB(255, 192, 200, 211),//Color.fromARGB(255, 214, 214, 214),
@@ -84,7 +84,7 @@ class FraPodsApp extends StatelessWidget {
                         //backgroundColor: backgroundColor(),
                         colorScheme: ColorScheme.dark(
                           primary: Color(0xff0264e3),
-                          primaryContainer: Color(0xff4889DD),
+                          primaryContainer: Color.fromARGB(255, 88, 148, 225),
                           secondary: Color.fromARGB(255, 141, 149, 158),
                           secondaryContainer: Color(0xff909090),
                           surface: Color.fromARGB(255, 66, 67, 70),
