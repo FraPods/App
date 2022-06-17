@@ -26,11 +26,14 @@ class UploadPage extends StatefulWidget {
   }
 }
 
+List<PodcastInfo> podcasts = [
+  PodcastInfo('What is FraPods?','It\'s a cool app!','art','url','', 1)
+];
+
+int myPosts = podcasts.length;
+
 class _UploadPageState extends State<UploadPage> {
   // declare variables here:
-  List<PodcastInfo> podcasts = [
-    PodcastInfo('p1111111111111111111111111111','xxsxxxxxxx xxxxx x x x x xxxxx xxxx x xxxxx xx','art','url','', 1)
-  ];
 
   void _addNewPodcast(String xtitle, String xartist, String xdescription, String xurl){
     // final newpod = PodcastInfo.only(
@@ -181,7 +184,7 @@ class _UploadPageState extends State<UploadPage> {
                 child: Text(
                   podcastInfo.title,
                   textAlign: TextAlign.left,
-                  style: const TextStyle(fontSize: 19),
+                  style: const TextStyle(fontSize: 20),
                   overflow: TextOverflow.fade,
                   softWrap: false,
                   maxLines: 1,

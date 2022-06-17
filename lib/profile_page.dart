@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:frapods/add_new_playlist.dart';
 import 'package:frapods/backend_api.dart';
 import 'package:frapods/playlist_info.dart';
 import 'package:frapods/playlists_page.dart';
+import 'package:frapods/playlists_page_fake.dart';
 import 'package:frapods/podcast_info.dart';
+import 'package:frapods/upload_page.dart';
 import 'setting_page.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -23,11 +26,16 @@ class _ProfilePageState extends State<ProfilePage> {
   final TextEditingController _emailTextController = TextEditingController();
   final TextEditingController _passwordTextController = TextEditingController();
   List<PlaylistData> playlists = [
-    PlaylistData('pl1', [PodcastInfo('p1','xxxx','art','url','', 1)]),
-    PlaylistData('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhpl2', [PodcastInfo('p1','xxxx','art','url','', 2)]),
-    /*PlaylistData('pl3', [PodcastInfo('p1','xxxx','art','url','', 3)]),
-    PlaylistData('pl3', [PodcastInfo('p1','xxxx','art','url','', 4)]),
-    PlaylistData('pl3', [PodcastInfo('p1','xxxx','art','url','', 5)]),*/
+    PlaylistData('playlist 1', [
+      PodcastInfo('podcast 1','xxxx','art','url','', 1),
+      PodcastInfo('podcast 2','xxxx','art','url','', 2),
+      PodcastInfo('podcast 3','xxxx','art','url','', 3),
+      PodcastInfo('podcast 4','xxxx','art','url','', 4),
+      PodcastInfo('podcast 500','xxxx','art','url','', 5)]),
+    PlaylistData('playlist 2', [PodcastInfo('p1','xxxx','art','url','', 1)]),
+    PlaylistData('playlist 3', [PodcastInfo('p1','xxxx','art','url','', 3)]),
+    PlaylistData('playlist 4', [PodcastInfo('p1','xxxx','art','url','', 4)]),
+    PlaylistData('playlist 5', [PodcastInfo('p1','xxxx','art','url','', 5)]),
   ];
   bool _allPlaylists = false;
 
@@ -40,10 +48,28 @@ class _ProfilePageState extends State<ProfilePage> {
       backgroundColor: Theme.of(context).colorScheme.background,
       context: ctx,
       builder: (_){
-        return PlaylistsPage(playlistData: pld,);
+        return PlaylistsPagefake();//PlaylistsPage(pld,);
       },
       isScrollControlled: true
       );
+  }
+
+  void _newPlaylist (BuildContext ctx, {int id = 0}) {
+    showModalBottomSheet(
+      backgroundColor: Theme.of(context).colorScheme.background,
+      context: ctx,
+      builder: (_){
+        return AddNewPlaylist(_addNewPlaylist,id);
+      },
+      isScrollControlled: true
+      );
+  }
+
+  void _addNewPlaylist(String xname, List<PodcastInfo> xpodcast){
+     final newplay = PlaylistData(xname, xpodcast);
+    setState(() {
+      playlists.add(PlaylistData(xname, xpodcast));
+    });
   }
 
   @override
@@ -92,16 +118,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.pink, width: 2),
-                            borderRadius: const BorderRadius.horizontal(
-                              right: Radius.circular(10),
-                              left: Radius.circular(10),
-                          )
-                          ),
-                          height: 90, width: 90,
-                          ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.asset(
+                            'assets/test_profile_pic.jpg',
+                            height:90, width: 90,),
+                        ),
                         const SizedBox(width: 20,),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -112,7 +134,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               padding: const EdgeInsets.only(right:5),
                               width: MediaQuery.of(context).size.width - 175,
                               //height: ,
-                              child: Text(username,
+                              child: Text('Username',//username,
                                 style: const TextStyle(fontSize: 23),
                                 maxLines: 1,
                                 textAlign: TextAlign.left,
@@ -130,7 +152,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             //   overflow: TextOverflow.ellipsis,
                             //   softWrap: false,),
                             // ),
-                            Text('My posts: ' + noPodcasts, style: const TextStyle(fontSize: 18),),
+                            Text('My posts: ' + myPosts.toString()/*noPodcasts*/, style: const TextStyle(fontSize: 18),),
                             const SizedBox(height: 15,)
                           ],
                         )
@@ -214,7 +236,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         color: Theme.of(context).colorScheme.secondaryContainer)),
                       height: 70,
                       width: (MediaQuery.of(context).size.width - 30)/2 - 10,
-                      child: const Center(child: Text('??????',  style:TextStyle(fontSize: 18))),
+                      child: const Center(child: Text('Inbox',  style:TextStyle(fontSize: 18))),
                     ),
                     onTap:(){}
                   ),
@@ -245,7 +267,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         Container(
                           margin: const EdgeInsets.only(right:5),
                           child: InkWell(
-                            onTap:(){},
+                            onTap:(){
+                            },
                             child: const Icon(Icons.add)
                           ),
                         ),
@@ -321,7 +344,9 @@ class _ProfilePageState extends State<ProfilePage> {
             Container(
               height: 80,
               width: 80,
-              decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.amber)),
+              decoration: BoxDecoration(
+               color: Theme.of(context).colorScheme.surface,
+                borderRadius: BorderRadius.circular(8)),
               child:Center(
                 child: Container(
                   width: 75,
