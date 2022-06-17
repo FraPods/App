@@ -135,6 +135,25 @@ TextStyle titleTextStyle() {
   ;
 }
 
+TextStyle loginTextStyle() {
+  return TextStyle(
+    fontSize: 15,
+  );
+}
+
+TextStyle shadowTextStyle2() {
+  return TextStyle(
+    fontSize: 18,
+  );
+}
+
+TextStyle loginTitleTextStyle() {
+  return TextStyle(
+    fontSize: 32,
+    fontWeight: FontWeight.bold,
+  );
+}
+
 TextStyle normalTextStyle() {
   return TextStyle(
     fontSize: 16,
@@ -185,6 +204,10 @@ Color backgroundColor() {
   return Color.fromARGB(255, 56, 57, 58);//Color.fromARGB(255, 52, 52, 52);
 }
 
+Color backgroundColor2() {
+  return Color(0xff424242);
+}
+
 MaterialColor generateMaterialColorFromColor(Color color) {
   return MaterialColor(color.value, {
     50: Color.fromRGBO(color.red, color.green, color.blue, 0.1),
@@ -200,12 +223,9 @@ MaterialColor generateMaterialColorFromColor(Color color) {
   });
 }
 
-
-
 const String DARKMODE_ACTIVATED_KEY = "isDarkModeActivated";
 const String YOUTUBE_SOURCE_ACTIVATED_KEY = "isYoutubeSourceActivated";
 const String FRAPODS_SOURCE_ACTIVATED_KEY = "isFrapodsSourceActivated";
-
 
 final darkNotifier = ValueNotifier<bool>(isDarkModeActivated);
 var loginNotifier = ValueNotifier<bool>(false);
@@ -222,13 +242,11 @@ PodcastPlayer podcastPlayer = new PodcastPlayer();
 GlobalKey bottomnavKey = GlobalKey();
 Size? bottomnavSize = bottomnavKey.currentContext!.size;
 
-
 // To calculate sizes
 GlobalKey sizeKey = GlobalKey();
 Size? size = sizeKey.currentContext!.size;
 
-
-void saveBool(String key, bool value) async{
+void saveBool(String key, bool value) async {
   (await SharedPreferences.getInstance()).setBool(key, value);
 }
 
