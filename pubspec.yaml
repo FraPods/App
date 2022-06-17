@@ -80,6 +80,24 @@ flutter:
     - assets/testpodcast4.png
     - assets/testpodcast5.png
     - assets/testpodcast6.png
+    - assets/testpodcast7.png
+    - assets/testpodcast8.png
+    - assets/testpodcast9.png
+    - assets/testpodcast10.png
+    - assets/testpodcast11.png
+    - assets/testpodcast12.png
+    - assets/testpodcast13.png
+    - assets/testpodcast14.png
+    - assets/testpodcast15.png
+    - assets/testpodcast16.png
+    - assets/testpodcast17.png
+    - assets/testpodcast18.png
+    - assets/testpodcast19.png
+    - assets/testpodcast20.png
+    - assets/testpodcast21.png
+    - assets/testpodcast22.png
+    - assets/testpodcast23.png
+    - assets/testpodcast24.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

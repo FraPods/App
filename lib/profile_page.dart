@@ -106,7 +106,7 @@ class _ProfilePageState extends State<ProfilePage> {
               children: <Widget>[
                 Card(
                   elevation: 5,
-                  color: Theme.of(context).colorScheme.surface,
+                  color: Theme.of(context).colorScheme.primaryContainer,
                   margin: const EdgeInsets.only(right: 0),
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 15),

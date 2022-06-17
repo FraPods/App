@@ -21,13 +21,6 @@ class PlaylistsPagefake extends StatefulWidget {
 class _PlaylistsPagefakeState extends State<PlaylistsPagefake> {
   // declare variables here:
 
-  int rn1 = Random().nextInt(7);
-  int rn2 = Random().nextInt(7);
-  int rn3 = Random().nextInt(7);
-  int rn4 = Random().nextInt(7);
-  int rn5 = Random().nextInt(7);
-  int rn6 = Random().nextInt(7);
-
   @override
   Widget build(BuildContext context) {
     //define variables here
@@ -59,325 +52,72 @@ class _PlaylistsPagefakeState extends State<PlaylistsPagefake> {
                   height: pageHeight * 0.57,
                   child: ListView(
                     children: [
-
-                      Container(
-                        width: double.maxFinite,
-                        child: Card(
-                          elevation: 0,
-                          color: const Color(0x00000000),
-                          child: Row(
-                            children: [
-                              Container(
-                                  height: 60,
-                                  width: 60,
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 0),
-                                  child: Image.asset('assets/testpodcast' +
-                                      rn1.toString() +
-                                      '.png')),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    margin:
-                                        const EdgeInsets.fromLTRB(10, 5, 10, 0),
-                                    width:
-                                        MediaQuery.of(context).size.width - 140,
-                                    child: const Text(
-                                      'podcast 1',
-                                      maxLines: 2,
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(fontSize: 18),
-                                      overflow: TextOverflow.ellipsis,
-                                      softWrap: false,
-                                    ),
-                                  ),
-                                  Container(
-                                    margin:
-                                        const EdgeInsets.fromLTRB(10, 8, 0, 5),
-                                    width:
-                                        MediaQuery.of(context).size.width - 140,
-                                    child: const Text(
-                                      'artist 1',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(fontSize: 15),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const Divider(
-                        thickness: 1,
-                        color: Colors.grey,
-                      ),
-                      Container(
-                        width: double.maxFinite,
-                        child: Card(
-                          elevation: 0,
-                          color: const Color(0x00000000),
-                          child: Row(
-                            children: [
-                              Container(
-                                  height: 60,
-                                  width: 60,
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 0),
-                                  child: Image.asset('assets/testpodcast' +
-                                      rn2.toString() +
-                                      '.png')),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    margin:
-                                        const EdgeInsets.fromLTRB(10, 5, 10, 0),
-                                    width:
-                                        MediaQuery.of(context).size.width - 140,
-                                    child: const Text(
-                                      'podcast 2',
-                                      maxLines: 2,
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(fontSize: 18),
-                                      overflow: TextOverflow.ellipsis,
-                                      softWrap: false,
-                                    ),
-                                  ),
-                                  Container(
-                                    margin:
-                                        const EdgeInsets.fromLTRB(10, 8, 0, 5),
-                                    width:
-                                        MediaQuery.of(context).size.width - 140,
-                                    child: const Text(
-                                      'artist 2',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(fontSize: 15),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const Divider(
-                        thickness: 1,
-                        color: Colors.grey,
-                      ),
-                      Container(
-                        width: double.maxFinite,
-                        child: Card(
-                          elevation: 0,
-                          color: const Color(0x00000000),
-                          child: Row(
-                            children: [
-                              Container(
-                                  height: 60,
-                                  width: 60,
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 0),
-                                  child: Image.asset('assets/testpodcast' +
-                                      rn3.toString() +
-                                      '.png')),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    margin:
-                                        const EdgeInsets.fromLTRB(10, 5, 10, 0),
-                                    width:
-                                        MediaQuery.of(context).size.width - 140,
-                                    child: const Text(
-                                      'podcast 3',
-                                      maxLines: 2,
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(fontSize: 18),
-                                      overflow: TextOverflow.ellipsis,
-                                      softWrap: false,
-                                    ),
-                                  ),
-                                  Container(
-                                    margin:
-                                        const EdgeInsets.fromLTRB(10, 8, 0, 5),
-                                    width:
-                                        MediaQuery.of(context).size.width - 140,
-                                    child: const Text(
-                                      'artist 3',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(fontSize: 15),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const Divider(
-                        thickness: 1,
-                        color: Colors.grey,
-                      ),
-                      Container(
-                        width: double.maxFinite,
-                        child: Card(
-                          elevation: 0,
-                          color: const Color(0x00000000),
-                          child: Row(
-                            children: [
-                              Container(
-                                  height: 60,
-                                  width: 60,
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 0),
-                                  child: Image.asset('assets/testpodcast' +
-                                      rn4.toString() +
-                                      '.png')),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    margin:
-                                        const EdgeInsets.fromLTRB(10, 5, 10, 0),
-                                    width:
-                                        MediaQuery.of(context).size.width - 140,
-                                    child: const Text(
-                                      'podcast 4',
-                                      maxLines: 2,
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(fontSize: 18),
-                                      overflow: TextOverflow.ellipsis,
-                                      softWrap: false,
-                                    ),
-                                  ),
-                                  Container(
-                                    margin:
-                                        const EdgeInsets.fromLTRB(10, 8, 0, 5),
-                                    width:
-                                        MediaQuery.of(context).size.width - 140,
-                                    child: const Text(
-                                      'artist 4',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(fontSize: 15),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const Divider(
-                        thickness: 1,
-                        color: Colors.grey,
-                      ),
-                      Container(
-                        width: double.maxFinite,
-                        child: Card(
-                          elevation: 0,
-                          color: const Color(0x00000000),
-                          child: Row(
-                            children: [
-                              Container(
-                                  height: 60,
-                                  width: 60,
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 0),
-                                  child: Image.asset('assets/testpodcast' +
-                                      rn5.toString() +
-                                      '.png')),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    margin:
-                                        const EdgeInsets.fromLTRB(10, 5, 10, 0),
-                                    width:
-                                        MediaQuery.of(context).size.width - 140,
-                                    child: const Text(
-                                      'podcast 5',
-                                      maxLines: 2,
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(fontSize: 18),
-                                      overflow: TextOverflow.ellipsis,
-                                      softWrap: false,
-                                    ),
-                                  ),
-                                  Container(
-                                    margin:
-                                        const EdgeInsets.fromLTRB(10, 8, 0, 5),
-                                    width:
-                                        MediaQuery.of(context).size.width - 140,
-                                    child: const Text(
-                                      'artist 5',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(fontSize: 15),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const Divider(
-                        thickness: 1,
-                        color: Colors.grey,
-                      ),
-                      Container(
-                        width: double.maxFinite,
-                        child: Card(
-                          elevation: 0,
-                          color: const Color(0x00000000),
-                          child: Row(
-                            children: [
-                              Container(
-                                  height: 60,
-                                  width: 60,
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 0),
-                                  child: Image.asset('assets/testpodcast' +
-                                      rn6.toString() +
-                                      '.png')),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    margin:
-                                        const EdgeInsets.fromLTRB(10, 5, 10, 0),
-                                    width:
-                                        MediaQuery.of(context).size.width - 140,
-                                    child: const Text(
-                                      'podcast 6',
-                                      maxLines: 2,
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(fontSize: 18),
-                                      overflow: TextOverflow.ellipsis,
-                                      softWrap: false,
-                                    ),
-                                  ),
-                                  Container(
-                                    margin:
-                                        const EdgeInsets.fromLTRB(10, 8, 0, 5),
-                                    width:
-                                        MediaQuery.of(context).size.width - 140,
-                                    child: const Text(
-                                      'artist 6',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(fontSize: 15),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      _buildPod(1, 5),
+                      _buildPod(2, 3),
+                      _buildPod(3, 10),
+                      _buildPod(4, 9),
+                      _buildPod(5, 1),
+                      _buildPod(6, 2),
+                      _buildPod(7, 8),
                     ],
                   ))
             ],
           ),
         ));
+  }
+
+  Widget _buildPod(int numb, int thumbnail) {
+    return Column(
+      children: [
+        Container(
+          width: double.maxFinite,
+          child: Card(
+            elevation: 0,
+            color: const Color(0x00000000),
+            child: Row(
+              children: [
+                Container(
+                    height: 60,
+                    width: 60,
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                    child: Image.asset(
+                        'assets/testpodcast' + thumbnail.toString() + '.png')),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(10, 5, 10, 0),
+                      width: MediaQuery.of(context).size.width - 140,
+                      child: Text(
+                        'podcast' + numb.toString(),
+                        maxLines: 2,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(fontSize: 18),
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(10, 8, 0, 5),
+                      width: MediaQuery.of(context).size.width - 140,
+                      child: Text(
+                        'artist' + numb.toString(),
+                        textAlign: TextAlign.left,
+                        style: TextStyle(fontSize: 15),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+        const Divider(
+          thickness: 1,
+          color: Colors.grey,
+        ),
+      ],
+    );
   }
 }
