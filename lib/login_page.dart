@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:frapods/main_page.dart';
@@ -192,8 +190,8 @@ class _LoginPageState extends State<LoginPage>
                       SizedBox(height: 40),
                       Image.asset(
                         'assets/icon-round.png',
-                        height: 250,
-                        width: 250,
+                        height: 100,
+                        width: 100,
                       ),
                       SizedBox(height: 40),
                       Container(
