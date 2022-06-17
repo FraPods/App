@@ -27,15 +27,21 @@ class _LoginPageState extends State<LoginPage>
   TextEditingController _emailTextController = TextEditingController();
   bool _showSignUp = false; //show either login screen or signup screen
 
-  //   void dispose() {
-  //   darkNotifier.dispose();
-  //   super.dispose();
-  // }
+  @override dispose() {
+     _usernameTextController.dispose();
+     _passwordTextController.dispose();
+     _firstnameTextController.dispose();
+     _lastnameTextController.dispose();
+     _emailTextController.dispose();
+
+     animationController.dispose();
+     super.dispose();
+  }
 
   bool isLogin = true;
   late Animation<double> containerSize;
   late AnimationController animationController;
-  Duration animationDuration = Duration(milliseconds: 250);
+  Duration animationDuration = const Duration(milliseconds: 250);
 
   @override
   void initState() {
@@ -46,24 +52,14 @@ class _LoginPageState extends State<LoginPage>
   }
 
   @override
-  void dispose() {
-    animationController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    double viewInset =
-        MediaQuery.of(context).viewInsets.bottom; //keyboard check
+    double viewInset = MediaQuery.of(context).viewInsets.bottom; //keyboard check
     double defaultLoginSize = size.height - (size.height * 0.2);
     double defaultRegisterSize = size.height - (size.height * 0.1);
 
-    containerSize = Tween<double>(
-            begin: size.height * 0.1, end: defaultRegisterSize)
-        .animate(
-            CurvedAnimation(parent: animationController, curve: Curves.linear));
+    containerSize = Tween<double>(begin: size.height * 0.1, end: defaultRegisterSize).animate(CurvedAnimation(parent: animationController, curve: Curves.linear));
 
     return Scaffold(
       body: Stack(
@@ -106,17 +102,17 @@ class _LoginPageState extends State<LoginPage>
                         'Welcome to',
                         style: loginTitleTextStyle(),
                       ),
-                      SizedBox(height: 40),
+                      const SizedBox(height: 40),
                       Image.asset(
                         'assets/icon-round.png',
                         height: 250,
                         width: 250,
                       ),
-                      SizedBox(height: 40),
+                      const SizedBox(height: 40),
                       Container(
-                        margin: EdgeInsets.symmetric(vertical: 10),
+                        margin: const EdgeInsets.symmetric(vertical: 10),
                         padding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                            const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                         width: size.width * 0.8,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
@@ -126,12 +122,13 @@ class _LoginPageState extends State<LoginPage>
                               icon: Icon(Icons.email, color: blueish()),
                               hintText: 'Username',
                               border: InputBorder.none),
+                          controller: _usernameTextController,
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.symmetric(vertical: 10),
+                        margin: const EdgeInsets.symmetric(vertical: 10),
                         padding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                            const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                         width: size.width * 0.8,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
@@ -142,13 +139,14 @@ class _LoginPageState extends State<LoginPage>
                               icon: Icon(Icons.lock, color: blueish()),
                               hintText: 'Password',
                               border: InputBorder.none),
+                          controller: _passwordTextController,
                         ),
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () => login(_usernameTextController.text, _passwordTextController.text),
                         borderRadius: BorderRadius.circular(30),
                         child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 10),
+                          padding: const EdgeInsets.symmetric(vertical: 10),
                           alignment: Alignment.center,
                           width: size.width * 0.8,
                           decoration: BoxDecoration(
@@ -189,17 +187,17 @@ class _LoginPageState extends State<LoginPage>
                         'Sign Up',
                         style: loginTitleTextStyle(),
                       ),
-                      SizedBox(height: 40),
+                      const SizedBox(height: 40),
                       Image.asset(
                         'assets/icon-round.png',
                         height: 250,
                         width: 250,
                       ),
-                      SizedBox(height: 40),
+                      const SizedBox(height: 40),
                       Container(
-                        margin: EdgeInsets.symmetric(vertical: 10),
+                        margin: const EdgeInsets.symmetric(vertical: 10),
                         padding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                            const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                         width: size.width * 0.8,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
@@ -209,12 +207,13 @@ class _LoginPageState extends State<LoginPage>
                               icon: Icon(Icons.person, color: blueish()),
                               hintText: 'First Name',
                               border: InputBorder.none),
+                          controller: _firstnameTextController,
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.symmetric(vertical: 10),
+                        margin: const EdgeInsets.symmetric(vertical: 10),
                         padding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                            const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                         width: size.width * 0.8,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
@@ -224,12 +223,13 @@ class _LoginPageState extends State<LoginPage>
                               icon: Icon(Icons.person_add, color: blueish()),
                               hintText: 'Last Name',
                               border: InputBorder.none),
+                          controller: _lastnameTextController,
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.symmetric(vertical: 10),
+                        margin: const EdgeInsets.symmetric(vertical: 10),
                         padding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                            const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                         width: size.width * 0.8,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
@@ -239,12 +239,13 @@ class _LoginPageState extends State<LoginPage>
                               icon: Icon(Icons.email, color: blueish()),
                               hintText: 'E-Mail',
                               border: InputBorder.none),
+                          controller: _emailTextController,
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.symmetric(vertical: 10),
+                        margin: const EdgeInsets.symmetric(vertical: 10),
                         padding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                            const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                         width: size.width * 0.8,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
@@ -255,13 +256,14 @@ class _LoginPageState extends State<LoginPage>
                               icon: Icon(Icons.lock, color: blueish()),
                               hintText: 'Password',
                               border: InputBorder.none),
+                          controller: _passwordTextController,
                         ),
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () => signUp(_usernameTextController.text, _passwordTextController.text, _firstnameTextController.text, _lastnameTextController.text, _emailTextController.text),
                         borderRadius: BorderRadius.circular(30),
                         child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 10),
+                          padding: const EdgeInsets.symmetric(vertical: 10),
                           alignment: Alignment.center,
                           width: size.width * 0.8,
                           decoration: BoxDecoration(
@@ -285,7 +287,7 @@ class _LoginPageState extends State<LoginPage>
 
       // temporary button for testing
       floatingActionButton: FloatingActionButton(
-        child: Text('skip login'),
+        child: const Text('skip login'),
         onPressed: () {
           setState(
             () {
@@ -299,20 +301,57 @@ class _LoginPageState extends State<LoginPage>
 
   // Write class-internal methods here
 
-  Future<void> logIn(String username, String password) async {
+  Future<void> signUp(String username, String password, String firstname,
+      String lastname, String email) async {
     if (username.isEmpty) {
-      showDialogMessage("Login failed", "Please enter a username!");
+      Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Sign Up failed", "Please provide a username!")));
+      return;
+    } else if (password.isEmpty) {
+      Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Sign Up failed", "Please provide a password!")));
+      return;
+    } else if (firstname.isEmpty) {
+        Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Sign Up failed", "Please provide your Firstname!")));
+      return;
+    } else if (lastname.isEmpty) {
+        Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Sign Up failed", "Please provide your Lastname!")));
+      return;
+    } else if (email.isEmpty) {
+          Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Sign Up failed", "Please provide your E-Mail address")));
+    } else {
+
+      String result = await BackendApi().createAccount(username, password, firstname, lastname, email);
+      switch (result) {
+        case "200":
+          Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Registration was successful!", "You will now be logged in!")));
+          BackendApi().logIn(username, password);
+          setState(() {
+            _showSignUp = false;
+          });
+          break;
+      }
+    }
+  }
+
+  Future<void> login(String username, String password) async {
+    if(username.isEmpty && password.isEmpty) {
+      Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Login failed", "Please provide a username and password!")));
+      return;
+    }
+    if (username.isEmpty) {
+      Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Login failed", "Please provide a username!")));
       return;
     }
     if (password.isEmpty) {
-      showDialogMessage("Login failed", "Please enter a password!");
+      Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Login failed", "Please provide a password!")));
       return;
     } else {
       String result = await BackendApi().logIn(username, password);
       switch (result) {
         case "200":
-          showDialogMessage("Login: Authentication",
-              "FraPods uses 2 factor authentication. You will receive an E-Mail asking you to verify this device. Click the link and then restart this app to log in!");
+          Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Login: Authentication", "FraPods uses 2 factor authentication. You will receive an E-Mail asking you to verify this device. Click the link and then restart this app to log in!")));
+          break;
+        default:
+          Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Login failed", "Wrong username or password!")));
           break;
       }
     }
@@ -325,7 +364,7 @@ class _LoginPageState extends State<LoginPage>
         width: double.infinity,
         height: containerSize.value,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(100),
             topRight: Radius.circular(100),
           ),
@@ -350,5 +389,21 @@ class _LoginPageState extends State<LoginPage>
     );
   }
 
+  static Route<Object?> _dialogBuilder(
+      BuildContext context, DialogArguments arguments) {
+    return DialogRoute<void>(
+      context: context,
+      builder: (BuildContext context) =>
+          AlertDialog(title: Text(arguments.title), content: Text(arguments.message)),
+    );
+  }
+
 // All class-internal methods should go above this line
+}
+
+class DialogArguments {
+  final String title;
+  final String message;
+
+  DialogArguments(this.title, this.message);
 }
