@@ -304,7 +304,12 @@ class _LoginPageState extends State<LoginPage>
 
       // temporary button for testing
       floatingActionButton: FloatingActionButton(
-        child: const Text('skip login'),
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.transparent,
+        focusColor: Colors.transparent,
+        hoverColor: Colors.transparent,
+        splashColor: Colors.transparent,
+        //child: const Text('skip login'),
         onPressed: () {
           setState(
             () {
