@@ -245,6 +245,22 @@ class _LoginPageState extends State<LoginPage>
                       Container(
                         margin: const EdgeInsets.symmetric(vertical: 10),
                         padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        width: size.width * 0.8,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color: backgroundColor2()),
+                        child: TextField(
+                          decoration: InputDecoration(
+                              icon: Icon(Icons.person, color: blueish()),
+                              hintText: 'Username',
+                              border: InputBorder.none),
+                          controller: _usernameTextController,
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        padding:
                             const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                         width: size.width * 0.8,
                         decoration: BoxDecoration(
@@ -305,29 +321,31 @@ class _LoginPageState extends State<LoginPage>
   Future<void> signUp(String username, String password, String firstname,
       String lastname, String email) async {
     if (username.isEmpty) {
-      Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Sign Up failed", "Please provide a username!")));
+      //Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Sign Up failed", "Please provide a username!")));
       return;
     } else if (password.isEmpty) {
-      Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Sign Up failed", "Please provide a password!")));
+      //Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Sign Up failed", "Please provide a password!")));
       return;
     } else if (firstname.isEmpty) {
-        Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Sign Up failed", "Please provide your Firstname!")));
+        //Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Sign Up failed", "Please provide your Firstname!")));
       return;
     } else if (lastname.isEmpty) {
-        Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Sign Up failed", "Please provide your Lastname!")));
+        //Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Sign Up failed", "Please provide your Lastname!")));
       return;
     } else if (email.isEmpty) {
-          Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Sign Up failed", "Please provide your E-Mail address")));
+          //Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Sign Up failed", "Please provide your E-Mail address")));
     } else {
 
       String result = await BackendApi().createAccount(username, password, firstname, lastname, email);
       switch (result) {
         case "200":
-          Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Registration was successful!", "You will now be logged in!")));
-          BackendApi().logIn(username, password);
-          setState(() {
-            _showSignUp = false;
-          });
+          //Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Registration was successful!", "You will now be logged in!")));
+          var response = BackendApi().logIn(username, password);
+          if(response == "200") {
+            setState(() {
+              loginNotifier.value = true;
+            });
+          }
           break;
       }
     }
