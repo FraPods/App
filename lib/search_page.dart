@@ -6,6 +6,8 @@ import 'package:frapods/backend_api.dart';
 import 'package:frapods/main.dart';
 import 'package:frapods/podcast_details_page.dart';
 import 'package:frapods/podcast_info.dart';
+import 'package:frapods/profile_page.dart';
+import 'package:frapods/playlist_info.dart';
 import 'podcast_player.dart';
 
 class SearchPage extends StatefulWidget {
@@ -30,6 +32,90 @@ class _SearchPageState extends State<SearchPage> {
     fit: BoxFit.fitHeight,
     height: 40,
   );
+
+  void _moreOptions (BuildContext ctx, {int id = 0}) {
+    showModalBottomSheet(
+      backgroundColor: Theme.of(context).colorScheme.background,
+      context: ctx,
+      builder: (_){
+        return FractionallySizedBox(
+          heightFactor: 0.3,
+          child: Padding(padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 15),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const SizedBox(width: 15,),
+                  const Text('More options', style: TextStyle(fontSize: 21, decoration: TextDecoration.underline),),
+                  InkWell(child: const Icon(Icons.close, size:25),
+                  onTap:()=> Navigator.of(context).pop())
+                ],
+              ),
+              const SizedBox(height: 15,),
+              InkWell(
+                onTap: ()=>_addToPlaylist(context),
+                child: Row(
+                  children: const [
+                    Icon(Icons.add_box_rounded, size: 30,),
+                    SizedBox(width: 10,),
+                    Text('Add to playlist', style: TextStyle(fontSize: 19)),
+                  ],
+                ),),
+                const SizedBox(height:10),
+              InkWell(
+                onTap: (){},
+                child: Row(
+                  children: const [
+                    Icon(Icons.report_rounded,size: 30),
+                    SizedBox(width: 10,),
+                    Text('Report', style: TextStyle(fontSize: 19))
+                  ],
+                ),),
+            ],
+          ),),
+        );
+      },
+      isScrollControlled: true
+      );
+  }
+
+  void _addToPlaylist (BuildContext ctx,  {int id = 0}) {
+    showModalBottomSheet(
+      backgroundColor: Theme.of(context).colorScheme.background,
+      context: ctx,
+      builder: (_){
+        return FractionallySizedBox(
+          heightFactor: 0.7,
+          child: Padding(padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Add to playlist:', style: TextStyle(fontSize: 21,),),
+                  InkWell(child: const Icon(Icons.close, size:25),
+                  onTap:()=> Navigator.of(context).pop())
+                ],
+              ),
+              const SizedBox(height:10),
+              Container(
+              height:(MediaQuery.of(context).size.height - 56)*0.57,
+              child: playlists.isEmpty? 
+              const Center(child: Text('You don\'t have a playlist yet......')):
+              ListView.builder(
+                itemCount: playlists.length,
+                itemBuilder: (ctx, index) => playlistsList(playlists[index]),
+              )
+            )
+            ],
+          )
+          )
+        );
+      },
+      isScrollControlled: true
+      );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -247,12 +333,64 @@ class _SearchPageState extends State<SearchPage> {
           ),
         ),
         Container(
+          alignment: Alignment.bottomRight,
+          child: InkWell(
+            child: const Icon(Icons.more_horiz),
+            onTap: ()=> _moreOptions(context),
+          )
+        ),
+        Container(
             alignment: Alignment.center,
             width: MediaQuery.of(context).size.width * 0.92,
             child: const Divider(
               thickness: 1,
               color: Colors.grey,
             ))
+      ],
+    );
+  }
+
+  Widget playlistsList (PlaylistData pl){
+    return Column(
+      children: [
+        InkWell(
+          onTap:() {
+          },
+          //onHover: ,
+          child: Container(
+                width: double.maxFinite,
+                child: Card(
+                  elevation: 0,
+                  color: const Color(0x00000000),
+                  //Theme.of(context).colorScheme.primaryVariant,
+                  child: Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(0, 5, 10, 5),
+                            width: MediaQuery.of(context).size.width - 140,
+                            child: Text(
+                              pl.name,
+                              maxLines: 2,
+                              textAlign: TextAlign.left,
+                              style: const TextStyle(fontSize: 19),
+                              overflow: TextOverflow.ellipsis,
+                              softWrap: false,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+        ),
+        const Divider(
+          thickness: 1,
+          color: Colors.grey,
+        )
       ],
     );
   }

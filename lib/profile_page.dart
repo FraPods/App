@@ -3,7 +3,6 @@ import 'package:frapods/add_new_playlist.dart';
 import 'package:frapods/backend_api.dart';
 import 'package:frapods/playlist_info.dart';
 import 'package:frapods/playlists_page.dart';
-import 'package:frapods/playlists_page_fake.dart';
 import 'package:frapods/podcast_info.dart';
 import 'package:frapods/upload_page.dart';
 import 'setting_page.dart';
@@ -21,22 +20,19 @@ class ProfilePage extends StatefulWidget {
   }
 }
 
-class _ProfilePageState extends State<ProfilePage> {
-  // declare variables here:
-  final TextEditingController _emailTextController = TextEditingController();
-  final TextEditingController _passwordTextController = TextEditingController();
-  List<PlaylistData> playlists = [
-    PlaylistData('playlist 1', [
-      PodcastInfo('podcast 1','xxxx','art','url','', 1),
-      PodcastInfo('podcast 2','xxxx','art','url','', 2),
-      PodcastInfo('podcast 3','xxxx','art','url','', 3),
-      PodcastInfo('podcast 4','xxxx','art','url','', 4),
-      PodcastInfo('podcast 500','xxxx','art','url','', 5)]),
-    PlaylistData('playlist 2', [PodcastInfo('p1','xxxx','art','url','', 1)]),
+List<PlaylistData> playlists = [
+    PlaylistData('playlist 1', [PodcastInfo('p1','xxxx','art','url','', 1)]),
+    PlaylistData('playlist 2', [PodcastInfo('p1','xxxx','art','url','', 2)]),
     PlaylistData('playlist 3', [PodcastInfo('p1','xxxx','art','url','', 3)]),
     PlaylistData('playlist 4', [PodcastInfo('p1','xxxx','art','url','', 4)]),
     PlaylistData('playlist 5', [PodcastInfo('p1','xxxx','art','url','', 5)]),
   ];
+
+class _ProfilePageState extends State<ProfilePage> {
+  // declare variables here:
+  final TextEditingController _emailTextController = TextEditingController();
+  final TextEditingController _passwordTextController = TextEditingController();
+  
   bool _allPlaylists = false;
 
   String username = "";
@@ -48,7 +44,7 @@ class _ProfilePageState extends State<ProfilePage> {
       backgroundColor: Theme.of(context).colorScheme.background,
       context: ctx,
       builder: (_){
-        return PlaylistsPagefake();//PlaylistsPage(pld,);
+        return PlaylistsPage(pld,);
       },
       isScrollControlled: true
       );
@@ -202,7 +198,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       width: (MediaQuery.of(context).size.width - 30)/2 - 10,
                       child: const Center(child: Text('My Podcasts',  style:TextStyle(fontSize: 18))),
                     ),
-                    onTap:(){}
+                    onTap:(){},
                   ),
                   
                 ],),

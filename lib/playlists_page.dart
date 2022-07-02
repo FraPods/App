@@ -57,7 +57,7 @@ class _PlaylistsPageState extends State<PlaylistsPage> {
             Container(
               height:pageHeight*0.57,
               child: widget.playlistData.podcasts.isEmpty? 
-              Text('No podcasts in this playlist yet......'):
+              const Text('No podcasts in this playlist yet......'):
               ListView.builder(
                 itemCount: widget.playlistData.podcasts.length,
                 itemBuilder: (ctx, index) => playlistPodcast(widget.playlistData.podcasts[index]),
@@ -125,7 +125,7 @@ class _PlaylistsPageState extends State<PlaylistsPage> {
                 ),
               ),
         ),
-        Divider(
+        const Divider(
           thickness: 1,
           color: Colors.grey,
         )
