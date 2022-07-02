@@ -40,7 +40,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
   String fileName = 'no file';
   File? audioFile;
   String image = "";
-  bool step1 = false;
+  bool step1 = true;
   bool getWidgetData = true;
   bool edit = false;
   double? popupHeight = 0.6;
@@ -55,8 +55,6 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
     //works inside "Widget build" and not in "state"
 
     //final String fileName = file != null ? basename (file!.path) : 'no file';
-
-    final _keyboardVisible = MediaQuery.of(context).viewInsets.bottom !=0;
 
     if (widget.id != 0 && getWidgetData) {
       getWidgetData = false;
@@ -231,7 +229,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
     } else {
       return FractionallySizedBox(
         //behavior: HitTestBehavior.opaque,
-          heightFactor: _keyboardVisible? 0.7 : popupHeight,
+          heightFactor: popupHeight,
           child: ListView(
             children: [
               Card(
@@ -262,19 +260,24 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                                 children: [
                                   Container(
                                     //margin: EdgeInsets.fromLTRB(left, top, right, bottom),
-                                    width: MediaQuery.of(context).size.width - 190,
+                                    width: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width - 190,
                                     height: 60,
                                     child: TextField(
                                       decoration: const InputDecoration(
                                         labelText: 'Title',),
                                       controller: titleController
                                         ..text = newPodcast.title,
-                                      //maxLength: 50,
-                                      maxLines: 1,
+                                      maxLength: 50,
                                     ),
                                   ),
                                   Container(
-                                    width: MediaQuery.of(context).size.width - 190,
+                                    width: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width - 190,
                                     height: 60,
                                     child: TextField(
                                       decoration: const InputDecoration(
@@ -358,8 +361,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                             OutlinedButton(child: const Text('Cancel'),
                               onPressed: () => Navigator.of(context).pop(),),
                           ],
-                        ),
-                      SizedBox(height:_keyboardVisible? MediaQuery.of(context).viewInsets.bottom : 0)
+                        )
                       ],
                     ),
                   )

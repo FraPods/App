@@ -59,7 +59,7 @@ class FraPodsApp extends StatelessWidget {
                             backgroundColor: blueish(),
                             foregroundColor: Colors.white),
                         //primaryColor: Colors.white,
-                        colorScheme: ColorScheme.light(
+                        colorScheme: const ColorScheme.light(
                           primary: Color(0xff3884E6),
                           primaryContainer: Color.fromARGB(255, 165, 190, 227),
                           secondary: Color.fromARGB(255, 133, 144, 158),
@@ -82,7 +82,7 @@ class FraPodsApp extends StatelessWidget {
                         // primarySwatch: generateMaterialColorFromColor(Color(0xFF004AAD)),
                         // primaryColor: Colors.white,
                         //backgroundColor: backgroundColor(),
-                        colorScheme: ColorScheme.dark(
+                        colorScheme: const ColorScheme.dark(
                           primary: Color(0xff0264e3),
                           primaryContainer: Color.fromARGB(255, 104, 146, 201),//Color.fromARGB(255, 107, 149, 204),
                           secondary: Color.fromARGB(255, 141, 149, 158),
@@ -111,15 +111,15 @@ class FraPodsApp extends StatelessWidget {
 TextStyle highlightedTextStyle() {
   return TextStyle(
     fontSize: 16,
-    color: generateMaterialColorFromColor(Color(0xFF004AAD)),
+    color: generateMaterialColorFromColor(const Color(0xFF004AAD)),
   );
 }
 
 TextStyle titleTextStyle() {
   return TextStyle(
     fontSize: 32,
-    color: generateMaterialColorFromColor(Color(0xFF004AAD)),
-    shadows: <Shadow>[
+    color: generateMaterialColorFromColor(const Color(0xFF004AAD)),
+    shadows: const <Shadow>[
       Shadow(
         offset: Offset(1.0, 1.0),
         blurRadius: 1.0,
@@ -136,40 +136,40 @@ TextStyle titleTextStyle() {
 }
 
 TextStyle loginTextStyle() {
-  return TextStyle(
+  return const TextStyle(
     fontSize: 15,
   );
 }
 
 TextStyle shadowTextStyle2() {
-  return TextStyle(
+  return const TextStyle(
     fontSize: 18,
   );
 }
 
 TextStyle loginTitleTextStyle() {
-  return TextStyle(
+  return const TextStyle(
     fontSize: 32,
     fontWeight: FontWeight.bold,
   );
 }
 
 TextStyle normalTextStyle() {
-  return TextStyle(
+  return const TextStyle(
     fontSize: 16,
     //color: generateMaterialColorFromColor(Color(0xFFFFFFFF)),
   );
 }
 
 TextStyle normalTextStyle2() {
-  return TextStyle(
+  return const TextStyle(
     fontSize: 18,
     //color: generateMaterialColorFromColor(Color(0xFFFFFFFF)),
   );
 }
 
 TextStyle subtitleTextStyle() {
-  return TextStyle(
+  return const TextStyle(
     fontSize: 22,
     fontWeight: FontWeight.bold,
     //color: Colors.white,
@@ -179,8 +179,8 @@ TextStyle subtitleTextStyle() {
 TextStyle shadowTextStyle() {
   return TextStyle(
     fontSize: 18,
-    color: generateMaterialColorFromColor(Color(0xFF004AAD)),
-    shadows: <Shadow>[
+    color: generateMaterialColorFromColor(const Color(0xFF004AAD)),
+    shadows: const <Shadow>[
       Shadow(
         offset: Offset(0.5, 0.1),
         blurRadius: 0.5,
@@ -197,15 +197,15 @@ TextStyle shadowTextStyle() {
 }
 
 Color blueish() {
-  return generateMaterialColorFromColor(Color(0xFF004AAD));
+  return generateMaterialColorFromColor(const Color(0xFF004AAD));
 }
 
 Color backgroundColor() {
-  return Color.fromARGB(255, 56, 57, 58);//Color.fromARGB(255, 52, 52, 52);
+  return const Color.fromARGB(255, 56, 57, 58);//Color.fromARGB(255, 52, 52, 52);
 }
 
 Color backgroundColor2() {
-  return Color(0xff424242);
+  return const Color(0xff424242);
 }
 
 MaterialColor generateMaterialColorFromColor(Color color) {

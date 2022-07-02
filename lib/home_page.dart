@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:frapods/main.dart';
 import 'package:frapods/podcast_details_page.dart';
 import 'package:frapods/podcast_info.dart';
-import 'package:frapods/setting_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.setPage}) : super(key: key);

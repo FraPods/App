@@ -53,7 +53,6 @@ class _LoginPageState extends State<LoginPage>
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final _keyboardVisible = MediaQuery.of(context).viewInsets.bottom !=0;
-    double viewInset = MediaQuery.of(context).viewInsets.bottom; //keyboard check
     double defaultLoginSize = size.height - (size.height * 0.15);
     double defaultRegisterSize = size.height - (size.height * 0.15);
 

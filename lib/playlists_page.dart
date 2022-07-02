@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:frapods/backend_api.dart';
-import 'package:open_file/open_file.dart';
 
 import 'package:frapods/main_page.dart';
 import 'package:frapods/podcast_info.dart';
@@ -24,7 +23,7 @@ class PlaylistsPage extends StatefulWidget {
 class _PlaylistsPageState extends State<PlaylistsPage> {
   // declare variables here:
 
-  int rn1 =Random().nextInt(7);
+  int rn1 =Random().nextInt(24);
   
   @override
   Widget build(BuildContext context) {

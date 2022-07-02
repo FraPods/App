@@ -5,7 +5,6 @@ import 'package:frapods/playlist_info.dart';
 import 'package:frapods/playlists_page.dart';
 import 'package:frapods/podcast_info.dart';
 import 'package:frapods/upload_page.dart';
-import 'setting_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key, required this.setPage})
@@ -23,9 +22,6 @@ class ProfilePage extends StatefulWidget {
 List<PlaylistData> playlists = [
     PlaylistData('playlist 1', [PodcastInfo('p1','xxxx','art','url','', 1)]),
     PlaylistData('playlist 2', [PodcastInfo('p1','xxxx','art','url','', 2)]),
-    PlaylistData('playlist 3', [PodcastInfo('p1','xxxx','art','url','', 3)]),
-    PlaylistData('playlist 4', [PodcastInfo('p1','xxxx','art','url','', 4)]),
-    PlaylistData('playlist 5', [PodcastInfo('p1','xxxx','art','url','', 5)]),
   ];
 
 class _ProfilePageState extends State<ProfilePage> {
@@ -263,8 +259,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         Container(
                           margin: const EdgeInsets.only(right:5),
                           child: InkWell(
-                            onTap:(){
-                            },
+                            onTap:()=> _newPlaylist(context),
                             child: const Icon(Icons.add)
                           ),
                         ),
