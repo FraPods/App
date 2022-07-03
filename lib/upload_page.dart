@@ -1,16 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:frapods/backend_api.dart';
-import 'package:frapods/podcast_details_page.dart';
-import 'package:open_file/open_file.dart';
-import 'package:image_picker/image_picker.dart';
 
-import 'package:frapods/main_page.dart';
 import 'package:frapods/podcast_info.dart';
-import 'package:frapods/podcast_player.dart';
 import 'add_new_podcast.dart';
-import 'setting_page.dart';
-import 'main.dart';
 
 double? popupHeight = 0.25;
 bool firstLoaded = true;
@@ -155,73 +147,68 @@ class _UploadPageState extends State<UploadPage> {
   }
 
   Widget myPodcast (PodcastInfo podcastInfo){
-    return InkWell(
-      onTap:() {
-        _newPodcast(context, id: podcastInfo.id);
-        // TODO: link to podcast detail page
-        // MaterialPageRoute(builder: (context) {
-        //   PodcastDetailsPage(podcastInfo: podcastInfo);
-        //   return PodcastDetailsPage(podcastInfo: podcastInfo);
-        // });
-      },
-      //onHover: ,
-      child: Card(
-        margin: const EdgeInsets.symmetric(horizontal: 13, vertical: 10),
-        color: Theme.of(context).colorScheme.primaryContainer,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                margin: const EdgeInsets.fromLTRB(0, 0, 10, 10),
-                child: Text(
-                  podcastInfo.title,
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(fontSize: 20),
-                  overflow: TextOverflow.fade,
-                  softWrap: false,
-                  maxLines: 1,
-                ),
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 13, vertical: 10),
+      color: Theme.of(context).colorScheme.primaryContainer,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              margin: const EdgeInsets.fromLTRB(0, 0, 10, 10),
+              child: Text(
+                podcastInfo.title,
+                textAlign: TextAlign.left,
+                style: const TextStyle(fontSize: 20),
+                overflow: TextOverflow.fade,
+                softWrap: false,
+                maxLines: 1,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Container(
-                      //width: MediaQuery.of(context).size.width /2,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Container(
+                    //width: MediaQuery.of(context).size.width /2,
 
-                      padding: const EdgeInsets.only(right:5),
+                    padding: const EdgeInsets.only(right:5),
 
-                      child: Text(
-                        podcastInfo.description.isEmpty?  'Description: no description available' : 'Description: ' + podcastInfo.description,
-                        textAlign: TextAlign.left,
-                        overflow: TextOverflow.fade,
-                        softWrap: false,
-                        maxLines: 3,
-                        style: const TextStyle(fontSize: 17),
-                      ),
+                    child: Text(
+                      podcastInfo.description.isEmpty?  'Description: no description available' : 'Description: ' + podcastInfo.description,
+                      textAlign: TextAlign.left,
+                      overflow: TextOverflow.fade,
+                      softWrap: false,
+                      maxLines: 3,
+                      style: const TextStyle(fontSize: 17),
                     ),
                   ),
-                
-              ],
-            ),
-            const SizedBox(height: 15),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                InkWell(
-                onTap:(){},
-                child: const Icon(Icons.edit_rounded)),
-                SizedBox(width:5),
-                InkWell(
-                onTap:(){},
-                child: const Icon(Icons.delete_outline_rounded)),
-              ],
-            )
-          ],),
-      ),
-    )
+                ),
+              
+            ],
+          ),
+          const SizedBox(height: 15),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              InkWell(
+                onTap:() {
+                  _newPodcast(context, id: podcastInfo.id);
+                  // MaterialPageRoute(builder: (context) {
+                  //   PodcastDetailsPage(podcastInfo: podcastInfo);
+                  //   return PodcastDetailsPage(podcastInfo: podcastInfo);
+                  // });
+                },
+              child: const Icon(Icons.edit_rounded)),
+              SizedBox(width:5),
+              InkWell(
+              onTap:(){},
+              child: const Icon(Icons.delete_outline_rounded)),
+            ],
+          )
+        ],),
+    ),
     );
   }
 }
