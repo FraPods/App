@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:frapods/backend_api.dart';
+import 'package:frapods/main.dart';
 
 import 'package:frapods/main_page.dart';
+import 'package:frapods/podcast_details_page.dart';
 import 'package:frapods/podcast_info.dart';
 import 'package:frapods/playlist_info.dart';
 import 'package:frapods/podcast_player.dart';
@@ -23,12 +25,25 @@ class PlaylistsPage extends StatefulWidget {
 class _PlaylistsPageState extends State<PlaylistsPage> {
   // declare variables here:
 
-  int rn1 =Random().nextInt(24);
+  int rn1 = Random().nextInt(24);
+
+  PlaylistData playlistData = PlaylistData("", [], "", "", 0);
+  bool firstLoad = true;
+  bool contentLoaded = false;
   
   @override
   Widget build(BuildContext context) {
     //define variables here
     double pageHeight = MediaQuery.of(context).size.height - 56;
+
+    if(firstLoad) {
+      firstLoad = false;
+      playlistData = widget.playlistData;
+      BackendApi().getPlaylistData(widget.playlistData.id.toString()).then((value) => {
+        contentLoaded = true,
+        setState(() => { playlistData = value })
+      });
+    }
 
     return FractionallySizedBox(
       heightFactor: 0.7,
@@ -50,16 +65,22 @@ class _PlaylistsPageState extends State<PlaylistsPage> {
               ],),
             ),
             Center(child: Text(
-              widget.playlistData.name,
+              playlistData.name,
               style: const TextStyle(fontSize: 22)),),
             const SizedBox(height:5),
-            Container(
-              height:pageHeight*0.57,
-              child: widget.playlistData.podcasts.isEmpty? 
+            SizedBox(
+              height: contentLoaded ? pageHeight*0.57 : 80,
+              width: contentLoaded ? double.maxFinite : 40,
+              child: contentLoaded ?
+              (playlistData.podcasts.isEmpty?
               const Text('No podcasts in this playlist yet......'):
               ListView.builder(
-                itemCount: widget.playlistData.podcasts.length,
-                itemBuilder: (ctx, index) => playlistPodcast(widget.playlistData.podcasts[index]),
+                itemCount: playlistData.podcasts.length,
+                itemBuilder: (ctx, index) => playlistPodcast(playlistData.podcasts[index]),
+              )) : Column(children: const [
+                SizedBox(height: 40,),
+                CircularProgressIndicator(strokeWidth: 2, )
+              ],
               )
             )
           ],
@@ -72,9 +93,38 @@ class _PlaylistsPageState extends State<PlaylistsPage> {
     return Column(
       children: [
         InkWell(
-          onTap:() {
-          },
-          //onHover: ,
+        onTap: () async {
+          showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (context) {
+                return const Center(
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                  ),
+                );
+              }
+          );
+
+          if (pc.url.startsWith("GETURL")) {
+            String url = await BackendApi()
+                .getUrlFromYtID(pc.url.substring(8));
+            podcastPlayer.playPodcast(PodcastInfo(
+                pc.title, pc.description, pc.artist, url, pc.thumbnail, pc.id));
+          } else {
+            podcastPlayer.playPodcast(pc);
+          }
+
+          Navigator.of(context).pop();
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) {
+              PodcastDetailsPage(podcastInfo: pc);
+              return PodcastDetailsPage(podcastInfo: pc);
+            }),
+          );
+        },
           child: Container(
                 width: double.maxFinite,
                 child: Card(
@@ -88,7 +138,7 @@ class _PlaylistsPageState extends State<PlaylistsPage> {
                         width: 60,
                         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
                         child: pc.thumbnail.isEmpty?Image.asset('assets/testpodcast'+rn1.toString()+'.png'):
-                        Image.network(pc.thumbnail),
+                        Image.network(pc.thumbnail, fit: BoxFit.cover,),
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

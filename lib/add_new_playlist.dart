@@ -11,7 +11,7 @@ class AddNewPlaylist extends StatefulWidget {
   final Function newPlaylist;
   final int id;
 
-  AddNewPlaylist(this.newPlaylist, this.id);
+  const AddNewPlaylist(this.newPlaylist, this.id);
 
   @override
   State<AddNewPlaylist> createState() {
@@ -23,7 +23,7 @@ class _AddNewPlaylistState extends State<AddNewPlaylist> {
   // declare variables here:
   final nameController = TextEditingController();
 
-  PlaylistData newPlaylist = PlaylistData('', []);
+  PlaylistData newPlaylist = PlaylistData('', [], "", "", 0);
 
   @override
   Widget build(BuildContext context) {

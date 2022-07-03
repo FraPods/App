@@ -273,7 +273,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                                         .of(context)
                                         .size
                                         .width - 190,
-                                    height: 60,
+                                    height: 80,
                                     child: TextField(
                                       decoration: const InputDecoration(
                                         labelText: 'Title',),

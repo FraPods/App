@@ -307,7 +307,7 @@ class BackendApi {
     String textualResult = (await http.get(Uri.parse(api_domain + "getUserPlaylists.php?username=" + (await _getString(USERNAME_KEY))))).body;
     final jsonData = json.decode(textualResult);
     jsonData.forEach((jsonPlaylist) => {
-      playlists.add(PlaylistData(jsonPlaylist["title"], []))
+      playlists.add(PlaylistData(jsonPlaylist["title"], [], jsonPlaylist["description"], jsonPlaylist["thumbnail"], int.parse(jsonPlaylist["id"])))
     });
     return playlists;
   }
@@ -357,6 +357,19 @@ class BackendApi {
     log("SUBMIT RATING");
     return;
   }
+
+  Future<PlaylistData> getPlaylistData(String pid) async {
+    PlaylistData playlistData = PlaylistData("", [], "", "", 0);
+    String textualResult = (await http.get(Uri.parse(api_domain + "getPlaylistData.php?username=" + (await _getString(USERNAME_KEY) + "&pid=" + pid)))).body;
+    final jsonData = json.decode(textualResult);
+    playlistData.name = jsonData["title"];
+    List<PodcastInfo> podcasts = [];
+    jsonData["podcasts"].forEach((jsonPodcast) => {
+      podcasts.add(PodcastInfo(jsonPodcast["title"], jsonPodcast["description"], jsonPodcast["creator_name"], int.tryParse(jsonPodcast["id"]) != null? api_domain + "MP3Stream.php?file_id=" + jsonPodcast["id"] : "GETURL: " + jsonPodcast["id"], int.tryParse(jsonPodcast["thumbnail"]) != null ? api_domain + "getImage.php?bw=0&circle=0&size=512&file_id=" + jsonPodcast["thumbnail"] : api_domain + "getJpegFile.php?file=" + jsonPodcast["thumbnail"], int.tryParse(jsonPodcast["id"]) != null? int.parse(jsonPodcast["id"]) : 0))
+    });
+    playlistData.podcasts = podcasts;
+    return playlistData;
+}
 
   void _saveString(String key, String value) async {
     log("saving string " + value);
