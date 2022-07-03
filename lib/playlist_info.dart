@@ -42,7 +42,7 @@ class PlaylistData {
   PodcastInfo getNextSong(){
     if(shuffle){
       PodcastInfo nextPodcast = (podcasts.toList()..shuffle()).first;  // Copy the songs list, randomize its order and get the first element
-      currentPodcasatInfoNotifier.value = nextPodcast;
+      currentPodcastInfoNotifier.value = nextPodcast;
       return nextPodcast;
     } else {
       PodcastInfo nextPodcast;
@@ -53,7 +53,7 @@ class PlaylistData {
         nextPodcast = podcasts[currentIndex];
       }
       currentIndex++;
-      currentPodcasatInfoNotifier.value = nextPodcast;
+      currentPodcastInfoNotifier.value = nextPodcast;
       return nextPodcast;
 
     }

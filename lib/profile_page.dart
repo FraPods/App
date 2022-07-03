@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frapods/add_new_playlist.dart';
+import 'package:frapods/add_new_podcast.dart';
 import 'package:frapods/backend_api.dart';
 import 'package:frapods/playlist_info.dart';
 import 'package:frapods/playlists_page.dart';
@@ -34,6 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String username = "";
   bool firstLoad = true;
   String noPodcasts = "0";
+  String profilePicture = "";
 
   void _playlistInfo (BuildContext ctx,  PlaylistData pld, {int id = 0}) {
     showModalBottomSheet(
@@ -64,6 +66,25 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
+  void _addNewPodcast(String xtitle, String xartist, String xdescription, String xurl){
+    BackendApi().getPodcastsFrom("", true, true).then((value) {
+      if (value != []) {
+        setState(() => podcasts = value);
+      }
+    });
+  }
+
+  void _newPodcast (BuildContext ctx, {int id = 0}) {
+    showModalBottomSheet(
+        backgroundColor: Theme.of(context).colorScheme.background,
+        context: ctx,
+        builder: (_){
+          return AddNewPodcast(_addNewPodcast, id);
+        },
+        isScrollControlled: true
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     //define variables here
@@ -75,6 +96,7 @@ class _ProfilePageState extends State<ProfilePage> {
       });
       BackendApi().getAccountData("", true).then((value) => {
         noPodcasts = value["noPodcasts"].toString(),
+        profilePicture = (value["picture"] == "0") ? "" : (api_domain + "getImage.php?bw=0&circle=0&size=90&file_id=" + value["picture"]),
         setState(() => username = (value["username"] == null) ? "unknown" : value["username"])
       });
     }
@@ -112,9 +134,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                          child: Image.asset(
-                            'assets/test_profile_pic.jpg',
-                            height:90, width: 90,),
+                          child: (profilePicture == "") ? Image.asset('assets/test_profile_pic.jpg', height:90, width: 90) : Image.network(profilePicture, height: 90, width: 90),
                         ),
                         const SizedBox(width: 20,),
                         Column(
@@ -126,7 +146,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               padding: const EdgeInsets.only(right:5),
                               width: MediaQuery.of(context).size.width - 175,
                               //height: ,
-                              child: Text('Username',//username,
+                              child: Text(username,
                                 style: const TextStyle(fontSize: 23),
                                 maxLines: 1,
                                 textAlign: TextAlign.left,
@@ -144,7 +164,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             //   overflow: TextOverflow.ellipsis,
                             //   softWrap: false,),
                             // ),
-                            Text('My posts: ' + myPosts.toString()/*noPodcasts*/, style: const TextStyle(fontSize: 18),),
+                            Text('My posts: ' + /*myPosts.toString()*/noPodcasts, style: const TextStyle(fontSize: 18),),
                             const SizedBox(height: 15,)
                           ],
                         )
@@ -178,8 +198,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       width: (MediaQuery.of(context).size.width - 30)/2 - 10,
                       child: const Center(child: Text('Post New',  style:TextStyle(fontSize: 18))),
                     ),
-                    onTap:(){
-                      widget.setPage(3);
+                    onTap: () {
+                      _newPodcast(context);
                     }
                   ),
                   InkWell(
@@ -194,7 +214,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       width: (MediaQuery.of(context).size.width - 30)/2 - 10,
                       child: const Center(child: Text('My Podcasts',  style:TextStyle(fontSize: 18))),
                     ),
-                    onTap:(){},
+                    onTap:(){
+                      widget.setPage(3);
+                    }
                   ),
                   
                 ],),
@@ -247,7 +269,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     left: Radius.circular(5)),
                   ),
                 child: Padding(
-                  padding: playlists.isEmpty? const EdgeInsets.fromLTRB(15, 15, 15, 10):EdgeInsets.fromLTRB(15, 15, 15, 0),
+                  padding: playlists.isEmpty? const EdgeInsets.fromLTRB(15, 15, 15, 10) : const EdgeInsets.fromLTRB(15, 15, 15, 0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -273,7 +295,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           height: 120,
                           child: const Center(
                             child: Text('No playlists yet...',
-                            style:TextStyle(fontSize: 18),
+                            style: TextStyle(fontSize: 18),
                               )),
                         )
                         :

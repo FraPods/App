@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:frapods/backend_api.dart';
 import 'package:frapods/main.dart';
 
@@ -137,8 +138,24 @@ class _AddNewPlaylistState extends State<AddNewPlaylist> {
                         : 0)
               ],
             ),
-          ]),
-        ));
+            const Center(child: Text(
+              'data',
+              style: const TextStyle(fontSize: 22)),),
+            const SizedBox(height:5),
+            Container(
+              height:pageHeight*0.57,
+              child: const Text('dad')
+              // widget.playlistData.podcasts.isEmpty? 
+              // Text('No podcasts in this playlist yet......'):
+              // ListView.builder(
+              //   itemCount: widget.playlistData.podcasts.length,
+              //   itemBuilder: (ctx, index) => playlistPodcast(widget.playlistData.podcasts[index]),
+              // )
+            )
+          ],
+        ),
+      )
+    );
   }
 
   Widget selectedPodcasts(PodcastInfo pc) {

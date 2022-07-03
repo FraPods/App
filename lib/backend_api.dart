@@ -10,8 +10,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'main.dart';
 
-//const String api_domain = "http://192.168.0.105/Backend/";
-const String api_domain = "https://podcast-api.kleysley.com/Backend/";
+const String api_domain = "http://192.168.0.105/Backend/";
+//const String api_domain = "https://podcast-api.kleysley.com/Backend/";
 
 class BackendApi {
 
@@ -116,8 +116,12 @@ class BackendApi {
 
 
   Future<String> logIn(String username, String password) async {
-    var response = await http.get(Uri.parse(api_domain +
-        "registerDevice.php?username=$username&pwd=$password"));
+    var response = await http.post(
+        Uri.parse(api_domain + "registerDevice.php"),
+        body: {
+          'username' : username,
+          'pwd' : password
+        });
 
     switch(response.statusCode){
       case 200:
@@ -295,7 +299,6 @@ class BackendApi {
     if(self) username = await _getString(USERNAME_KEY);
     String result = (await http.get(Uri.parse(api_domain + "getAccountData.php?username=$username"))).body;
     final jsonData = json.decode(result);
-    log(jsonData["username"]);
     return jsonData;
   }
 
@@ -307,6 +310,52 @@ class BackendApi {
       playlists.add(PlaylistData(jsonPlaylist["title"], []))
     });
     return playlists;
+  }
+
+  Future<List<PodcastInfo>> getNewestUploads() async {
+    List<PodcastInfo> podcasts = [];
+    String textualResult = (await http.get(Uri.parse(api_domain + "getNewest.php?username=" + (await _getString(USERNAME_KEY)) + "&deviceToken=" + (await _getString(DEVICE_TOKEN_KEY)) + "&sessionToken=" + (await _getString(CURRENT_TOKEN_KEY))))).body;
+    final jsonData = json.decode(textualResult);
+    jsonData.forEach((jsonPodcast) => {
+      podcasts.add(PodcastInfo(jsonPodcast["title"], jsonPodcast["description"], jsonPodcast["creator_name"], api_domain + "MP3Stream.php?file_id=" + jsonPodcast["id"], api_domain + "getImage.php?bw=0&circle=0&size=512&file_id=" + jsonPodcast["thumbnail"], int.parse(jsonPodcast["id"])))
+    });
+    return podcasts;
+  }
+
+  Future<List<PodcastInfo>> newUploadsFromFavorites() async {
+    List<PodcastInfo> podcasts = [];
+    String textualResult = (await http.get(Uri.parse(api_domain + "getNewestFromFavs.php?username=" + (await _getString(USERNAME_KEY)) + "&deviceToken=" + (await _getString(DEVICE_TOKEN_KEY)) + "&sessionToken=" + (await _getString(CURRENT_TOKEN_KEY))))).body;
+    final jsonData = json.decode(textualResult);
+    jsonData.forEach((jsonPodcast) => {
+      podcasts.add(PodcastInfo(jsonPodcast["title"], jsonPodcast["description"], jsonPodcast["creator_name"], api_domain + "MP3Stream.php?file_id=" + jsonPodcast["id"], api_domain + "getImage.php?bw=0&circle=0&size=512&file_id=" + jsonPodcast["thumbnail"], int.parse(jsonPodcast["id"])))
+    });
+    return podcasts;
+  }
+
+  Future<List<PodcastInfo>> getRandomPodcasts() async {
+    List<PodcastInfo> podcasts = [];
+    String textualResult = (await http.get(Uri.parse(api_domain + "getRandomPodcasts.php?username=" + (await _getString(USERNAME_KEY)) + "&deviceToken=" + (await _getString(DEVICE_TOKEN_KEY)) + "&sessionToken=" + (await _getString(CURRENT_TOKEN_KEY))))).body;
+    final jsonData = json.decode(textualResult);
+    jsonData.forEach((jsonPodcast) => {
+      podcasts.add(PodcastInfo(jsonPodcast["title"], jsonPodcast["description"], jsonPodcast["creator_name"], api_domain + "MP3Stream.php?file_id=" + jsonPodcast["id"], api_domain + "getImage.php?bw=0&circle=0&size=512&file_id=" + jsonPodcast["thumbnail"], int.parse(jsonPodcast["id"])))
+    });
+    return podcasts;
+  }
+
+  Future<List<PodcastInfo>> getRecommendedPodcasts() async {
+    List<PodcastInfo> podcasts = [];
+    String textualResult = (await http.get(Uri.parse(api_domain + "getRecommended.php?username=" + (await _getString(USERNAME_KEY)) + "&deviceToken=" + (await _getString(DEVICE_TOKEN_KEY)) + "&sessionToken=" + (await _getString(CURRENT_TOKEN_KEY))))).body;
+    final jsonData = json.decode(textualResult);
+    jsonData.forEach((jsonPodcast) => {
+      podcasts.add(PodcastInfo(jsonPodcast["title"], jsonPodcast["description"], jsonPodcast["creator_name"], api_domain + "MP3Stream.php?file_id=" + jsonPodcast["id"], api_domain + "getImage.php?bw=0&circle=0&size=512&file_id=" + jsonPodcast["thumbnail"], int.parse(jsonPodcast["id"])))
+    });
+    return podcasts;
+  }
+
+  void submitRating(int podcastId, double rating) async {
+    await http.get(Uri.parse(api_domain + "addRating.php?id=" + podcastId.toString() + "&rating=" + rating.toStringAsFixed(3) + "&username=" + (await _getString(USERNAME_KEY)) + "&deviceToken=" + (await _getString(DEVICE_TOKEN_KEY)) + "&sessionToken=" + (await _getString(CURRENT_TOKEN_KEY))));
+    log("SUBMIT RATING");
+    return;
   }
 
   void _saveString(String key, String value) async {

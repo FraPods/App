@@ -49,7 +49,7 @@ class _MainPageState extends State<MainPage> {
     stream();
 
     return ValueListenableBuilder<PodcastInfo>(
-        valueListenable: currentPodcasatInfoNotifier,
+        valueListenable: currentPodcastInfoNotifier,
         builder: (BuildContext context, PodcastInfo currentPodcastInfo,
             Widget? child) {
           return Scaffold(
