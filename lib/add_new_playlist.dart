@@ -15,7 +15,7 @@ class AddNewPlaylist extends StatefulWidget {
   final Function newPlaylist;
   final int id;
 
-  AddNewPlaylist(this.newPlaylist, this.id);
+  const AddNewPlaylist(this.newPlaylist, this.id);
 
   @override
   State<AddNewPlaylist> createState() {
@@ -30,6 +30,7 @@ class _AddNewPlaylistState extends State<AddNewPlaylist> {
 
   PlaylistData newPlaylist = PlaylistData('', [], '', '');
 
+  PlaylistData newPlaylist = PlaylistData('', [], "", "", 0);
     String image = "";
     File? imageTemporary;
 

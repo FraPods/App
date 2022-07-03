@@ -252,68 +252,71 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildSmallCard (PodcastInfo podcastInfo){
-    return InkWell(
-      onTap: () async {
-        showDialog(
-            barrierDismissible: false,
-            context: context,
-            builder: (context) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                ),
-              );
-            }
-        );
+    return Container(
+      margin: const EdgeInsets.only(right:15),
+      width: 100,
+      child: InkWell(
+        onTap: () async {
+          showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (context) {
+                return const Center(
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                  ),
+                );
+              }
+          );
 
-        if (podcastInfo.url.startsWith("GETURL")) {
-          String url = await BackendApi()
-              .getUrlFromYtID(podcastInfo.url.substring(8));
-          podcastPlayer.playPodcast(PodcastInfo(podcastInfo.title, podcastInfo.description, podcastInfo.artist, url, podcastInfo.thumbnail, podcastInfo.id));
-        } else {
-          podcastPlayer.playPodcast(podcastInfo);
-        }
+          if (podcastInfo.url.startsWith("GETURL")) {
+            String url = await BackendApi()
+                .getUrlFromYtID(podcastInfo.url.substring(8));
+            podcastPlayer.playPodcast(PodcastInfo(podcastInfo.title, podcastInfo.description, podcastInfo.artist, url, podcastInfo.thumbnail, podcastInfo.id));
+          } else {
+            podcastPlayer.playPodcast(podcastInfo);
+          }
 
-        Navigator.of(context).pop();
+          Navigator.of(context).pop();
 
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) {
-            PodcastDetailsPage(podcastInfo: podcastInfo);
-            return PodcastDetailsPage(podcastInfo: podcastInfo);
-          }),
-        );
-      },
-      child: Container(
-        width: 110,
-        child:Card(
-          margin: const EdgeInsets.only(right:15),
-          color: Colors.transparent,
-          elevation: 0,
-          child:Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  podcastInfo.thumbnail,
-                  height:100, width: 100,),
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) {
+              PodcastDetailsPage(podcastInfo: podcastInfo);
+              return PodcastDetailsPage(podcastInfo: podcastInfo);
+            }),
+          );
+        },
+        child: Container(
+            width: 100,
+            child:Card(
+              color: Colors.transparent,
+              elevation: 0,
+              child:Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      podcastInfo.thumbnail,
+                      height:100, width: 100,),
+                  ),
+                  const SizedBox(height:7),
+                  Container(
+                      width: 90,
+                      child: Text(
+                        podcastInfo.title,
+                        style: const TextStyle(fontSize: 17),
+                        maxLines: 2,
+                        textAlign: TextAlign.left,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
+                      )
+                  )
+                ],
               ),
-              const SizedBox(height:10),
-              Container(
-                width: 90,
-                child: Text(
-                  podcastInfo.title,
-                  style: const TextStyle(fontSize: 17),
-                  maxLines: 2,
-                  textAlign: TextAlign.left,
-                  overflow: TextOverflow.ellipsis,
-                  softWrap: false,
-                )
-              )
-            ],
-          ),
-        )
+            )
+        ),
       ),
     );
 

@@ -7,14 +7,16 @@ class PlaylistData {
   List<PodcastInfo> podcasts = [];
   String description = "";
   String thumbnail = "";
+  int id = 0;
   bool shuffle = false;
   int currentIndex = 0;
 
-  PlaylistData(String name, List<PodcastInfo> podcasts, String description, String thumbnail){
-    this.name = name;
-    this.podcasts = podcasts;
-    this.description=description;
-    this.thumbnail = thumbnail;
+  PlaylistData(String _name, List<PodcastInfo> _podcasts, String _description, String _thumbnail, int _id){
+    name = _name;
+    podcasts = _podcasts;
+    description = _description;
+    thumbnail = _thumbnail;
+    id = _id;
     //savePlaylistToDevice(this);
   }
 

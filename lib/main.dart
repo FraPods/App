@@ -269,7 +269,7 @@ void loadSettingsFromDevice() async{
 
 
 final LocalStorage storage = LocalStorage('storage');
-List<PlaylistData> listOfAllPlaylists = [PlaylistData("queue", [],'','')];
+List<PlaylistData> listOfAllPlaylists = [PlaylistData("queue", [], "", "", 0)];
 int currentPlaylistInList = 0;
 
 
@@ -300,6 +300,6 @@ Future<void> loadAllPlaylistsFromDevice() async {
   List<String> keys = List.from(jsonDecode(await storage.getItem("register")));
   for(String key in keys){
     List<PodcastInfo> currentPlaylist = (jsonDecode(await storage.getItem(key)) as List).map((podcastInfoJson) => PodcastInfo.fromJson(podcastInfoJson)).toList();
-    listOfAllPlaylists.add(PlaylistData(key, currentPlaylist,'',''));
+    listOfAllPlaylists.add(PlaylistData(key, currentPlaylist, "", "", 0));
   }
 }

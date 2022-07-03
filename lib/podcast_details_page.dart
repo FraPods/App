@@ -94,10 +94,19 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
                   ),
                 ),
                 const SizedBox(height: 15),
-                Text(
-                  "Description: " + currentPodcastInfo.description,
-                  style: const TextStyle(
-                    fontSize: 16,
+                SizedBox(
+                  height: 225,
+                  child: Expanded(
+                      flex: 1,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Text(
+                          "Description: " + currentPodcastInfo.description,
+                          style: const TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      )
                   ),
                 ),
                 const Spacer(),

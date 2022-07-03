@@ -239,105 +239,109 @@ class _SearchPageState extends State<SearchPage> {
   Widget podcastItem(BuildContext ctxt, int index, PodcastInfo podcastInfo) {
     return Column(
       children: [
-        TextButton(
-          style: TextButton.styleFrom(padding: const EdgeInsets.fromLTRB(5, 0, 5, 0)),
-          onPressed: () async {
-            showDialog(
-                barrierDismissible: false,
-                context: context,
-                builder: (context) {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                    ),
-                  );
+        Row(
+          children: [
+            TextButton(
+              style: TextButton.styleFrom(padding: const EdgeInsets.fromLTRB(5, 0, 5, 0)),
+              onPressed: () async {
+                showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (context) {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                        ),
+                      );
+                    }
+                );
+
+                if (podcastInfo.url.startsWith("GETURL")) {
+                  String url = await BackendApi()
+                      .getUrlFromYtID(podcastInfo.url.substring(8));
+                  podcastPlayer.playPodcast(PodcastInfo(podcastInfo.title, podcastInfo.description, podcastInfo.artist, url, podcastInfo.thumbnail, podcastInfo.id));
+                } else {
+                  podcastPlayer.playPodcast(podcastInfo);
                 }
-            );
 
-            if (podcastInfo.url.startsWith("GETURL")) {
-              String url = await BackendApi()
-                  .getUrlFromYtID(podcastInfo.url.substring(8));
-              podcastPlayer.playPodcast(PodcastInfo(podcastInfo.title, podcastInfo.description, podcastInfo.artist, url, podcastInfo.thumbnail, podcastInfo.id));
-            } else {
-              podcastPlayer.playPodcast(podcastInfo);
-            }
+                Navigator.of(context).pop();
 
-            Navigator.of(context).pop();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    PodcastDetailsPage(podcastInfo: podcastInfo);
+                    return PodcastDetailsPage(podcastInfo: podcastInfo);
+                  }),
+                );
+              },
+              onLongPress: () async {
+                showDialogMessage("Adding song to queue",
+                    "This is an experimental feature. You are adding a song to the queue. ");
 
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) {
-                PodcastDetailsPage(podcastInfo: podcastInfo);
-                return PodcastDetailsPage(podcastInfo: podcastInfo);
-              }),
-            );
-          },
-          onLongPress: () async {
-            showDialogMessage("Adding song to queue",
-                "This is an experimental feature. You are adding a song to the queue. ");
-
-            if (podcastInfo.url.startsWith("GETURL")) {
-              String url = await BackendApi()
-                  .getUrlFromYtID(podcastInfo.url.substring(8));
-              podcastPlayer.addSongToQueue(PodcastInfo(podcastInfo.title, podcastInfo.description, podcastInfo.artist, url, podcastInfo.thumbnail, podcastInfo.id));
-            } else {
-              podcastPlayer.addSongToQueue(podcastInfo);
-            }
-          },
-          child: Container(
-            width: double.maxFinite,
-            child: Card(
-              elevation: 0,
-              color: const Color(0x00000000),
-              //Theme.of(context).colorScheme.primaryVariant,
-              child: Row(
-                children: [
-                  Container(
-                    height: 60,
-                    width: 60,
-                    margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-                    child: Image.network(podcastInfo.thumbnail),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                if (podcastInfo.url.startsWith("GETURL")) {
+                  String url = await BackendApi()
+                      .getUrlFromYtID(podcastInfo.url.substring(8));
+                  podcastPlayer.addSongToQueue(PodcastInfo(podcastInfo.title, podcastInfo.description, podcastInfo.artist, url, podcastInfo.thumbnail, podcastInfo.id));
+                } else {
+                  podcastPlayer.addSongToQueue(podcastInfo);
+                }
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width * .9,
+                child: Card(
+                  elevation: 0,
+                  color: const Color(0x00000000),
+                  //Theme.of(context).colorScheme.primaryVariant,
+                  child: Row(
                     children: [
                       Container(
-                        margin: const EdgeInsets.fromLTRB(10, 5, 10, 0),
-                        width: MediaQuery.of(context).size.width - 130,
-                        child: Text(
-                          podcastInfo.title,
-                          maxLines: 2,
-                          textAlign: TextAlign.left,
-                          style: const TextStyle(fontSize: 18),
-                          overflow: TextOverflow.ellipsis,
-                          softWrap: false,
-                        ),
+                        height: 60,
+                        width: 60,
+                        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                        child: Image.network(podcastInfo.thumbnail),
                       ),
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(10, 8, 0, 5),
-                        width: MediaQuery.of(context).size.width - 130,
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Text(
-                            podcastInfo.artist,
-                            textAlign: TextAlign.left,
-                            style: const TextStyle(fontSize: 15),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(10, 5, 10, 0),
+                            width: MediaQuery.of(context).size.width * .85 - 130,
+                            child: Text(
+                              podcastInfo.title,
+                              maxLines: 2,
+                              textAlign: TextAlign.left,
+                              style: const TextStyle(fontSize: 18),
+                              overflow: TextOverflow.ellipsis,
+                              softWrap: false,
+                            ),
                           ),
-                        ),
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(10, 8, 0, 5),
+                            width: MediaQuery.of(context).size.width - 130,
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Text(
+                                podcastInfo.artist,
+                                textAlign: TextAlign.left,
+                                style: const TextStyle(fontSize: 15),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
             ),
-          ),
-        ),
-        Container(
-          alignment: Alignment.bottomRight,
-          child: InkWell(
-            child: const Icon(Icons.more_horiz),
-            onTap: ()=> _moreOptions(context),
-          )
+            Container(
+                alignment: Alignment.topRight,
+                child: InkWell(
+                  child: const Icon(Icons.more_vert_rounded),
+                  onTap: ()=> _moreOptions(context),
+                )
+            ),
+          ],
         ),
         Container(
             alignment: Alignment.center,
