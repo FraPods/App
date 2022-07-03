@@ -94,8 +94,9 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
                   ),
                 ),
                 const SizedBox(height: 15),
-                SizedBox(
-                  height: 225,
+                Container(
+                  //decoration: BoxDecoration(border: Border.all(width: 1)),
+                  height: 100,
                   child: Expanded(
                       flex: 1,
                       child: SingleChildScrollView(
@@ -127,7 +128,8 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
                     }
                   },
                   icon: _isPlaying ? const Icon(Icons.pause) : const Icon(Icons.play_arrow),
-                )
+                ),
+                const SizedBox(height: 20)
               ],
             ),
           ),

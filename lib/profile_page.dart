@@ -56,10 +56,10 @@ class _ProfilePageState extends State<ProfilePage> {
       );
   }
 
-  void _addNewPlaylist(String xname, List<PodcastInfo> xpodcast, String xdescription, String xthumbnail){
-     final newplay = PlaylistData(xname, xpodcast, xdescription, xthumbnail);
+  void _addNewPlaylist(String xname, List<PodcastInfo> xpodcast, String xdescription, String xthumbnail, int xid){
+     final newplay = PlaylistData(xname, xpodcast, xdescription, xthumbnail, xid);
     setState(() {
-      playlists.add(PlaylistData(xname, xpodcast, xdescription, xthumbnail));
+      playlists.add(PlaylistData(xname, xpodcast, xdescription, xthumbnail, xid));
     });
   }
 

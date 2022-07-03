@@ -28,8 +28,6 @@ class _AddNewPlaylistState extends State<AddNewPlaylist> {
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
 
-  PlaylistData newPlaylist = PlaylistData('', [], '', '');
-
   PlaylistData newPlaylist = PlaylistData('', [], "", "", 0);
     String image = "";
     File? imageTemporary;

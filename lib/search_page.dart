@@ -25,7 +25,14 @@ class _SearchPageState extends State<SearchPage> {
   // declare variables here:
   int _selectedIndex = 0;
   bool _isSearchBarOpened = false;
-  List<PodcastInfo> listOfAllSearchResults = [];
+  List<PodcastInfo> listOfAllSearchResults = [
+    // PodcastInfo('title', 'description shhhhhhhhhhhhhhh xsjjjjjjjjjj shhhhhhhhhhhhhhhh   hhhhhhhhd jdnbcksdfhdhdcn  bnfnfbns mefbdfn cdnvdsmhn', 'artist', 'url', '0', 0),
+    // PodcastInfo('title', 'description', 'artist', 'url', '0', 0),
+    // PodcastInfo('title', 'description', 'artist', 'url', '0', 0),
+    // PodcastInfo('title', 'description', 'artist', 'url', '0', 0),
+    // PodcastInfo('title', 'description', 'artist', 'url', '0', 0),
+    // PodcastInfo('title', 'description', 'artist', 'url', '0', 0),
+  ];
   Icon searchBarIcon = Icon(Icons.search);
   Widget searchBar = Image.asset(
     'assets/icon-round.png',
@@ -242,7 +249,7 @@ class _SearchPageState extends State<SearchPage> {
         Row(
           children: [
             TextButton(
-              style: TextButton.styleFrom(padding: const EdgeInsets.fromLTRB(5, 0, 5, 0)),
+              style: TextButton.styleFrom(padding: const EdgeInsets.fromLTRB(5, 0, 0, 0)),
               onPressed: () async {
                 showDialog(
                     barrierDismissible: false,
@@ -305,7 +312,7 @@ class _SearchPageState extends State<SearchPage> {
                         children: [
                           Container(
                             margin: const EdgeInsets.fromLTRB(10, 5, 10, 0),
-                            width: MediaQuery.of(context).size.width * .85 - 130,
+                            width: MediaQuery.of(context).size.width - 150,
                             child: Text(
                               podcastInfo.title,
                               maxLines: 2,
@@ -317,7 +324,7 @@ class _SearchPageState extends State<SearchPage> {
                           ),
                           Container(
                             margin: const EdgeInsets.fromLTRB(10, 8, 0, 5),
-                            width: MediaQuery.of(context).size.width - 130,
+                            width: MediaQuery.of(context).size.width - 150,
                             child: SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Text(
@@ -345,7 +352,7 @@ class _SearchPageState extends State<SearchPage> {
         ),
         Container(
             alignment: Alignment.center,
-            width: MediaQuery.of(context).size.width * 0.92,
+            width: MediaQuery.of(context).size.width * 0.93,
             child: const Divider(
               thickness: 1,
               color: Colors.grey,
