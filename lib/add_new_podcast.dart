@@ -111,7 +111,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
       }
     }
 
-    void submitData(BuildContext ctx) {
+    void submitData(BuildContext ctx) async {
       if (titleController.text.isEmpty) {
         showDialogMessage(
             'Title is empty', 'Please enter a title for your podcast!');
@@ -120,6 +120,15 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
             'Artist name is empty', 'Please enter an artist for your podcast!');
       } else {
         var submitId = edit ? widget.id : newPodcastId;
+        if(thumbnailId == 0 && edit) {
+          var qP = Uri.parse(image).queryParameters;
+          String tempThumbId = "0${qP["file_id"]}";
+          try {
+            thumbnailId = int.parse(tempThumbId);
+          } on Exception catch(_) {
+            thumbnailId = 0;
+          }
+        }
         PodcastInfo newData = PodcastInfo(
             titleController.text, descriptionController.text,
             artistController.text, urlController.text, thumbnailId.toString(),
@@ -270,7 +279,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                                         labelText: 'Title',),
                                       controller: titleController
                                         ..text = newPodcast.title,
-                                      maxLength: 50,
+                                      maxLength: 64,
                                     ),
                                   ),
                                   Container(
@@ -359,7 +368,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                               onPressed: () => submitData(context),),
                             const SizedBox(width: 15,),
                             OutlinedButton(child: const Text('Cancel'),
-                              onPressed: () => Navigator.of(context).pop(),),
+                              onPressed: () => Navigator.of(context).pop()),
                           ],
                         )
                       ],

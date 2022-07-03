@@ -46,7 +46,7 @@ class FraPodsApp extends StatelessWidget {
 
     return ValueListenableBuilder<bool>(
         valueListenable: loginNotifier,
-        builder: (BuildContext context, bool isLogedIn, Widget? child) {
+        builder: (BuildContext context, bool isLoggedIn, Widget? child) {
           return ValueListenableBuilder<bool>(
               valueListenable: darkNotifier,
               builder: (BuildContext context, bool isDark, Widget? child) {
@@ -98,7 +98,7 @@ class FraPodsApp extends StatelessWidget {
                           onError: Colors.black,
                           brightness: Brightness.dark,
                         )),
-                    home: isLogedIn == false
+                    home: isLoggedIn == false
                         ? const LoginPage()
                         : const MainPage());
               });
@@ -229,7 +229,7 @@ const String FRAPODS_SOURCE_ACTIVATED_KEY = "isFrapodsSourceActivated";
 
 final darkNotifier = ValueNotifier<bool>(isDarkModeActivated);
 var loginNotifier = ValueNotifier<bool>(false);
-var currentPodcasatInfoNotifier = ValueNotifier<PodcastInfo>(PodcastInfo("NONE", "NONE", "NONE", "NONE", "NONE", 0));
+var currentPodcastInfoNotifier = ValueNotifier<PodcastInfo>(PodcastInfo("NONE", "NONE", "NONE", "NONE", "NONE", 0));
 var songDurationNotifier = ValueNotifier<Duration>(Duration(seconds: 0));
 var songProgressNotifier = ValueNotifier<Duration>(Duration(seconds: 0));
 

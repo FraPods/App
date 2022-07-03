@@ -51,7 +51,7 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
     });
 
     return ValueListenableBuilder<PodcastInfo>(
-        valueListenable: currentPodcasatInfoNotifier,
+        valueListenable: currentPodcastInfoNotifier,
         builder: (BuildContext context, PodcastInfo currentPodcastInfo,
             Widget? child) {
           return Scaffold(
@@ -112,9 +112,9 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
                 IconButton(
                   onPressed: () {
                     if (!podcastPlayer.audioPlayer.playing) {
-                      podcastPlayer.audioPlayer.play();
+                      podcastPlayer.resume();
                     } else {
-                      podcastPlayer.audioPlayer.pause();
+                      podcastPlayer.pause();
                     }
                   },
                   icon: _isPlaying ? const Icon(Icons.pause) : const Icon(Icons.play_arrow),

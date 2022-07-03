@@ -1,15 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:frapods/backend_api.dart';
-import 'package:frapods/podcast_details_page.dart';
-import 'package:open_file/open_file.dart';
-import 'package:image_picker/image_picker.dart';
 
-import 'package:frapods/main_page.dart';
 import 'package:frapods/podcast_info.dart';
-import 'package:frapods/playlist_info.dart';
-import 'package:frapods/podcast_player.dart';
-import 'add_new_podcast.dart';
 
 class AddNewPlaylist extends StatefulWidget {
   //AddNewPlaylist({Key? key}) : super(key: key);
@@ -51,13 +42,13 @@ class _AddNewPlaylistState extends State<AddNewPlaylist> {
                   )
               ],),
             ),
-            Center(child: Text(
+            const Center(child: Text(
               'data',
               style: const TextStyle(fontSize: 22)),),
             const SizedBox(height:5),
             Container(
               height:pageHeight*0.57,
-              child: Text('dad')
+              child: const Text('dad')
               // widget.playlistData.podcasts.isEmpty? 
               // Text('No podcasts in this playlist yet......'):
               // ListView.builder(
@@ -127,7 +118,7 @@ class _AddNewPlaylistState extends State<AddNewPlaylist> {
                 ),
               ),
         ),
-        Divider(
+        const Divider(
           thickness: 1,
           color: Colors.grey,
         )

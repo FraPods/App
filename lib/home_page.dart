@@ -1,7 +1,9 @@
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:frapods/backend_api.dart';
 import 'package:frapods/main.dart';
 import 'package:frapods/podcast_details_page.dart';
 import 'package:frapods/podcast_info.dart';
@@ -21,6 +23,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   // declare variables here:
 
+  List<PodcastInfo> newestPodcasts = [];
+  List<PodcastInfo> newestPodcastsFromFavs = [];
+  List<PodcastInfo> randomPodcasts = [];
+  List<PodcastInfo> recommendedPodcasts = [];
 
   List<PodcastInfo> listOfAllSearchResults = [];
   Widget logo = Image.asset(
@@ -29,11 +35,21 @@ class _HomePageState extends State<HomePage> {
     height: 40,
   );
 
+  bool firstRender = true;
+
   @override
   Widget build(BuildContext context) {
     //define variables here
     double pageHeight = MediaQuery.of(context).size.height - 56;
     double pageWidth = MediaQuery.of(context).size.width;
+
+    if(firstRender) {
+      firstRender = false;
+      var newParser = BackendApi().getNewestUploads().then((value) => { setState(() => newestPodcasts = value )});
+      var newFromFavsParser = BackendApi().newUploadsFromFavorites().then((value) => { setState(() => newestPodcastsFromFavs = value )});
+      var randomParser = BackendApi().getRandomPodcasts().then((value) => { setState(() => randomPodcasts = value )});
+      var recommendedParser = BackendApi().getRecommendedPodcasts().then((value) => { setState(() => recommendedPodcasts = value )});
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -84,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const SizedBox(height:25),
                 const Text('Recommended',
-                style: TextStyle(fontSize: 20, decoration: TextDecoration.underline),),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
                 const SizedBox(height:10),
                 Container(
                   height:135,
@@ -92,31 +108,61 @@ class _HomePageState extends State<HomePage> {
                   child:ListView(
                     scrollDirection: Axis.horizontal,
                     children: [
-                      _buildSmallCard(8, 20),
-                      _buildSmallCard(2, 13),
-                      _buildSmallCard(35, 2),
-                      _buildSmallCard(4, 23),
-                      _buildSmallCard(30, 4)
+                      _buildTempSmallCard(8, 20),
+                      _buildTempSmallCard(2, 13),
+                      _buildTempSmallCard(35, 2),
+                      _buildTempSmallCard(4, 23),
+                      _buildTempSmallCard(30, 4)
                     ],
                   )
                 ),
                 const SizedBox(height:25),
                 const Text('What might interest you',
-                style: TextStyle(fontSize: 20, decoration: TextDecoration.underline),),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
                 const SizedBox(height:10),
                 Container(
-                  height:135,
+                  height:155,
                   width: pageWidth,
-                  child:ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      _buildSmallCard(287, 14),
-                      _buildSmallCard(85, 21),
-                      _buildSmallCard(22, 11),
-                      _buildSmallCard(7, 6),
-                      _buildSmallCard(9, 17)
-                    ],
-                  )
+                    child:ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: recommendedPodcasts.map((e) => _buildSmallCard(e)).toList()
+                    )
+                ),
+                const SizedBox(height:25),
+                const Text('Newest uploads',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                const SizedBox(height:10),
+                Container(
+                    height:155,
+                    width: pageWidth,
+                    child:ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: newestPodcasts.map((e) => _buildSmallCard(e)).toList()
+                    )
+                ),
+                const SizedBox(height:25),
+                const Text('New from your Favorites',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                const SizedBox(height:10),
+                Container(
+                    height:155,
+                    width: pageWidth,
+                    child:ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: newestPodcastsFromFavs.map((e) => _buildSmallCard(e)).toList()
+                    )
+                ),
+                const SizedBox(height:25),
+                const Text('Something else',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                const SizedBox(height:10),
+                Container(
+                    height:155,
+                    width: pageWidth,
+                    child:ListView(
+                      scrollDirection: Axis.horizontal,
+                        children: randomPodcasts.map((e) => _buildSmallCard(e)).toList()
+                    )
                 ),
               ],
             ),
@@ -161,11 +207,14 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Container(
                     margin: const EdgeInsets.fromLTRB(10, 10, 0, 5),
-                    //width: MediaQuery.of(context).size.width - 200,
+                    width: MediaQuery.of(context).size.width - 250,
                     child: Text(
                       artist,
                       textAlign: TextAlign.left,
                       style: const TextStyle(fontSize: 16),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: false,
                     ),
                   ),
                 ],
@@ -176,7 +225,7 @@ class _HomePageState extends State<HomePage> {
       );
   }
 
-  Widget _buildSmallCard (int numb, int thumbnail){
+  Widget _buildTempSmallCard (int numb, int thumbnail){
     return Container(
       child:Card(
         margin: EdgeInsets.only(right:15),
@@ -199,6 +248,74 @@ class _HomePageState extends State<HomePage> {
            ],
           )
       )
+    );
+
+  }
+
+  Widget _buildSmallCard (PodcastInfo podcastInfo){
+    return InkWell(
+      onTap: () async {
+        showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) {
+              return const Center(
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                ),
+              );
+            }
+        );
+
+        if (podcastInfo.url.startsWith("GETURL")) {
+          String url = await BackendApi()
+              .getUrlFromYtID(podcastInfo.url.substring(8));
+          podcastPlayer.playPodcast(PodcastInfo(podcastInfo.title, podcastInfo.description, podcastInfo.artist, url, podcastInfo.thumbnail, podcastInfo.id));
+        } else {
+          podcastPlayer.playPodcast(podcastInfo);
+        }
+
+        Navigator.of(context).pop();
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) {
+            PodcastDetailsPage(podcastInfo: podcastInfo);
+            return PodcastDetailsPage(podcastInfo: podcastInfo);
+          }),
+        );
+      },
+      child: Container(
+        width: 110,
+        child:Card(
+          margin: const EdgeInsets.only(right:15),
+          color: Colors.transparent,
+          elevation: 0,
+          child:Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.network(
+                  podcastInfo.thumbnail,
+                  height:100, width: 100,),
+              ),
+              const SizedBox(height:10),
+              Container(
+                width: 90,
+                child: Text(
+                  podcastInfo.title,
+                  style: const TextStyle(fontSize: 17),
+                  maxLines: 2,
+                  textAlign: TextAlign.left,
+                  overflow: TextOverflow.ellipsis,
+                  softWrap: false,
+                )
+              )
+            ],
+          ),
+        )
+      ),
     );
 
   }

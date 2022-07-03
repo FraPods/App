@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
+import 'package:frapods/backend_api.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:frapods/main.dart';
@@ -12,9 +13,6 @@ import 'package:just_audio_background/just_audio_background.dart';
 class PodcastPlayer {
   AudioPlayer audioPlayer = AudioPlayer();
   var songFinishedListener;
-
-
-
 
   PodcastPlayer() {
     songFinishedListener = null;
@@ -38,7 +36,25 @@ class PodcastPlayer {
   }
 
   void _play(PodcastInfo podcastInfo) async {
+    log("PLAY FUNCTION");
+    int totalDuration = songDurationNotifier.value.inMilliseconds;
+    bool wasPlaying = audioPlayer.playing;
     await audioPlayer.stop();
+    int lastStartTime = songStartTime;
+    log(wasPlaying.toString());
+    if(!wasPlaying) {
+      lastStartTime = DateTime.now().millisecondsSinceEpoch - timeSincePause;
+    } else {
+      lastStartTime -= timeSincePause;
+    }
+    timeSincePause = 0;
+    int currentPodcastId = currentSongId;
+    songStartTime = DateTime.now().millisecondsSinceEpoch;
+    currentSongId = podcastInfo.id;
+    log(lastStartTime.toString() + " / " + totalDuration.toString() + " / " + currentPodcastId.toString() + " / " + timeSincePause.toString());
+    if(currentPodcastId > 0) {
+      createRating(lastStartTime, totalDuration, currentPodcastId);
+    }
     await audioPlayer.setAudioSource(AudioSource.uri(
       Uri.parse(podcastInfo.url),
       tag: MediaItem(
@@ -49,6 +65,13 @@ class PodcastPlayer {
       ),
     ));
     await audioPlayer.play();
+  }
+
+  void createRating(int startTime, int duration, int id) async {
+    double timeRating = ((songStartTime - startTime) / duration) * 3.1;
+    log(timeRating.toString());
+    if(timeRating > 3.0) timeRating = 3.0;
+    BackendApi().submitRating(id, timeRating);
   }
 
   // Public functions :
@@ -64,10 +87,14 @@ class PodcastPlayer {
   }
 
   void pause(){
+    log("PAUSE");
+    timeSincePause += DateTime.now().millisecondsSinceEpoch - songStartTime;
+    songStartTime = DateTime.now().millisecondsSinceEpoch;
     audioPlayer.pause();
   }
 
   void resume() {
+    songStartTime = DateTime.now().millisecondsSinceEpoch;
     audioPlayer.play();
   }
 
@@ -85,8 +112,8 @@ class PodcastPlayer {
   Duration currentSongLength = Duration(seconds: 0);
   Duration currentSongProgress = Duration(seconds: 0);
 
-
-
-
+  int songStartTime = DateTime.now().millisecondsSinceEpoch;
+  int currentSongId = 0;
+  int timeSincePause = 0;
 
 }

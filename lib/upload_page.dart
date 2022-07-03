@@ -36,12 +36,6 @@ class _UploadPageState extends State<UploadPage> {
   // declare variables here:
 
   void _addNewPodcast(String xtitle, String xartist, String xdescription, String xurl){
-    // final newpod = PodcastInfo.only(
-    //   title: xtitle, description: xdescription, artist: xartist, url: xurl
-    // );
-    /*setState(() {
-      podcasts.add(PodcastInfo(xtitle, xdescription, xartist, xurl, "", 0));
-    });*/
     BackendApi().getPodcastsFrom("", true, true).then((value) {
       if (value != []) {
         setState(() => podcasts = value);

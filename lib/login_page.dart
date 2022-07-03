@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:frapods/dynamic_dialog.dart';
 import 'package:frapods/main_page.dart';
 import 'main.dart';
 import 'backend_api.dart';
@@ -57,7 +58,7 @@ class _LoginPageState extends State<LoginPage>
     double defaultLoginSize = size.height - (size.height * 0.15);
     double defaultRegisterSize = size.height - (size.height * 0.15);
 
-    containerSize = Tween<double>(begin: size.height * 0.15, end: defaultRegisterSize).animate(CurvedAnimation(parent: animationController, curve: Curves.linear));
+    containerSize = Tween<double>(begin: size.height * 0.1, end: defaultRegisterSize).animate(CurvedAnimation(parent: animationController, curve: Curves.linear));
 
     return Scaffold(
       body: Stack(
@@ -96,18 +97,18 @@ class _LoginPageState extends State<LoginPage>
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const SizedBox(height:30),
+                      const SizedBox(height: 25),
                       Text(
                         'Welcome to',
                         style: loginTitleTextStyle(),
                       ),
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 20),
                       Image.asset(
                         'assets/icon-round.png',
-                        height: 250,
-                        width: 250,
+                        height: 200,
+                        width: 200,
                       ),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 20),
                       Container(
                         margin: const EdgeInsets.symmetric(vertical: 10),
                         padding:
@@ -190,10 +191,10 @@ class _LoginPageState extends State<LoginPage>
                       const SizedBox(height: 40),
                       Image.asset(
                         'assets/icon-round.png',
-                        height: 250,
-                        width: 250,
+                        height: 200,
+                        width: 200,
                       ),
-                      const SizedBox(height: 25),
+                      const SizedBox(height: 20),
                       Container(
                         margin: const EdgeInsets.symmetric(vertical: 10),
                         padding:
@@ -276,7 +277,7 @@ class _LoginPageState extends State<LoginPage>
                         ),
                       ),
                       InkWell(
-                        onTap: () => signUp(_usernameTextController.text, _passwordTextController.text, _firstnameTextController.text, _lastnameTextController.text, _emailTextController.text),
+                        onTap: () => signUp(_usernameTextController.text, _passwordTextController.text,_firstnameTextController.text, _lastnameTextController.text, _emailTextController.text),
                         borderRadius: BorderRadius.circular(30),
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 10),
@@ -303,13 +304,13 @@ class _LoginPageState extends State<LoginPage>
       ),
 
       // temporary button for testing
-      floatingActionButton: FloatingActionButton(
+      /*floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.transparent,
         focusColor: Colors.transparent,
         hoverColor: Colors.transparent,
         splashColor: Colors.transparent,
-        //child: const Text('skip login'),
+        child: const Text('skip login'),
         onPressed: () {
           setState(
             () {
@@ -317,7 +318,7 @@ class _LoginPageState extends State<LoginPage>
             },
           );
         },
-      ),
+      ),*/
     );
   }
 
@@ -358,24 +359,24 @@ class _LoginPageState extends State<LoginPage>
 
   Future<void> login(String username, String password) async {
     if(username.isEmpty && password.isEmpty) {
-      Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Login failed", "Please provide a username and password!")));
+      showDialog(context: context, builder: (BuildContext context) { return DynamicDialog(null, DialogData("Login failed", "Please provide a username and password!")); });
       return;
     }
     if (username.isEmpty) {
-      Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Login failed", "Please provide a username!")));
+      showDialog(context: context, builder: (BuildContext context) { return DynamicDialog(null, DialogData("Login failed", "Please provide a username!")); });
       return;
     }
     if (password.isEmpty) {
-      Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Login failed", "Please provide a password!")));
+      showDialog(context: context, builder: (BuildContext context) { return DynamicDialog(null, DialogData("Login failed", "Please provide a password!")); });
       return;
     } else {
       String result = await BackendApi().logIn(username, password);
       switch (result) {
         case "200":
-          Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Login: Authentication", "FraPods uses 2 factor authentication. You will receive an E-Mail asking you to verify this device. Click the link and then restart this app to log in!")));
+          showDialog(context: context, builder: (BuildContext context) { return DynamicDialog(null, DialogData("Login: Authentication", "FraPods uses 2 factor authentication. You will receive an E-Mail asking you to verify this device. Click the link and then restart this app to log in!")); });
           break;
         default:
-          Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Login failed", "Wrong username or password!")));
+          showDialog(context: context, builder: (BuildContext context) { return DynamicDialog(null, DialogData("Login failed", "Wrong username or password!")); });
           break;
       }
     }
@@ -389,8 +390,8 @@ class _LoginPageState extends State<LoginPage>
         height: containerSize.value,
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(70),
-            topRight: Radius.circular(70),
+            topLeft: Radius.circular(50),
+            topRight: Radius.circular(50),
           ),
           color: backgroundColor(),
         ),
@@ -412,22 +413,5 @@ class _LoginPageState extends State<LoginPage>
       ),
     );
   }
-
-  static Route<Object?> _dialogBuilder(
-      BuildContext context, DialogArguments arguments) {
-    return DialogRoute<void>(
-      context: context,
-      builder: (BuildContext context) =>
-          AlertDialog(title: Text(arguments.title), content: Text(arguments.message)),
-    );
-  }
-
 // All class-internal methods should go above this line
-}
-
-class DialogArguments {
-  final String title;
-  final String message;
-
-  DialogArguments(this.title, this.message);
 }
