@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:frapods/backend_api.dart';
-import 'package:open_file/open_file.dart';
 
 import 'package:frapods/main_page.dart';
 import 'package:frapods/podcast_info.dart';
@@ -24,7 +23,7 @@ class PlaylistsPage extends StatefulWidget {
 class _PlaylistsPageState extends State<PlaylistsPage> {
   // declare variables here:
 
-  int rn1 =Random().nextInt(7);
+  int rn1 =Random().nextInt(24);
   
   @override
   Widget build(BuildContext context) {
@@ -57,7 +56,7 @@ class _PlaylistsPageState extends State<PlaylistsPage> {
             Container(
               height:pageHeight*0.57,
               child: widget.playlistData.podcasts.isEmpty? 
-              Text('No podcasts in this playlist yet......'):
+              const Text('No podcasts in this playlist yet......'):
               ListView.builder(
                 itemCount: widget.playlistData.podcasts.length,
                 itemBuilder: (ctx, index) => playlistPodcast(widget.playlistData.podcasts[index]),
@@ -125,7 +124,7 @@ class _PlaylistsPageState extends State<PlaylistsPage> {
                 ),
               ),
         ),
-        Divider(
+        const Divider(
           thickness: 1,
           color: Colors.grey,
         )

@@ -53,8 +53,7 @@ class _LoginPageState extends State<LoginPage>
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
-    double viewInset = MediaQuery.of(context).viewInsets.bottom; //keyboard check
+    final _keyboardVisible = MediaQuery.of(context).viewInsets.bottom !=0;
     double defaultLoginSize = size.height - (size.height * 0.15);
     double defaultRegisterSize = size.height - (size.height * 0.15);
 
@@ -72,7 +71,8 @@ class _LoginPageState extends State<LoginPage>
                 width: size.width,
                 height: size.height * 0.15,
                 alignment: Alignment.bottomCenter,
-                child: IconButton(
+                child: _keyboardVisible? const SizedBox()
+                :IconButton(
                     icon: const Icon(Icons.close_rounded),
                     onPressed: () {
                       animationController.reverse();
@@ -383,7 +383,7 @@ class _LoginPageState extends State<LoginPage>
   }
 
   Widget buildRegisterContainer() {
-    return Align(
+    return MediaQuery.of(context).viewInsets.bottom ==0? Align(
       alignment: Alignment.bottomCenter,
       child: Container(
         width: double.infinity,
@@ -395,7 +395,7 @@ class _LoginPageState extends State<LoginPage>
           ),
           color: backgroundColor(),
         ),
-        alignment: Alignment.center,
+        alignment: Alignment.topCenter,
         child: GestureDetector(
           onTap: () {
             animationController.forward();
@@ -404,14 +404,18 @@ class _LoginPageState extends State<LoginPage>
             });
           },
           child: isLogin
-              ? Text(
-                  "Don't have an account? Sign Up",
-                  style: normalTextStyle(),
-                )
+              ? Container(
+                margin: const EdgeInsets.only(top: 30),
+                child: Text(
+                    "Don't have an account? Sign Up",
+                    style: normalTextStyle(),
+                  ),
+              )
               : null,
         ),
       ),
-    );
+    )
+    : const SizedBox();
   }
 // All class-internal methods should go above this line
 }
