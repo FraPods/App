@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:frapods/backend_api.dart';
 import 'package:frapods/main.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:file_picker/file_picker.dart';
 
 import 'package:frapods/podcast_info.dart';
 import 'package:frapods/playlist_info.dart';
@@ -22,15 +26,25 @@ class AddNewPlaylist extends StatefulWidget {
 class _AddNewPlaylistState extends State<AddNewPlaylist> {
   // declare variables here:
   final nameController = TextEditingController();
+  final descriptionController = TextEditingController();
 
-  PlaylistData newPlaylist = PlaylistData('', []);
+  PlaylistData newPlaylist = PlaylistData('', [], '', '');
+
+    String image = "";
+    File? imageTemporary;
 
   @override
   Widget build(BuildContext context) {
     //define variables here
     double pageHeight = MediaQuery.of(context).size.height - 56;
-    final _keyboardVisible = MediaQuery.of(context).viewInsets.bottom !=0;
-    bool _isPodcastsSelected = true;
+    final _keyboardVisible = MediaQuery.of(context).viewInsets.bottom != 0;
+    bool _isThumbnailSelected = true;
+
+    Future pickImage(ImageSource source) async {
+        final image = await ImagePicker().pickImage(source: source);
+        if (image == null) return;
+        setState(() => imageTemporary = File(image.path));
+    }
 
     void showDialogMessage(String title, String message) {
       showDialog(
@@ -53,17 +67,16 @@ class _AddNewPlaylistState extends State<AddNewPlaylist> {
         },
       );
     }
-    
+
     void _submitData(BuildContext ctx) {
       if (nameController.text.isEmpty) {
         showDialogMessage(
             'Name is empty', 'Please enter a name for your playlist!');
       } else {
-        widget.newPlaylist(
-            nameController.text,
-            [PodcastInfo('title', 'description','artist', '', '', 1)]
+        widget.newPlaylist(nameController.text,
+            [PodcastInfo('title', 'description', 'artist', '', '', 1), descriptionController.text,'']
             //TODO: submit selected podcasts
-        );
+            );
         Navigator.of(context).pop();
       }
     }
@@ -72,50 +85,87 @@ class _AddNewPlaylistState extends State<AddNewPlaylist> {
         heightFactor: 0.6,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 25),
-          child: ListView(
-            children: [Column(
+          child: ListView(children: [
+            Column(
               children: [
                 Center(
-                  child: Text('New Playlist', style: subtitleTextStyle(), textAlign: TextAlign.center,),
-                ),
-                const SizedBox(height: 10),
-                Container(
-                  width:double.maxFinite,
-                  child: TextField(
-                    style: const TextStyle(fontSize:18),
-                    decoration: const InputDecoration(labelText: 'name of your playlist', ),
-                    controller: nameController,
+                  child: Text(
+                    'New Playlist',
+                    style: subtitleTextStyle(),
+                    textAlign: TextAlign.center,
                   ),
                 ),
-                const SizedBox(height: 20,),
-                Container(
-                  width: double.maxFinite,
-                  height:70,
-                  child: TextButton(
-                    onPressed: (){},
-                    child: const Text('Select podcasts'),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(Theme.of(context).colorScheme.secondary),
-                      foregroundColor: MaterialStateProperty.all<Color>(Theme.of(context).colorScheme.onPrimary),
-                      textStyle: MaterialStateProperty.all<TextStyle>(const TextStyle(fontSize: 18))
-                    )
-                  ),
-                ),
-                const SizedBox(height:15),
-                Visibility(
-                  visible: _isPodcastsSelected==true,
-                  child: Column(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(border: Border.all(width: 1)),
-                        height:200, width: double.maxFinite,
-                        // child: ListView.builder(),
-                        //TODO: build selectedPodcasts here
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width - 170,
+                      alignment: Alignment.topLeft,
+                      child: TextField(
+                        style: const TextStyle(fontSize: 18),
+                        decoration: const InputDecoration(
+                          labelText: 'name of your playlist',
+                        ),
+                        controller: nameController,
+                        maxLength: 50,
                       ),
-                      const SizedBox(height:15),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(width: 25,),
+                    InkWell(
+                      onTap: () => pickImage(ImageSource.gallery),
+                      child: image != ""
+                          ? Container(
+                              margin: const EdgeInsets.all(2),
+                              child: Image.network(
+                                image,
+                                height: 90,
+                                width: 90,
+                                fit: BoxFit.cover,
+                              ),
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 1,
+                                      color: Theme.of(context).colorScheme.onBackground),
+                                  borderRadius: const BorderRadius.horizontal(
+                                      right: Radius.circular(7),
+                                      left: Radius.circular(7))),
+                              height: 90,
+                              width: 90,
+                            )
+                          : Container(
+                              child: const Center(
+                                  child: Text(
+                                'Upload Thumbnail',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 15),
+                              )),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 1,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground),
+                                borderRadius: const BorderRadius.horizontal(
+                                    right: Radius.circular(7),
+                                    left: Radius.circular(7)),
+                              ),
+                              height: 90,
+                              width: 90,
+                            ),
+                    ),
+                  ],
                 ),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  decoration: const InputDecoration(
+                      labelText: 'Description', border: OutlineInputBorder()),
+                  controller: descriptionController,
+                  maxLines: 10,
+                  minLines: 6,
+                ),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -138,24 +188,8 @@ class _AddNewPlaylistState extends State<AddNewPlaylist> {
                         : 0)
               ],
             ),
-            const Center(child: Text(
-              'data',
-              style: const TextStyle(fontSize: 22)),),
-            const SizedBox(height:5),
-            Container(
-              height:pageHeight*0.57,
-              child: const Text('dad')
-              // widget.playlistData.podcasts.isEmpty? 
-              // Text('No podcasts in this playlist yet......'):
-              // ListView.builder(
-              //   itemCount: widget.playlistData.podcasts.length,
-              //   itemBuilder: (ctx, index) => playlistPodcast(widget.playlistData.podcasts[index]),
-              // )
-            )
-          ],
-        ),
-      )
-    );
+          ]),
+        ));
   }
 
   Widget selectedPodcasts(PodcastInfo pc) {

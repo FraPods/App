@@ -21,8 +21,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 List<PlaylistData> playlists = [
-    PlaylistData('playlist 1', [PodcastInfo('p1','xxxx','art','url','', 1)]),
-    PlaylistData('playlist 2', [PodcastInfo('p1','xxxx','art','url','', 2)]),
+    PlaylistData('playlist 1', [PodcastInfo('p1','xxxx','art','url','', 1)], '',''),
+    PlaylistData('playlist 2', [PodcastInfo('p1','xxxx','art','url','', 2)], '',''),
   ];
 
 class _ProfilePageState extends State<ProfilePage> {
@@ -59,10 +59,10 @@ class _ProfilePageState extends State<ProfilePage> {
       );
   }
 
-  void _addNewPlaylist(String xname, List<PodcastInfo> xpodcast){
-     final newplay = PlaylistData(xname, xpodcast);
+  void _addNewPlaylist(String xname, List<PodcastInfo> xpodcast, String xdescription, String xthumbnail){
+     final newplay = PlaylistData(xname, xpodcast, xdescription, xthumbnail);
     setState(() {
-      playlists.add(PlaylistData(xname, xpodcast));
+      playlists.add(PlaylistData(xname, xpodcast, xdescription, xthumbnail));
     });
   }
 
@@ -308,7 +308,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             crossAxisSpacing: 20,
                           ),
                           itemBuilder: (context, index) {
-                            return myPlaylists(PlaylistData(playlists[index].name, playlists[index].podcasts));
+                            return myPlaylists(PlaylistData(playlists[index].name, playlists[index].podcasts, playlists[index].description, playlists[index].thumbnail));
                           }
 
                           )

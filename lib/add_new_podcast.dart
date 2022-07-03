@@ -40,7 +40,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
   String fileName = 'no file';
   File? audioFile;
   String image = "";
-  bool step1 = true;
+  bool step1 = false;
   bool getWidgetData = true;
   bool edit = false;
   double? popupHeight = 0.6;
@@ -55,6 +55,8 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
     //works inside "Widget build" and not in "state"
 
     //final String fileName = file != null ? basename (file!.path) : 'no file';
+
+    final _keyboardVisible = MediaQuery.of(context).viewInsets.bottom !=0;
 
     if (widget.id != 0 && getWidgetData) {
       getWidgetData = false;
@@ -238,7 +240,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
     } else {
       return FractionallySizedBox(
         //behavior: HitTestBehavior.opaque,
-          heightFactor: popupHeight,
+          heightFactor: _keyboardVisible? 0.7 : popupHeight,
           child: ListView(
             children: [
               Card(
@@ -260,20 +262,15 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                                 style: subtitleTextStyle())
                         ),
                         Row(
-                          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(
-                                  bottom: 30.0, left: 5, top: 10),
+                                  bottom: 30.0, left: 5, top: 0),
                               child: Column(
                                 children: [
                                   Container(
-                                    //margin: EdgeInsets.fromLTRB(left, top, right, bottom),
-                                    width: MediaQuery
-                                        .of(context)
-                                        .size
-                                        .width - 190,
-                                    height: 60,
+                                    width: MediaQuery.of(context).size.width - 190,
+                                    //height: 80,
                                     child: TextField(
                                       decoration: const InputDecoration(
                                         labelText: 'Title',),
@@ -287,7 +284,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                                         .of(context)
                                         .size
                                         .width - 190,
-                                    height: 60,
+                                    //height: 60,
                                     child: TextField(
                                       decoration: const InputDecoration(
                                         labelText: 'Artist',),
@@ -298,48 +295,43 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                                 ],
                               ),
                             ),
+                            const SizedBox(width: 25,),
                             Column(
                               children: [
-                                Container(
-                                  margin: const EdgeInsets.only(left: 25,),
-                                  //decoration: BoxDecoration(border:Border.all(width: 1)),
-                                  height: 110,
-                                  width: 110,
-                                  child: InkWell(
-                                    onTap: () => pickImage(ImageSource.gallery),
-                                    child: image != "" ? Container(
-                                        margin: const EdgeInsets.all(2),
-                                        child: Image.network(
-                                            image,
-                                            height: 110,
-                                            width: 110,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(width: 1, color: Theme.of(context).colorScheme.onBackground),
-                                          borderRadius: const BorderRadius.horizontal(right: Radius.circular(7), left: Radius.circular(7))
+                                InkWell(
+                                  onTap: () => pickImage(ImageSource.gallery),
+                                  child: image != "" ? Container(
+                                      margin: const EdgeInsets.all(2),
+                                      child: Image.network(
+                                          image,
+                                          height: 110,
+                                          width: 110,
+                                          fit: BoxFit.cover,
                                         ),
-                                        height: 110,
-                                        width: 110,
-                                      ) : Container(
-                                      child: const Center(
-                                          child: Text('Upload Thumbnail',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(fontSize: 15),)
-                                      ),
                                       decoration: BoxDecoration(
-                                        border: Border.all(
-                                            width: 1, color: Theme
-                                            .of(context)
-                                            .colorScheme
-                                            .onBackground),
-                                        borderRadius: const BorderRadius.horizontal(
-                                            right: Radius.circular(7),
-                                            left: Radius.circular(7)
-                                        ),
+                                        border: Border.all(width: 1, color: Theme.of(context).colorScheme.onBackground),
+                                        borderRadius: const BorderRadius.horizontal(right: Radius.circular(7), left: Radius.circular(7))
                                       ),
-                                      height: 110, width: 110,
+                                      height: 110,
+                                      width: 110,
+                                    ) : Container(
+                                    child: const Center(
+                                        child: Text('Upload Thumbnail',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(fontSize: 15),)
                                     ),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 1, color: Theme
+                                          .of(context)
+                                          .colorScheme
+                                          .onBackground),
+                                      borderRadius: const BorderRadius.horizontal(
+                                          right: Radius.circular(7),
+                                          left: Radius.circular(7)
+                                      ),
+                                    ),
+                                    height: 110, width: 110,
                                   ),
                                 ),
                                 const SizedBox(height: 5,)
@@ -370,7 +362,8 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                             OutlinedButton(child: const Text('Cancel'),
                               onPressed: () => Navigator.of(context).pop()),
                           ],
-                        )
+                        ),
+                        SizedBox(height:_keyboardVisible? MediaQuery.of(context).viewInsets.bottom : 0)
                       ],
                     ),
                   )

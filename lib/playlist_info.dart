@@ -5,12 +5,16 @@ import 'main.dart';
 class PlaylistData {
   String name = "";
   List<PodcastInfo> podcasts = [];
+  String description = "";
+  String thumbnail = "";
   bool shuffle = false;
   int currentIndex = 0;
 
-  PlaylistData(String name, List<PodcastInfo> podcasts){
+  PlaylistData(String name, List<PodcastInfo> podcasts, String description, String thumbnail){
     this.name = name;
     this.podcasts = podcasts;
+    this.description=description;
+    this.thumbnail = thumbnail;
     //savePlaylistToDevice(this);
   }
 

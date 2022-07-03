@@ -307,7 +307,7 @@ class BackendApi {
     String textualResult = (await http.get(Uri.parse(api_domain + "getUserPlaylists.php?username=" + (await _getString(USERNAME_KEY))))).body;
     final jsonData = json.decode(textualResult);
     jsonData.forEach((jsonPlaylist) => {
-      playlists.add(PlaylistData(jsonPlaylist["title"], []))
+      playlists.add(PlaylistData(jsonPlaylist["title"], [], '',''))
     });
     return playlists;
   }
