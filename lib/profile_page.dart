@@ -6,6 +6,7 @@ import 'package:frapods/playlist_info.dart';
 import 'package:frapods/playlists_page.dart';
 import 'package:frapods/podcast_info.dart';
 import 'package:frapods/upload_page.dart';
+import 'edit_account.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key, required this.setPage})
@@ -170,7 +171,16 @@ class _ProfilePageState extends State<ProfilePage> {
                       alignment:Alignment.bottomRight,
                       child:InkWell(
                         onTap:(){
-                          widget.setPage(4);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EditAccount(
+                                currentUsername: username,
+                                currentEmail:'current email',
+                                currentProfilePicture: profilePicture,
+                              )
+                            ),
+                          );
                         },
                        child:const Text('Edit account >>', style: TextStyle(fontSize: 16),)
                      )
