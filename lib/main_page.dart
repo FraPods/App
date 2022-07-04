@@ -111,12 +111,11 @@ class _MainPageState extends State<MainPage> {
                   ),
                 ),
                 Visibility(
-                  visible: !(currentPodcastInfo.title == "NONE" &&
-                      currentPodcastInfo.artist == "NONE"),
+                  visible: !(currentPodcastInfo.empty),
                   child: Container(
-                    margin: EdgeInsets.only(bottom: 15, right: 10, left: 10),
+                    margin: const EdgeInsets.only(bottom: 15, right: 10, left: 10),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.horizontal(
+                      borderRadius: const BorderRadius.horizontal(
                           right: Radius.circular(15),
                           left: Radius.circular(15)),
                       color: Theme
@@ -128,7 +127,7 @@ class _MainPageState extends State<MainPage> {
                           color: Colors.black.withOpacity(0.4),
                           spreadRadius: 1,
                           blurRadius: 5,
-                          offset: Offset(4, 7),
+                          offset: const Offset(4, 7),
                         ),
                       ],
                     ),
@@ -155,11 +154,11 @@ class _MainPageState extends State<MainPage> {
                             padding: EdgeInsets.zero,
                             color: Colors.white,
                             icon: _isPlaying
-                                ? Icon(
+                                ? const Icon(
                               Icons.pause,
                               size: 40.0,
                             )
-                                : Icon(Icons.play_arrow, size: 40.0),
+                                : const Icon(Icons.play_arrow, size: 40.0),
                             onPressed: () {
                               if (_isPlaying) {
                                 setState(() {
@@ -177,7 +176,7 @@ class _MainPageState extends State<MainPage> {
                           Flexible(
                             flex: 70,
                             child: Container(
-                              padding: EdgeInsets.only(right: 17),
+                              padding: const EdgeInsets.only(right: 17),
                               child: Text(
                                 currentPodcastInfo.title + " by " +
                                     currentPodcastInfo.artist,
@@ -188,7 +187,7 @@ class _MainPageState extends State<MainPage> {
                               ),
                             ),
                           ),
-                          Spacer(),
+                          const Spacer(),
                         ],
                       ),
                     ),
