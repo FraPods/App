@@ -140,7 +140,8 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
                     }
                   },
                   icon: _isPlaying ? const Icon(Icons.pause) : const Icon(Icons.play_arrow),
-                )
+                ),
+                const SizedBox(height: 20)
               ],
             ),
           ),

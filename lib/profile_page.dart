@@ -6,6 +6,7 @@ import 'package:frapods/playlist_info.dart';
 import 'package:frapods/playlists_page.dart';
 import 'package:frapods/podcast_info.dart';
 import 'package:frapods/upload_page.dart';
+import 'edit_account.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key, required this.setPage})
@@ -56,10 +57,10 @@ class _ProfilePageState extends State<ProfilePage> {
       );
   }
 
-  void _addNewPlaylist(String xname, List<PodcastInfo> xpodcast, String xdescription, String xthumbnail){
-     final newplay = PlaylistData(xname, xpodcast, xdescription, xthumbnail, 0);
+  void _addNewPlaylist(String xname, List<PodcastInfo> xpodcast, String xdescription, String xthumbnail, int xid){
+     final newplay = PlaylistData(xname, xpodcast, xdescription, xthumbnail, xid);
     setState(() {
-      playlists.add(PlaylistData(xname, xpodcast, xdescription, xthumbnail, 0));
+      playlists.add(PlaylistData(xname, xpodcast, xdescription, xthumbnail, xid));
     });
   }
 
@@ -170,7 +171,16 @@ class _ProfilePageState extends State<ProfilePage> {
                       alignment:Alignment.bottomRight,
                       child:InkWell(
                         onTap:(){
-                          widget.setPage(4);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EditAccount(
+                                currentUsername: username,
+                                currentEmail:'current email',
+                                currentProfilePicture: profilePicture,
+                              )
+                            ),
+                          );
                         },
                        child:const Text('Edit account >>', style: TextStyle(fontSize: 16),)
                      )

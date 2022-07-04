@@ -57,7 +57,7 @@ class _LoginPageState extends State<LoginPage>
     double defaultLoginSize = size.height - (size.height * 0.15);
     double defaultRegisterSize = size.height - (size.height * 0.15);
 
-    containerSize = Tween<double>(begin: size.height * 0.1, end: defaultRegisterSize).animate(CurvedAnimation(parent: animationController, curve: Curves.linear));
+    containerSize = Tween<double>(begin: size.height * 0.15, end: defaultRegisterSize).animate(CurvedAnimation(parent: animationController, curve: Curves.linear));
 
     return Scaffold(
       body: Stack(
@@ -142,6 +142,7 @@ class _LoginPageState extends State<LoginPage>
                           controller: _passwordTextController,
                         ),
                       ),
+                      const SizedBox(height: 10,),
                       InkWell(
                         onTap: () => login(_usernameTextController.text, _passwordTextController.text),
                         borderRadius: BorderRadius.circular(30),
@@ -304,7 +305,7 @@ class _LoginPageState extends State<LoginPage>
       ),
 
       // temporary button for testing
-      /*floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.transparent,
         focusColor: Colors.transparent,
@@ -318,7 +319,7 @@ class _LoginPageState extends State<LoginPage>
             },
           );
         },
-      ),*/
+      ),
     );
   }
 
