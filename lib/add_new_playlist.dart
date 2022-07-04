@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:frapods/backend_api.dart';
 import 'package:frapods/main.dart';
@@ -29,8 +30,9 @@ class _AddNewPlaylistState extends State<AddNewPlaylist> {
   final descriptionController = TextEditingController();
 
   PlaylistData newPlaylist = PlaylistData('', [], "", "", 0);
-    String image = "";
-    File? imageTemporary;
+  String image = "";
+  File? imageTemporary;
+  int thumbnailId = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +42,15 @@ class _AddNewPlaylistState extends State<AddNewPlaylist> {
     bool _isThumbnailSelected = true;
 
     Future pickImage(ImageSource source) async {
+      try {
         final image = await ImagePicker().pickImage(source: source);
         if (image == null) return;
         setState(() => imageTemporary = File(image.path));
+        thumbnailId = await BackendApi().uploadThumbnail(image.readAsBytes());
+        setState(() => this.image = api_domain + "getImage.php?size=512&bw=0&circle=0&file_id=" + thumbnailId.toString());
+      } on PlatformException catch (e) {
+        print('Failed to pick image: $e');
+      }
     }
 
     void showDialogMessage(String title, String message) {
@@ -72,10 +80,9 @@ class _AddNewPlaylistState extends State<AddNewPlaylist> {
         showDialogMessage(
             'Name is empty', 'Please enter a name for your playlist!');
       } else {
-        widget.newPlaylist(nameController.text,
-            [PodcastInfo('title', 'description', 'artist', '', '', 1), descriptionController.text,'']
-            //TODO: submit selected podcasts
-            );
+        var qP = Uri.parse(image).queryParameters;
+        String tempThumbId = "0${qP["file_id"]}";
+        BackendApi().createPlaylist(nameController.text, descriptionController.text, true, int.parse(tempThumbId));
         Navigator.of(context).pop();
       }
     }

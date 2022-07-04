@@ -18,9 +18,7 @@ class UploadPage extends StatefulWidget {
   }
 }
 
-List<PodcastInfo> podcasts = [
-  PodcastInfo('What is FraPods?','It\'s a cool app!','art','url','', 1)
-];
+List<PodcastInfo> podcasts = [];
 
 int myPosts = podcasts.length;
 
@@ -127,7 +125,7 @@ class _UploadPageState extends State<UploadPage> {
                           )
                           : ListView.builder(
                             itemCount: podcasts.length,
-                            itemBuilder: (ctx, index) => myPodcast(PodcastInfo(podcasts[index].title, podcasts[index].description, podcasts[index].artist, podcasts[index].url, podcasts[index].thumbnail, podcasts[index].id))),
+                            itemBuilder: (ctx, index) => myPodcast(PodcastInfo.create(podcasts[index].title, podcasts[index].description, podcasts[index].artist, podcasts[index].url, podcasts[index].thumbnail, podcasts[index].id, ""))),
                         )
                       ]),
                     ),

@@ -76,7 +76,7 @@ class _PlaylistsPageState extends State<PlaylistsPage> {
               const Text('No podcasts in this playlist yet......'):
               ListView.builder(
                 itemCount: playlistData.podcasts.length,
-                itemBuilder: (ctx, index) => playlistPodcast(playlistData.podcasts[index]),
+                itemBuilder: (ctx, index) => playlistPodcast(playlistData.podcasts[index], index, playlistData.id),
               )) : Column(children: const [
                 SizedBox(height: 40,),
                 CircularProgressIndicator(strokeWidth: 2, )
@@ -89,90 +89,111 @@ class _PlaylistsPageState extends State<PlaylistsPage> {
     );
   }
 
-  Widget playlistPodcast (PodcastInfo pc){
+  Widget playlistPodcast (PodcastInfo pc, int index, int playlistId){
     return Column(
       children: [
-        InkWell(
-        onTap: () async {
-          showDialog(
-              barrierDismissible: false,
-              context: context,
-              builder: (context) {
-                return const Center(
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                  ),
-                );
+        Dismissible(
+          direction: DismissDirection.endToStart,
+          background: Container(
+            color: Colors.red,
+            padding: const EdgeInsets.only(right: 20),
+            child: Row(
+              children: const [
+                Icon(Icons.delete, size: 18),
+                Text(" Löschen", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),)
+              ],
+              mainAxisAlignment: MainAxisAlignment.end,
+            ),
+          ),
+          key: Key(pc.thumbnail),
+          onDismissed: (direction) {
+            setState(() {
+              playlistData.podcasts.removeAt(index);
+              BackendApi().removeFromPlaylist(playlistId.toString(), pc.id == 0 ? pc.yt_id : pc.id.toString());
+            });
+          },
+          child: InkWell(
+            onTap: () async {
+              showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (context) {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                      ),
+                    );
+                  }
+              );
+
+              if (pc.url.startsWith("GETURL")) {
+                String url = await BackendApi()
+                    .getUrlFromYtID(pc.url.substring(8));
+                podcastPlayer.playPodcast(PodcastInfo.create(
+                    pc.title, pc.description, pc.artist, url, pc.thumbnail, pc.id, pc.yt_id));
+              } else {
+                podcastPlayer.playPodcast(pc);
               }
-          );
 
-          if (pc.url.startsWith("GETURL")) {
-            String url = await BackendApi()
-                .getUrlFromYtID(pc.url.substring(8));
-            podcastPlayer.playPodcast(PodcastInfo(
-                pc.title, pc.description, pc.artist, url, pc.thumbnail, pc.id));
-          } else {
-            podcastPlayer.playPodcast(pc);
-          }
+              Navigator.of(context).pop();
 
-          Navigator.of(context).pop();
-
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) {
-              PodcastDetailsPage(podcastInfo: pc);
-              return PodcastDetailsPage(podcastInfo: pc);
-            }),
-          );
-        },
-          child: Container(
-                width: double.maxFinite,
-                child: Card(
-                  elevation: 0,
-                  color: const Color(0x00000000),
-                  //Theme.of(context).colorScheme.primaryVariant,
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 60,
-                        width: 60,
-                        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-                        child: pc.thumbnail.isEmpty?Image.asset('assets/testpodcast'+rn1.toString()+'.png'):
-                        Image.network(pc.thumbnail, fit: BoxFit.cover,),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.fromLTRB(10, 5, 10, 0),
-                            width: MediaQuery.of(context).size.width - 140,
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) {
+                  PodcastDetailsPage(podcastInfo: pc);
+                  return PodcastDetailsPage(podcastInfo: pc);
+                }),
+              );
+            },
+            child: SizedBox(
+              width: double.maxFinite,
+              child: Card(
+                elevation: 0,
+                color: const Color(0x00000000),
+                //Theme.of(context).colorScheme.primaryVariant,
+                child: Row(
+                  children: [
+                    Container(
+                      height: 60,
+                      width: 60,
+                      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                      child: pc.thumbnail.isEmpty?Image.asset('assets/testpodcast'+rn1.toString()+'.png'):
+                      Image.network(pc.thumbnail, fit: BoxFit.cover,),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.fromLTRB(10, 5, 10, 0),
+                          width: MediaQuery.of(context).size.width - 140,
+                          child: Text(
+                            pc.title,
+                            maxLines: 2,
+                            textAlign: TextAlign.left,
+                            style: const TextStyle(fontSize: 18),
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: false,
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.fromLTRB(10, 8, 0, 5),
+                          width: MediaQuery.of(context).size.width - 140,
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
                             child: Text(
-                              pc.title,
-                              maxLines: 2,
+                              pc.artist,
                               textAlign: TextAlign.left,
-                              style: const TextStyle(fontSize: 18),
-                              overflow: TextOverflow.ellipsis,
-                              softWrap: false,
+                              style: const TextStyle(fontSize: 15),
                             ),
                           ),
-                          Container(
-                            margin: const EdgeInsets.fromLTRB(10, 8, 0, 5),
-                            width: MediaQuery.of(context).size.width - 140,
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Text(
-                                pc.artist,
-                                textAlign: TextAlign.left,
-                                style: const TextStyle(fontSize: 15),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
+            ),
+          ),
         ),
         const Divider(
           thickness: 1,

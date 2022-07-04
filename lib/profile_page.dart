@@ -323,14 +323,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       const SizedBox(height:2),
                         Visibility(
                           visible: !_allPlaylists && playlists.isNotEmpty,
-                          child: Center(
+                          child: playlists.length > 3 ? Center(
                             child: InkWell(
                               child: const Icon(Icons.arrow_drop_down,size:40),
                               onTap: (){
                                 setState((){ _allPlaylists=true;});
                               },
                             ),
-                          ),
+                          ) : const SizedBox(),
                         ),
                         Visibility(
                           visible: _allPlaylists && playlists.isNotEmpty,
@@ -344,9 +344,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                   ],)
-                  
+                    )
                   ),
-              ),
               ],),
           ),
           ],
@@ -365,20 +364,21 @@ class _ProfilePageState extends State<ProfilePage> {
               height: 80,
               width: 80,
               decoration: BoxDecoration(
-               color: Theme.of(context).colorScheme.surface,
-                borderRadius: BorderRadius.circular(8)),
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: BorderRadius.circular(8),
+                image: playlistData.thumbnail == "0" ? null : DecorationImage(
+                  image: NetworkImage(playlistData.thumbnail),
+                ),
+              ),
               child:Center(
-                child: Container(
-                  width: 75,
-                  child: Text(
-                    playlistData.name,
-                    style: const TextStyle(fontSize: 16,),
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    softWrap: false,
-                    ),
-                )
+                child: Text(
+                  playlistData.name,
+                  style: const TextStyle(fontSize: 16,),
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 3,
+                  softWrap: false,
+                ),
               ),
             ),
           );

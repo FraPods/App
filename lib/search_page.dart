@@ -40,7 +40,7 @@ class _SearchPageState extends State<SearchPage> {
     height: 40,
   );
 
-  void _moreOptions (BuildContext ctx, {int id = 0}) {
+  void _moreOptions (BuildContext ctx, {var id = 0}) {
     showModalBottomSheet(
       backgroundColor: Theme.of(context).colorScheme.background,
       context: ctx,
@@ -61,7 +61,7 @@ class _SearchPageState extends State<SearchPage> {
               ),
               const SizedBox(height: 15,),
               InkWell(
-                onTap: ()=>_addToPlaylist(context),
+                onTap: ()=>_addToPlaylist(context, id: id),
                 child: Row(
                   children: const [
                     Icon(Icons.add_box_rounded, size: 30,),
@@ -87,7 +87,7 @@ class _SearchPageState extends State<SearchPage> {
       );
   }
 
-  void _addToPlaylist (BuildContext ctx,  {int id = 0}) {
+  void _addToPlaylist (BuildContext ctx,  {var id = 0}) {
     showModalBottomSheet(
       backgroundColor: Theme.of(context).colorScheme.background,
       context: ctx,
@@ -112,7 +112,7 @@ class _SearchPageState extends State<SearchPage> {
               const Center(child: Text('You don\'t have a playlist yet......')):
               ListView.builder(
                 itemCount: playlists.length,
-                itemBuilder: (ctx, index) => playlistsList(playlists[index]),
+                itemBuilder: (ctx, index) => playlistsList(playlists[index], id),
               )
             )
             ],
@@ -172,13 +172,14 @@ class _SearchPageState extends State<SearchPage> {
                 itemBuilder: (BuildContext ctxt, int index) => podcastItem(
                     ctxt,
                     index,
-                    PodcastInfo(
+                    PodcastInfo.create(
                       listOfAllSearchResults[index].title,
                       listOfAllSearchResults[index].description,
                       listOfAllSearchResults[index].artist,
                       listOfAllSearchResults[index].url,
                       listOfAllSearchResults[index].thumbnail,
-                      listOfAllSearchResults[index].id
+                      listOfAllSearchResults[index].id,
+                      listOfAllSearchResults[index].yt_id
                     )),
               ),
             ),
@@ -266,7 +267,7 @@ class _SearchPageState extends State<SearchPage> {
                 if (podcastInfo.url.startsWith("GETURL")) {
                   String url = await BackendApi()
                       .getUrlFromYtID(podcastInfo.url.substring(8));
-                  podcastPlayer.playPodcast(PodcastInfo(podcastInfo.title, podcastInfo.description, podcastInfo.artist, url, podcastInfo.thumbnail, podcastInfo.id));
+                  podcastPlayer.playPodcast(PodcastInfo.create(podcastInfo.title, podcastInfo.description, podcastInfo.artist, url, podcastInfo.thumbnail, podcastInfo.id, podcastInfo.yt_id));
                 } else {
                   podcastPlayer.playPodcast(podcastInfo);
                 }
@@ -288,12 +289,12 @@ class _SearchPageState extends State<SearchPage> {
                 if (podcastInfo.url.startsWith("GETURL")) {
                   String url = await BackendApi()
                       .getUrlFromYtID(podcastInfo.url.substring(8));
-                  podcastPlayer.addSongToQueue(PodcastInfo(podcastInfo.title, podcastInfo.description, podcastInfo.artist, url, podcastInfo.thumbnail, podcastInfo.id));
+                  podcastPlayer.addSongToQueue(PodcastInfo.create(podcastInfo.title, podcastInfo.description, podcastInfo.artist, url, podcastInfo.thumbnail, podcastInfo.id, podcastInfo.yt_id));
                 } else {
                   podcastPlayer.addSongToQueue(podcastInfo);
                 }
               },
-              child: Container(
+              child: SizedBox(
                 width: MediaQuery.of(context).size.width * .9,
                 child: Card(
                   elevation: 0,
@@ -345,7 +346,7 @@ class _SearchPageState extends State<SearchPage> {
                 alignment: Alignment.topRight,
                 child: InkWell(
                   child: const Icon(Icons.more_vert_rounded),
-                  onTap: ()=> _moreOptions(context),
+                  onTap: ()=> _moreOptions(context, id: podcastInfo.id == 0 ? podcastInfo.yt_id : podcastInfo.id),
                 )
             ),
           ],
@@ -361,14 +362,17 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  Widget playlistsList (PlaylistData pl){
+  Widget playlistsList (PlaylistData pl, var sid){
     return Column(
       children: [
         InkWell(
           onTap:() {
+            BackendApi().addToPlaylist(pl.id.toString(), sid.toString());
+            Navigator.of(context).pop();
+            Navigator.of(context).pop();
           },
           //onHover: ,
-          child: Container(
+          child: SizedBox(
                 width: double.maxFinite,
                 child: Card(
                   elevation: 0,

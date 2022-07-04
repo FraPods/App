@@ -272,7 +272,7 @@ class _HomePageState extends State<HomePage> {
           if (podcastInfo.url.startsWith("GETURL")) {
             String url = await BackendApi()
                 .getUrlFromYtID(podcastInfo.url.substring(8));
-            podcastPlayer.playPodcast(PodcastInfo(podcastInfo.title, podcastInfo.description, podcastInfo.artist, url, podcastInfo.thumbnail, podcastInfo.id));
+            podcastPlayer.playPodcast(PodcastInfo.create(podcastInfo.title, podcastInfo.description, podcastInfo.artist, url, podcastInfo.thumbnail, podcastInfo.id, podcastInfo.yt_id));
           } else {
             podcastPlayer.playPodcast(podcastInfo);
           }

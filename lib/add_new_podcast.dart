@@ -44,7 +44,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
   bool getWidgetData = true;
   bool edit = false;
   double? popupHeight = 0.6;
-  PodcastInfo newPodcast = PodcastInfo("", "", "", "", "", 0);
+  PodcastInfo newPodcast = PodcastInfo();
   int newPodcastId = 0;
   int thumbnailId = 0;
   File? imageTemporary;
@@ -131,10 +131,10 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
             thumbnailId = 0;
           }
         }
-        PodcastInfo newData = PodcastInfo(
+        PodcastInfo newData = PodcastInfo.create(
             titleController.text, descriptionController.text,
             artistController.text, urlController.text, thumbnailId.toString(),
-            submitId);
+            submitId, "");
         BackendApi().editPodcastData(newData);
         widget.newPodcast(
             titleController.text,
