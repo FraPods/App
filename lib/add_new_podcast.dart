@@ -35,6 +35,9 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
   final artistController = TextEditingController();
   final descriptionController = TextEditingController();
   final urlController = TextEditingController();
+  final tagController = TextEditingController();
+
+  List <String> tags = [];
 
   Uint8List? file;
   String fileName = 'no file';
@@ -62,7 +65,6 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
       getWidgetData = false;
       step1 = false;
       edit = true;
-      popupHeight = 0.6;
       BackendApi().getPodcastData(widget.id).then((value) {
         setState(() {
           if(value.thumbnail != (api_domain + "getImage.php?size=512&bw=0&circle=0&file_id=0")) { image = value.thumbnail; }
@@ -70,6 +72,14 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
         });
       });
     }
+
+    if(step1==true){
+      setState(() {
+        popupHeight=0.6;
+      });
+    } else {setState(() {
+      popupHeight=0.65;
+    });}
 
     Future pickImage(ImageSource source) async {
       try {
@@ -109,7 +119,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
       if (file != null) {
         newPodcastId = await BackendApi().uploadPodcast(file);
         newPodcast = await BackendApi().getPodcastData(newPodcastId);
-        setState(() => { step1 = false, popupHeight = 0.6});
+        setState(() => { step1 = false});
       }
     }
 
@@ -255,7 +265,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                            margin: const EdgeInsets.all(10),
+                            margin: const EdgeInsets.fromLTRB(15, 15, 10, 0),
                             width: double.maxFinite,
                             child: Text(
                                 'Podcast Details', textAlign: TextAlign.center,
@@ -265,11 +275,11 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(
-                                  bottom: 30.0, left: 5, top: 0),
+                                  bottom: 20.0, left: 0, top: 0),
                               child: Column(
                                 children: [
                                   Container(
-                                    width: MediaQuery.of(context).size.width - 190,
+                                    width: MediaQuery.of(context).size.width - 180,
                                     //height: 80,
                                     child: TextField(
                                       decoration: const InputDecoration(
@@ -283,7 +293,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                                     width: MediaQuery
                                         .of(context)
                                         .size
-                                        .width - 190,
+                                        .width - 180,
                                     //height: 60,
                                     child: TextField(
                                       decoration: const InputDecoration(
@@ -295,9 +305,10 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                                 ],
                               ),
                             ),
-                            const SizedBox(width: 25,),
+                            const Spacer (),
                             Column(
                               children: [
+                                const SizedBox(height:5),
                                 InkWell(
                                   onTap: () => pickImage(ImageSource.gallery),
                                   child: image != "" ? Container(
@@ -334,9 +345,42 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                                     height: 110, width: 110,
                                   ),
                                 ),
-                                const SizedBox(height: 5,)
                               ],)
                           ],),
+                          Container(
+                            width: double.maxFinite,
+                            //height:70,
+                            child: TextField(
+                              controller: tagController,
+                              decoration: const InputDecoration(hintText: 'Add tags for your podcast', ),
+                              maxLines: 1,
+                              onSubmitted: (String x)
+                              {setState(() {
+                                // FocusScopeNode currentFocus = FocusScope.of(context);
+                                //   if (!currentFocus.hasPrimaryFocus) {
+                                //     currentFocus.unfocus();
+                                //   }
+                                tags.add(tagController.value.text);
+                                tagController.clear();
+                              });}
+                            ),
+                          ),
+                          tags.isEmpty? const SizedBox()
+                          :Column(
+                            children: [
+                              const SizedBox(height: 10,),
+                              Container(
+                                height: 35,
+                                width: double.maxFinite,
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: tags.length,
+                                  itemBuilder: (ctx, index) => tagWidget(tags[index], index,context)),
+                              ),
+                            ],
+                          ),
+
+                          const SizedBox(height:20),
                         TextFormField(
                           decoration: const InputDecoration(labelText: 'Description',
                               border: OutlineInputBorder()),
@@ -373,4 +417,36 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
       );
     }
   }
+
+  Widget tagWidget (String tag, int index, BuildContext context){
+      return Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 7),
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.horizontal(
+                right: Radius.circular(5),
+                left: Radius.circular(5)
+              ),
+              color: Theme.of(context).colorScheme.primaryContainer
+            ),
+            child: Row(
+              children: [
+                Center(child: Text(tag, style: const TextStyle(fontSize:16,))),
+                const SizedBox(width: 13,),
+                InkWell(
+                  onTap: (){
+                    setState(() {
+                      tags.removeAt(index);
+                    });
+                  },
+                  child:const Icon(Icons.cancel_rounded)
+                )
+              ],
+            ),
+          ),
+          const SizedBox(width: 7,)
+        ],
+      );
+    }
   }
