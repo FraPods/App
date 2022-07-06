@@ -73,7 +73,7 @@ class _LoginPageState extends State<LoginPage>
                 alignment: Alignment.bottomCenter,
                 child: _keyboardVisible? const SizedBox()
                 :IconButton(
-                    icon: const Icon(Icons.close_rounded),
+                    icon: Icon(Icons.close_rounded, color: Theme.of(context).colorScheme.onBackground,),
                     onPressed: () {
                       animationController.reverse();
                       setState(() {
@@ -116,7 +116,7 @@ class _LoginPageState extends State<LoginPage>
                         width: size.width * 0.8,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
-                            color: backgroundColor()),
+                            color: Theme.of(context).colorScheme.secondary,),
                         child: TextField(
                           decoration: InputDecoration(
                               icon: Icon(Icons.email, color: blueish()),
@@ -132,7 +132,7 @@ class _LoginPageState extends State<LoginPage>
                         width: size.width * 0.8,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
-                            color: backgroundColor()),
+                            color: Theme.of(context).colorScheme.secondary,),
                         child: TextField(
                           obscureText: true,
                           decoration: InputDecoration(
@@ -203,7 +203,7 @@ class _LoginPageState extends State<LoginPage>
                         width: size.width * 0.8,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
-                            color: backgroundColor2()),
+                            color: Theme.of(context).colorScheme.secondary,),
                         child: TextField(
                           decoration: InputDecoration(
                               icon: Icon(Icons.person, color: blueish()),
@@ -219,7 +219,7 @@ class _LoginPageState extends State<LoginPage>
                         width: size.width * 0.8,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
-                            color: backgroundColor2()),
+                            color:Theme.of(context).colorScheme.secondary,),
                         child: TextField(
                           decoration: InputDecoration(
                               icon: Icon(Icons.person_add, color: blueish()),
@@ -235,7 +235,7 @@ class _LoginPageState extends State<LoginPage>
                         width: size.width * 0.8,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
-                            color: backgroundColor2()),
+                            color: Theme.of(context).colorScheme.secondary,),
                         child: TextField(
                           decoration: InputDecoration(
                               icon: Icon(Icons.email, color: blueish()),
@@ -251,7 +251,7 @@ class _LoginPageState extends State<LoginPage>
                         width: size.width * 0.8,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
-                            color: backgroundColor2()),
+                            color: Theme.of(context).colorScheme.secondary,),
                         child: TextField(
                           decoration: InputDecoration(
                               icon: Icon(Icons.person, color: blueish()),
@@ -267,7 +267,7 @@ class _LoginPageState extends State<LoginPage>
                         width: size.width * 0.8,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
-                            color: backgroundColor2()),
+                            color: Theme.of(context).colorScheme.secondary,),
                         child: TextField(
                           obscureText: true,
                           decoration: InputDecoration(
@@ -394,7 +394,7 @@ class _LoginPageState extends State<LoginPage>
             topLeft: Radius.circular(50),
             topRight: Radius.circular(50),
           ),
-          color: backgroundColor(),
+          color: Theme.of(context).colorScheme.surface,
         ),
         alignment: Alignment.topCenter,
         child: GestureDetector(
