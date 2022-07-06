@@ -37,7 +37,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
   String fileName = 'no file';
   File? audioFile;
   String image = "";
-  bool step1 = false;
+  bool step1 = true;
   bool getWidgetData = true;
   bool edit = false;
   double? popupHeight = 0.6;

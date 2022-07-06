@@ -324,7 +324,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
                                   )
                               ),
-                              const SizedBox(height:2),
+                              SizedBox(height: playlists.isEmpty? 15: 5),
                               Visibility(
                                 visible: !_allPlaylists && playlists.isNotEmpty,
                                 child: playlists.length > 3 ? Center(
@@ -380,16 +380,16 @@ class _ProfilePageState extends State<ProfilePage> {
                   playlistData.name,
                   style: const TextStyle(
                     fontSize: 16,
-                    shadows: <Shadow>[
-                      Shadow(
-                        blurRadius: 10.0,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                      Shadow(
-                        blurRadius: 18.0,
-                        color: Color.fromARGB(255, 50, 50, 50),
-                      ),
-                    ]
+                    // shadows: <Shadow>[
+                    //   Shadow(
+                    //     blurRadius: 10.0,
+                    //     color: Color.fromARGB(255, 0, 0, 0),
+                    //   ),
+                    //   Shadow(
+                    //     blurRadius: 18.0,
+                    //     color: Color.fromARGB(255, 50, 50, 50),
+                    //   ),
+                    // ]
                   ),
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
