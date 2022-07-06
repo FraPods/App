@@ -109,12 +109,7 @@ class _HomePageState extends State<HomePage> {
                         width: pageWidth,
                         child:ListView(
                             scrollDirection: Axis.horizontal,
-                            children: //recommendedPodcasts.map((e) => _buildSmallCard(e)).toList()
-                            [_buildTempSmallCard(8, 20),
-                            _buildTempSmallCard(2, 13),
-                            _buildTempSmallCard(35, 2),
-                            _buildTempSmallCard(4, 23),
-                            _buildTempSmallCard(14, 4)]
+                            children: recommendedPodcasts.map((e) => _buildSmallCard(e)).toList()
                         )
                     ),
                     const SizedBox(height:25),
@@ -126,12 +121,7 @@ class _HomePageState extends State<HomePage> {
                         width: pageWidth,
                         child:ListView(
                             scrollDirection: Axis.horizontal,
-                            children: //newestPodcasts.map((e) => _buildSmallCard(e)).toList()
-                            [_buildTempSmallCard(96, 0),
-                            _buildTempSmallCard(68, 16),
-                            _buildTempSmallCard(20, 17),
-                            _buildTempSmallCard(5, 22),
-                            _buildTempSmallCard(30, 5)]
+                            children: newestPodcasts.map((e) => _buildSmallCard(e)).toList()
                         )
                     ),
                     const SizedBox(height:25),
@@ -143,12 +133,7 @@ class _HomePageState extends State<HomePage> {
                         width: pageWidth,
                         child:ListView(
                             scrollDirection: Axis.horizontal,
-                            children: //newestPodcastsFromFavs.map((e) => _buildSmallCard(e)).toList()
-                            [_buildTempSmallCard(25, 3),
-                            _buildTempSmallCard(81, 7),
-                            _buildTempSmallCard(24, 11),
-                            _buildTempSmallCard(98, 12),
-                            _buildTempSmallCard(105, 18)]
+                            children: newestPodcastsFromFavs.map((e) => _buildSmallCard(e)).toList()
                         )
                     ),
                     const SizedBox(height:25),
@@ -160,12 +145,7 @@ class _HomePageState extends State<HomePage> {
                         width: pageWidth,
                         child:ListView(
                             scrollDirection: Axis.horizontal,
-                            children: //randomPodcasts.map((e) => _buildSmallCard(e)).toList()
-                            [_buildTempSmallCard(54, 6),
-                            _buildTempSmallCard(14, 8),
-                            _buildTempSmallCard(22,19),
-                            _buildTempSmallCard(73, 14),
-                            _buildTempSmallCard(7, 21)]
+                            children: randomPodcasts.map((e) => _buildSmallCard(e)).toList()
                         )
                     ),
                   ],

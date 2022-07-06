@@ -18,9 +18,7 @@ class UploadPage extends StatefulWidget {
   }
 }
 
-List<PodcastInfo> podcasts = [
-  PodcastInfo.create('FraPods', 'It\'s a cool app!', 'cartist', 'curl', 'cthumbnail', 0, '')
-];
+List<PodcastInfo> podcasts = [];
 
 int myPosts = podcasts.length;
 
