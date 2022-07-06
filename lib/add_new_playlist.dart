@@ -1,12 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'package:frapods/backend_api.dart';
 import 'package:frapods/main.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:file_picker/file_picker.dart';
 
 import 'package:frapods/podcast_info.dart';
 import 'package:frapods/playlist_info.dart';
@@ -15,8 +13,9 @@ class AddNewPlaylist extends StatefulWidget {
   //AddNewPlaylist({Key? key}) : super(key: key);
   final Function newPlaylist;
   final int id;
+  final Function successCallback;
 
-  const AddNewPlaylist(this.newPlaylist, this.id);
+  const AddNewPlaylist(this.newPlaylist, this.id, this.successCallback, {Key? key});
 
   @override
   State<AddNewPlaylist> createState() {
@@ -34,12 +33,29 @@ class _AddNewPlaylistState extends State<AddNewPlaylist> {
   File? imageTemporary;
   int thumbnailId = 0;
 
+  String title = "";
+  String description = "";
+
+  bool firstLoad = true;
+  bool updateOnly = false;
+
   @override
   Widget build(BuildContext context) {
     //define variables here
-    double pageHeight = MediaQuery.of(context).size.height - 56;
     final _keyboardVisible = MediaQuery.of(context).viewInsets.bottom != 0;
-    bool _isThumbnailSelected = true;
+
+    if(widget.id != 0 && firstLoad) {
+      firstLoad = false;
+      updateOnly = true;
+      BackendApi().getPlaylistDataWithThumbId(widget.id.toString()).then((value) => {
+        title = value[0].name,
+        description = value[0].description,
+        image = value[0].thumbnail,
+        thumbnailId = value[1],
+        nameController.text = title,
+        setState(() => descriptionController.text = description),
+      });
+    }
 
     Future pickImage(ImageSource source) async {
       try {
@@ -47,10 +63,8 @@ class _AddNewPlaylistState extends State<AddNewPlaylist> {
         if (image == null) return;
         setState(() => imageTemporary = File(image.path));
         thumbnailId = await BackendApi().uploadThumbnail(image.readAsBytes());
-        setState(() => this.image = api_domain + "getImage.php?size=512&bw=0&circle=0&file_id=" + thumbnailId.toString());
-      } on PlatformException catch (e) {
-        print('Failed to pick image: $e');
-      }
+        setState(() => this.image = apiDomain + "getImage.php?size=512&bw=0&circle=0&file_id=" + thumbnailId.toString());
+      } finally {}
     }
 
     void showDialogMessage(String title, String message) {
@@ -80,10 +94,14 @@ class _AddNewPlaylistState extends State<AddNewPlaylist> {
         showDialogMessage(
             'Name is empty', 'Please enter a name for your playlist!');
       } else {
-        var qP = Uri.parse(image).queryParameters;
-        String tempThumbId = "0${qP["file_id"]}";
-        BackendApi().createPlaylist(nameController.text, descriptionController.text, true, int.parse(tempThumbId));
-        Navigator.of(context).pop();
+        if(updateOnly) {
+          BackendApi().editPlaylistData(widget.id, nameController.text, descriptionController.text, thumbnailId).then((value) => widget.successCallback());
+        } else {
+          BackendApi().createPlaylist(
+              nameController.text, descriptionController.text, true,
+              thumbnailId).then((value) => widget.successCallback());
+          Navigator.of(context).pop();
+        }
       }
     }
 
@@ -140,10 +158,10 @@ class _AddNewPlaylistState extends State<AddNewPlaylist> {
                             )
                           : Container(
                               child: const Center(
-                                  child: Text(
-                                'Upload Thumbnail',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 15),
+                                child: Text(
+                                  'Upload Thumbnail',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 15),
                               )),
                               decoration: BoxDecoration(
                                 border: Border.all(
@@ -176,7 +194,7 @@ class _AddNewPlaylistState extends State<AddNewPlaylist> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     OutlinedButton(
-                      child: const Text(('Submit')),
+                      child: Text(updateOnly ? 'Update' : 'Submit'),
                       onPressed: () => _submitData(context),
                     ),
                     const SizedBox(
@@ -204,7 +222,7 @@ class _AddNewPlaylistState extends State<AddNewPlaylist> {
         InkWell(
           onTap: () {},
           //onHover: ,
-          child: Container(
+          child: SizedBox(
             width: double.maxFinite,
             child: Card(
               elevation: 0,

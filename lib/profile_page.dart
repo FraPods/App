@@ -25,8 +25,6 @@ List<PlaylistData> playlists = [];
 
 class _ProfilePageState extends State<ProfilePage> {
   // declare variables here:
-  final TextEditingController _emailTextController = TextEditingController();
-  final TextEditingController _passwordTextController = TextEditingController();
   
   bool _allPlaylists = false;
 
@@ -34,8 +32,9 @@ class _ProfilePageState extends State<ProfilePage> {
   bool firstLoad = true;
   String noPodcasts = "0";
   String profilePicture = "";
+  String email = "";
 
-  void _playlistInfo (BuildContext ctx,  PlaylistData pld, {int id = 0}) {
+  void _playlistInfo (BuildContext ctx,  PlaylistData pld) {
     showModalBottomSheet(
       backgroundColor: Theme.of(context).colorScheme.background,
       context: ctx,
@@ -51,14 +50,13 @@ class _ProfilePageState extends State<ProfilePage> {
       backgroundColor: Theme.of(context).colorScheme.background,
       context: ctx,
       builder: (_){
-        return AddNewPlaylist(_addNewPlaylist,id);
+        return AddNewPlaylist(_addNewPlaylist, id, () { firstLoad = false; });
       },
       isScrollControlled: true
       );
   }
 
   void _addNewPlaylist(String xname, List<PodcastInfo> xpodcast, String xdescription, String xthumbnail, int xid){
-     final newplay = PlaylistData(xname, xpodcast, xdescription, xthumbnail, xid);
     setState(() {
       playlists.add(PlaylistData(xname, xpodcast, xdescription, xthumbnail, xid));
     });
@@ -94,7 +92,8 @@ class _ProfilePageState extends State<ProfilePage> {
       });
       BackendApi().getAccountData("", true).then((value) => {
         noPodcasts = value["noPodcasts"].toString(),
-        profilePicture = (value["picture"] == "0") ? "" : (api_domain + "getImage.php?bw=0&circle=0&size=90&file_id=" + value["picture"]),
+        profilePicture = (value["picture"] == "0") ? "" : (apiDomain + "getImage.php?bw=0&circle=0&size=90&file_id=" + value["picture"]),
+        email = value["email"].toString(),
         setState(() => username = (value["username"] == null) ? "unknown" : value["username"])
       });
     }
@@ -109,247 +108,253 @@ class _ProfilePageState extends State<ProfilePage> {
             },)
          ],
       ),
-      body: Container(
+      body: SizedBox(
         height: pageHeight,
-        child: ListView(
-          children: [Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
-            child: Column(
-              children: <Widget>[
-                Card(
-                  elevation: 5,
-                  color: Theme.of(context).colorScheme.primaryContainer,
-                  margin: const EdgeInsets.only(right: 0),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 15),
-                    height:150,
-                    child:Column(
-                      //crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: (profilePicture == "") ? Image.asset('assets/test_profile_pic.jpg', height:90, width: 90) : Image.network(profilePicture, height: 90, width: 90),
-                        ),
-                        const SizedBox(width: 20,),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            
-                            Container(
-                              padding: const EdgeInsets.only(right:5),
-                              width: MediaQuery.of(context).size.width - 175,
-                              //height: ,
-                              child: Text(username,
-                                style: const TextStyle(fontSize: 23),
-                                maxLines: 1,
-                                textAlign: TextAlign.left,
-                                overflow: TextOverflow.ellipsis,
-                                softWrap: false,),
-                            ),
-                            const SizedBox(height:15),
-                            // Container(
-                            //   padding:EdgeInsets.only(right:5),
-                            //   width: MediaQuery.of(context).size.width -pageHeight/4,
-                            //   child: Text('About me: ' + 'xxxxxxxx ', 
-                            //   style: TextStyle(fontSize: 17),
-                            //   maxLines: 2,
-                            //   textAlign: TextAlign.left,
-                            //   overflow: TextOverflow.ellipsis,
-                            //   softWrap: false,),
-                            // ),
-                            Text('My posts: ' + /*myPosts.toString()*/noPodcasts, style: const TextStyle(fontSize: 18),),
-                            const SizedBox(height: 15,)
-                          ],
-                        )
-                      ],),
-                    Container(
-                      alignment:Alignment.bottomRight,
-                      child:InkWell(
-                        onTap:(){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => EditAccount(
-                                currentUsername: username,
-                                currentEmail:'current email',
-                                currentProfilePicture: profilePicture,
-                              )
-                            ),
-                          );
-                        },
-                       child:const Text('Edit account >>', style: TextStyle(fontSize: 16),)
-                     )
-                    ),
-                    //SizedBox(height:1)
-                    ],)
-                  )
-                ),
-                const SizedBox(height: 25,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  InkWell(
-                    child: Container(
-                      decoration:(BoxDecoration(
-                        //border: Border.all(width:1),
-                        borderRadius: const BorderRadius.horizontal(
-                        right: Radius.circular(7),
-                        left: Radius.circular(7)),
-                        color: Theme.of(context).colorScheme.secondaryContainer)),
-                      height: 70,
-                      width: (MediaQuery.of(context).size.width - 30)/2 - 10,
-                      child: const Center(child: Text('Post New',  style:TextStyle(fontSize: 18))),
-                    ),
-                    onTap: () {
-                      _newPodcast(context);
-                    }
-                  ),
-                  InkWell(
-                    child: Container(
-                      decoration:(BoxDecoration(
-                        //border: Border.all(width:1),
-                        borderRadius: const BorderRadius.horizontal(
-                        right: Radius.circular(7),
-                        left: Radius.circular(7)),
-                        color: Theme.of(context).colorScheme.secondaryContainer)),
-                      height: 70,
-                      width: (MediaQuery.of(context).size.width - 30)/2 - 10,
-                      child: const Center(child: Text('My Podcasts',  style:TextStyle(fontSize: 18))),
-                    ),
-                    onTap:(){
-                      widget.setPage(3);
-                    }
-                  ),
-                  
-                ],),
-                const SizedBox(height: 25,),
+        child: RefreshIndicator(
+          onRefresh: () async { firstLoad = true; },
+          child: ListView(
+            children: [Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+              child: Column(
+                children: <Widget>[
+                  Card(
+                      elevation: 5,
+                      color: Theme.of(context).colorScheme.primaryContainer,
+                      margin: const EdgeInsets.only(right: 0),
+                      child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 15),
+                          height:150,
+                          child:Column(
+                            //crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: (profilePicture == "") ? Image.asset('assets/test_profile_pic.jpg', height:90, width: 90) : Image.network(profilePicture, height: 90, width: 90),
+                                  ),
+                                  const SizedBox(width: 20,),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
 
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  InkWell(
-                    child: Container(
-                      decoration:(BoxDecoration(
-                        //border: Border.all(width:1),
-                        borderRadius: const BorderRadius.horizontal(
-                        right: Radius.circular(7),
-                        left: Radius.circular(7)),
-                        color: Theme.of(context).colorScheme.secondaryContainer)),
-                      height: 70,
-                      width: (MediaQuery.of(context).size.width - 30)/2 - 10,
-                      child: const Center(child: Text('History',  style:TextStyle(fontSize: 18))),
-                    ),
-                    onTap:(){}
+                                      Container(
+                                        padding: const EdgeInsets.only(right:5),
+                                        width: MediaQuery.of(context).size.width - 175,
+                                        //height: ,
+                                        child: Text(username,
+                                          style: const TextStyle(fontSize: 23),
+                                          maxLines: 1,
+                                          textAlign: TextAlign.left,
+                                          overflow: TextOverflow.ellipsis,
+                                          softWrap: false,),
+                                      ),
+                                      const SizedBox(height:15),
+                                      // Container(
+                                      //   padding:EdgeInsets.only(right:5),
+                                      //   width: MediaQuery.of(context).size.width -pageHeight/4,
+                                      //   child: Text('About me: ' + 'xxxxxxxx ',
+                                      //   style: TextStyle(fontSize: 17),
+                                      //   maxLines: 2,
+                                      //   textAlign: TextAlign.left,
+                                      //   overflow: TextOverflow.ellipsis,
+                                      //   softWrap: false,),
+                                      // ),
+                                      Text('My posts: ' + /*myPosts.toString()*/noPodcasts, style: const TextStyle(fontSize: 18),),
+                                      const SizedBox(height: 15,)
+                                    ],
+                                  )
+                                ],),
+                              Container(
+                                  alignment:Alignment.bottomRight,
+                                  child:InkWell(
+                                      onTap:(){
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => EditAccount(
+                                                currentUsername: username,
+                                                currentEmail: '',
+                                                currentProfilePicture: profilePicture,
+                                                successCallback: (String? newUsername) {
+                                                  firstLoad = true;
+                                                }
+                                              )
+                                          ),
+                                        );
+                                      },
+                                      child:const Text('Edit account >>', style: TextStyle(fontSize: 16),)
+                                  )
+                              ),
+                              //SizedBox(height:1)
+                            ],)
+                      )
                   ),
-                  InkWell(
-                    child: Container(
-                      decoration:(BoxDecoration(
-                        //border: Border.all(width:1),
-                        borderRadius: const BorderRadius.horizontal(
-                        right: Radius.circular(7),
-                        left: Radius.circular(7)),
-                        color: Theme.of(context).colorScheme.secondaryContainer)),
-                      height: 70,
-                      width: (MediaQuery.of(context).size.width - 30)/2 - 10,
-                      child: const Center(child: Text('Inbox',  style:TextStyle(fontSize: 18))),
-                    ),
-                    onTap:(){}
-                  ),
-                  
-                ],),
-                const SizedBox(height: 25,),
-
-              Container(
-                //height: 170,
-                width: double.maxFinite,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.secondaryContainer,
-                  //border:Border.all(width:1),
-                  borderRadius: const BorderRadius.horizontal(
-                    right: Radius.circular(5),
-                    left: Radius.circular(5)),
-                  ),
-                child: Padding(
-                  padding: playlists.isEmpty? const EdgeInsets.fromLTRB(15, 15, 15, 10) : const EdgeInsets.fromLTRB(15, 15, 15, 0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  const SizedBox(height: 25,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                        const Text('My Playlists:', style: TextStyle(fontSize: 20, decoration: TextDecoration.underline)),
-                        Container(
-                          margin: const EdgeInsets.only(right:5),
-                          child: InkWell(
-                            onTap:()=> _newPlaylist(context),
-                            child: const Icon(Icons.add)
+                      InkWell(
+                          child: Container(
+                            decoration:(BoxDecoration(
+                              //border: Border.all(width:1),
+                                borderRadius: const BorderRadius.horizontal(
+                                    right: Radius.circular(7),
+                                    left: Radius.circular(7)),
+                                color: Theme.of(context).colorScheme.secondaryContainer)),
+                            height: 70,
+                            width: (MediaQuery.of(context).size.width - 30)/2 - 10,
+                            child: const Center(child: Text('Post New',  style:TextStyle(fontSize: 18))),
                           ),
-                        ),
-                        ],
-                      ),
-                      const SizedBox(height:20),
-                      Container(
-                        //height: playlists.isEmpty? 90 : double.infinity,
-                        child: playlists.isEmpty?
-                        Container(
-                          height: 120,
-                          child: const Center(
-                            child: Text('No playlists yet...',
-                            style: TextStyle(fontSize: 18),
-                              )),
-                        )
-                        :
-                        GridView.builder(
-                          shrinkWrap: true,
-                          itemCount: _allPlaylists? playlists.length: playlists.length <3? playlists.length: 3,
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            mainAxisSpacing: 15,
-                            crossAxisSpacing: 20,
-                          ),
-                          itemBuilder: (context, index) {
-                            return myPlaylists(PlaylistData(playlists[index].name, playlists[index].podcasts, playlists[index].description, playlists[index].thumbnail, playlists[index].id));
+                          onTap: () {
+                            _newPodcast(context);
                           }
-
-                          )
                       ),
-                      const SizedBox(height:2),
-                        Visibility(
-                          visible: !_allPlaylists && playlists.isNotEmpty,
-                          child: playlists.length > 3 ? Center(
-                            child: InkWell(
-                              child: const Icon(Icons.arrow_drop_down,size:40),
-                              onTap: (){
-                                setState((){ _allPlaylists=true;});
-                              },
-                            ),
-                          ) : const SizedBox(),
-                        ),
-                        Visibility(
-                          visible: _allPlaylists && playlists.isNotEmpty,
-                          child: Center(
-                            child: InkWell(
-                              child: const Icon(Icons.arrow_drop_up,size:40),
-                              onTap: (){
-                                setState((){ _allPlaylists=false;});
-                              },
-                            ),
+                      InkWell(
+                          child: Container(
+                            decoration:(BoxDecoration(
+                              //border: Border.all(width:1),
+                                borderRadius: const BorderRadius.horizontal(
+                                    right: Radius.circular(7),
+                                    left: Radius.circular(7)),
+                                color: Theme.of(context).colorScheme.secondaryContainer)),
+                            height: 70,
+                            width: (MediaQuery.of(context).size.width - 30)/2 - 10,
+                            child: const Center(child: Text('My Podcasts',  style:TextStyle(fontSize: 18))),
                           ),
-                        ),
-                  ],)
-                    )
+                          onTap:(){
+                            widget.setPage(3);
+                          }
+                      ),
+
+                    ],),
+                  const SizedBox(height: 25,),
+
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InkWell(
+                          child: Container(
+                            decoration:(BoxDecoration(
+                              //border: Border.all(width:1),
+                                borderRadius: const BorderRadius.horizontal(
+                                    right: Radius.circular(7),
+                                    left: Radius.circular(7)),
+                                color: Theme.of(context).colorScheme.secondaryContainer)),
+                            height: 70,
+                            width: (MediaQuery.of(context).size.width - 30)/2 - 10,
+                            child: const Center(child: Text('History',  style:TextStyle(fontSize: 18))),
+                          ),
+                          onTap:(){}
+                      ),
+                      InkWell(
+                          child: Container(
+                            decoration:(BoxDecoration(
+                              //border: Border.all(width:1),
+                                borderRadius: const BorderRadius.horizontal(
+                                    right: Radius.circular(7),
+                                    left: Radius.circular(7)),
+                                color: Theme.of(context).colorScheme.secondaryContainer)),
+                            height: 70,
+                            width: (MediaQuery.of(context).size.width - 30)/2 - 10,
+                            child: const Center(child: Text('Inbox',  style:TextStyle(fontSize: 18))),
+                          ),
+                          onTap:(){}
+                      ),
+
+                    ],),
+                  const SizedBox(height: 25,),
+
+                  Container(
+                    //height: 170,
+                      width: double.maxFinite,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.secondaryContainer,
+                        //border:Border.all(width:1),
+                        borderRadius: const BorderRadius.horizontal(
+                            right: Radius.circular(5),
+                            left: Radius.circular(5)),
+                      ),
+                      child: Padding(
+                          padding: playlists.isEmpty? const EdgeInsets.fromLTRB(15, 15, 15, 10) : const EdgeInsets.fromLTRB(15, 15, 15, 0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text('My Playlists:', style: TextStyle(fontSize: 20, decoration: TextDecoration.underline)),
+                                  Container(
+                                    margin: const EdgeInsets.only(right:5),
+                                    child: InkWell(
+                                        onTap:()=> _newPlaylist(context),
+                                        child: const Icon(Icons.add)
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height:20),
+                              Container(
+                                //height: playlists.isEmpty? 90 : double.infinity,
+                                  child: playlists.isEmpty?
+                                  const SizedBox(
+                                    height: 120,
+                                    child: Center(
+                                        child: Text('No playlists yet...',
+                                          style: TextStyle(fontSize: 18),
+                                        )),
+                                  )
+                                      :
+                                  GridView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: _allPlaylists? playlists.length: playlists.length <3? playlists.length: 3,
+                                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 3,
+                                        mainAxisSpacing: 15,
+                                        crossAxisSpacing: 20,
+                                      ),
+                                      itemBuilder: (context, index) {
+                                        return myPlaylists(PlaylistData(playlists[index].name, playlists[index].podcasts, playlists[index].description, playlists[index].thumbnail, playlists[index].id));
+                                      }
+
+                                  )
+                              ),
+                              const SizedBox(height:2),
+                              Visibility(
+                                visible: !_allPlaylists && playlists.isNotEmpty,
+                                child: playlists.length > 3 ? Center(
+                                  child: InkWell(
+                                    child: const Icon(Icons.arrow_drop_down,size:40),
+                                    onTap: (){
+                                      setState((){ _allPlaylists=true;});
+                                    },
+                                  ),
+                                ) : const SizedBox(),
+                              ),
+                              Visibility(
+                                visible: _allPlaylists && playlists.isNotEmpty,
+                                child: Center(
+                                  child: InkWell(
+                                    child: const Icon(Icons.arrow_drop_up,size:40),
+                                    onTap: (){
+                                      setState((){ _allPlaylists=false;});
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],)
+                      )
                   ),
-              ],),
+                ],),
+            ),
+            ],
           ),
-          ],
-        ),
+        )
       ),
     );
   }
@@ -373,7 +378,19 @@ class _ProfilePageState extends State<ProfilePage> {
               child:Center(
                 child: Text(
                   playlistData.name,
-                  style: const TextStyle(fontSize: 16,),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    shadows: <Shadow>[
+                      Shadow(
+                        blurRadius: 10.0,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
+                      Shadow(
+                        blurRadius: 18.0,
+                        color: Color.fromARGB(255, 50, 50, 50),
+                      ),
+                    ]
+                  ),
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 3,

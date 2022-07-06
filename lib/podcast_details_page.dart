@@ -59,14 +59,14 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
           return Scaffold(
         appBar: AppBar(),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 30),
+          padding: const EdgeInsets.only(left: 16.0, right: 16.0, top : 20, bottom: 0),
           child: Center(
             child:
             Column(
               children: <Widget>[
                 ColumnSuper (
                   alignment: Alignment.bottomCenter,
-                  innerDistance: -23.0,
+                  innerDistance: -57.0,
                   children: <Widget> [
                     ShaderMask(shaderCallback: (rect) {
                       return const LinearGradient(
@@ -76,7 +76,7 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
                       ).createShader(Rect.fromLTRB(0, rect.height / 3, rect.width, rect.height));
                     },
                         blendMode: BlendMode.dstIn,
-                        child: Image.network(currentPodcastInfo.thumbnail)
+                        child: Image.network(currentPodcastInfo.thumbnail),
                     ),
                     Text(
                       currentPodcastInfo.title,
@@ -96,33 +96,27 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
                   ),
                 ),
                 const SizedBox(height: 15),
-                SizedBox(
-                  height: 225,
-                  child: Flex(direction: Axis.horizontal,
-                  children: [
-                    Expanded(
-                        flex: 1,
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.vertical,
-                          child: RichText(
-                            text: TextSpan(
-                                text: "Description: \n",
-                                style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white
-                                ),
-                                //children: <TextSpan>[
-                                //  TextSpan(text: currentPodcastInfo.description, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.white))
-                                //]
-                                children: linkifyRichText(currentPodcastInfo.description)
-                            ),
+                Expanded(
+                    flex: 1,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: RichText(
+                        text: TextSpan(
+                          text: "Description: \n",
+                          style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white
                           ),
-                        )
-                    ),
-                  ],)
+                          //children: <TextSpan>[
+                          //  TextSpan(text: currentPodcastInfo.description, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.white))
+                          //]
+                          children: linkifyRichText(currentPodcastInfo.description)
+                        ),
+                      ),
+                    )
                 ),
-                const Spacer(),
+                const SizedBox(height: 4),
                 ProgressBar(
                   progress: progressDuration,
                   total: songDuration,
@@ -130,7 +124,6 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
                     podcastPlayer.seek(duration);
                   },
                 ),
-
                 IconButton(
                   onPressed: () {
                     if (!podcastPlayer.audioPlayer.playing) {
@@ -141,7 +134,6 @@ class _PodcastDetailsPageState extends State<PodcastDetailsPage> {
                   },
                   icon: _isPlaying ? const Icon(Icons.pause) : const Icon(Icons.play_arrow),
                 ),
-                const SizedBox(height: 20)
               ],
             ),
           ),

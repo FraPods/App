@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:frapods/add_new_playlist.dart';
 import 'package:frapods/backend_api.dart';
 import 'package:frapods/main.dart';
 
-import 'package:frapods/main_page.dart';
 import 'package:frapods/podcast_details_page.dart';
 import 'package:frapods/podcast_info.dart';
 import 'package:frapods/playlist_info.dart';
-import 'package:frapods/podcast_player.dart';
 
 import 'dart:math';
 
@@ -59,7 +58,16 @@ class _PlaylistsPageState extends State<PlaylistsPage> {
                   InkWell(onTap:() => Navigator.of(context).pop(),
                   child: const Icon(Icons.close)),
                   InkWell(
-                    onTap:(){},
+                    onTap:(){
+                      showModalBottomSheet(
+                          backgroundColor: Theme.of(context).colorScheme.background,
+                          context: context,
+                          builder: (_){
+                            return AddNewPlaylist(() {}, playlistData.id, () { Navigator.of(context).pop(); Navigator.of(context).pop(); });
+                          },
+                          isScrollControlled: true
+                      );
+                    },
                     child: const Icon(Icons.edit)
                   )
               ],),
@@ -157,7 +165,7 @@ class _PlaylistsPageState extends State<PlaylistsPage> {
                       height: 60,
                       width: 60,
                       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-                      child: pc.thumbnail.isEmpty?Image.asset('assets/testpodcast'+rn1.toString()+'.png'):
+                      child: pc.thumbnail.isEmpty ? Image.asset('assets/testpodcast' + rn1.toString() + '.png'):
                       Image.network(pc.thumbnail, fit: BoxFit.cover,),
                     ),
                     Column(
