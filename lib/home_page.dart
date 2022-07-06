@@ -1,7 +1,3 @@
-import 'dart:developer';
-import 'dart:ui';
-
-import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:frapods/backend_api.dart';
 import 'package:frapods/main.dart';
@@ -27,6 +23,8 @@ class _HomePageState extends State<HomePage> {
   List<PodcastInfo> randomPodcasts = [];
   List<PodcastInfo> recommendedPodcasts = [];
 
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
+
   List<PodcastInfo> listOfAllSearchResults = [];
   Widget logo = Image.asset(
     'assets/icon-round.png',
@@ -44,10 +42,10 @@ class _HomePageState extends State<HomePage> {
 
     if(firstRender) {
       firstRender = false;
-      var newParser = BackendApi().getNewestUploads().then((value) => { setState(() => newestPodcasts = value )});
-      var newFromFavsParser = BackendApi().newUploadsFromFavorites().then((value) => { setState(() => newestPodcastsFromFavs = value )});
-      var randomParser = BackendApi().getRandomPodcasts().then((value) => { setState(() => randomPodcasts = value )});
-      var recommendedParser = BackendApi().getRecommendedPodcasts().then((value) => { setState(() => recommendedPodcasts = value )});
+      BackendApi().getNewestUploads().then((value) => { setState(() => newestPodcasts = value )});
+      BackendApi().newUploadsFromFavorites().then((value) => { setState(() => newestPodcastsFromFavs = value )});
+      BackendApi().getRandomPodcasts().then((value) => { setState(() => randomPodcasts = value )});
+      BackendApi().getRecommendedPodcasts().then((value) => { setState(() => recommendedPodcasts = value )});
     }
 
     return Scaffold(
@@ -73,108 +71,114 @@ class _HomePageState extends State<HomePage> {
       ),
 
       //End of Title Bar Layout ^^
-      body: Container(
+      body: SizedBox(
         height: pageHeight,
-        child: ListView(
-          children: [
-            Padding(padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height:180,
-                  width: pageWidth,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      //const SizedBox(width: 5,),
-                      _buildbigCard(15, 'Emma Vanderboom', 'A Podcast about STARS!'),
-                      const SizedBox(width: 5,),
-                      _buildbigCard(10, 'artclass_57', '\"What is modern art?\" - A serious discussion and analysis'),
-                      const SizedBox(width: 5,),
-                      _buildbigCard(24, 'ceteruinam', 'Shoes. Shoes? Shoes!'),
-                      //const SizedBox(width: 5,),
-                    ],
-                  ),
-                ),
-                const SizedBox(height:25),
-                const Text('Recommended',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                const SizedBox(height:10),
-                Container(
-                  height:135,
-                  width: pageWidth,
-                  child:ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      _buildTempSmallCard(8, 20),
-                      _buildTempSmallCard(2, 13),
-                      _buildTempSmallCard(35, 2),
-                      _buildTempSmallCard(4, 23),
-                      _buildTempSmallCard(30, 4)
-                    ],
-                  )
-                ),
-                const SizedBox(height:25),
-                const Text('What might interest you',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                const SizedBox(height:10),
-                Container(
-                  height:155,
-                  width: pageWidth,
-                    child:ListView(
+        child: RefreshIndicator(
+          key: _refreshIndicatorKey,
+          onRefresh: () async {
+            firstRender = true;
+          },
+          child: ListView(
+            children: [
+              Padding(padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height:180,
+                      width: pageWidth,
+                      child: ListView(
                         scrollDirection: Axis.horizontal,
-                        children: recommendedPodcasts.map((e) => _buildSmallCard(e)).toList()
-                    )
+                        children: [
+                          //const SizedBox(width: 5,),
+                          _buildbigCard(15, 'Emma Vanderboom', 'A Podcast about STARS!'),
+                          const SizedBox(width: 5,),
+                          _buildbigCard(10, 'artclass_57', '"What is modern art?" - A serious discussion and analysis'),
+                          const SizedBox(width: 5,),
+                          _buildbigCard(24, 'ceteruinam', 'Shoes. Shoes? Shoes!'),
+                          //const SizedBox(width: 5,),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height:25),
+                    const Text('Recommended',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                    const SizedBox(height:10),
+                    SizedBox(
+                        height:135,
+                        width: pageWidth,
+                        child:ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: [
+                            _buildTempSmallCard(8, 20),
+                            _buildTempSmallCard(2, 13),
+                            _buildTempSmallCard(35, 2),
+                            _buildTempSmallCard(4, 23),
+                            _buildTempSmallCard(30, 4)
+                          ],
+                        )
+                    ),
+                    const SizedBox(height:25),
+                    const Text('What might interest you',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                    const SizedBox(height:10),
+                    SizedBox(
+                        height:155,
+                        width: pageWidth,
+                        child:ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: recommendedPodcasts.map((e) => _buildSmallCard(e)).toList()
+                        )
+                    ),
+                    const SizedBox(height:25),
+                    const Text('Newest uploads',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                    const SizedBox(height:10),
+                    SizedBox(
+                        height:155,
+                        width: pageWidth,
+                        child:ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: newestPodcasts.map((e) => _buildSmallCard(e)).toList()
+                        )
+                    ),
+                    const SizedBox(height:25),
+                    const Text('New from your Favorites',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                    const SizedBox(height:10),
+                    SizedBox(
+                        height:155,
+                        width: pageWidth,
+                        child:ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: newestPodcastsFromFavs.map((e) => _buildSmallCard(e)).toList()
+                        )
+                    ),
+                    const SizedBox(height:25),
+                    const Text('Something else',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                    const SizedBox(height:10),
+                    SizedBox(
+                        height:155,
+                        width: pageWidth,
+                        child:ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: randomPodcasts.map((e) => _buildSmallCard(e)).toList()
+                        )
+                    ),
+                  ],
                 ),
-                const SizedBox(height:25),
-                const Text('Newest uploads',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                const SizedBox(height:10),
-                Container(
-                    height:155,
-                    width: pageWidth,
-                    child:ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: newestPodcasts.map((e) => _buildSmallCard(e)).toList()
-                    )
-                ),
-                const SizedBox(height:25),
-                const Text('New from your Favorites',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                const SizedBox(height:10),
-                Container(
-                    height:155,
-                    width: pageWidth,
-                    child:ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: newestPodcastsFromFavs.map((e) => _buildSmallCard(e)).toList()
-                    )
-                ),
-                const SizedBox(height:25),
-                const Text('Something else',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                const SizedBox(height:10),
-                Container(
-                    height:155,
-                    width: pageWidth,
-                    child:ListView(
-                      scrollDirection: Axis.horizontal,
-                        children: randomPodcasts.map((e) => _buildSmallCard(e)).toList()
-                    )
-                ),
-              ],
-            ),
-            )
-          ],
-        ),
+              )
+            ],
+          ),
+        )
       ),
 
     );
   }
 
   Widget _buildbigCard (int thumbnail, String artist, String title){
-    return Container(
+    return SizedBox(
         width:  MediaQuery.of(context).size.width - 50,
         child: Card(
           elevation: 0,
@@ -225,28 +229,26 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildTempSmallCard (int numb, int thumbnail){
-    return Container(
-      child:Card(
-        margin: EdgeInsets.only(right:15),
-        color: Colors.transparent,
-          elevation: 0,
-          child:Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-           children: [
-             ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.asset(
-                  'assets/testpodcast' + thumbnail.toString() + '.png',
-                  height:100, width: 100,),
-              ),
-              const SizedBox(height:10),
-              Text(
-                ' podcast'+numb.toString(),
-                style: const TextStyle(fontSize: 17),
-              )
-           ],
-          )
-      )
+    return Card(
+      margin: const EdgeInsets.only(right:15),
+      color: Colors.transparent,
+        elevation: 0,
+        child:Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+         children: [
+           ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.asset(
+                'assets/testpodcast' + thumbnail.toString() + '.png',
+                height:100, width: 100,),
+            ),
+            const SizedBox(height:10),
+            Text(
+              ' podcast'+numb.toString(),
+              style: const TextStyle(fontSize: 17),
+            )
+         ],
+        )
     );
 
   }
@@ -287,7 +289,7 @@ class _HomePageState extends State<HomePage> {
             }),
           );
         },
-        child: Container(
+        child: SizedBox(
             width: 100,
             child:Card(
               color: Colors.transparent,
@@ -302,7 +304,7 @@ class _HomePageState extends State<HomePage> {
                       height:100, width: 100,),
                   ),
                   const SizedBox(height:7),
-                  Container(
+                  SizedBox(
                       width: 90,
                       child: Text(
                         podcastInfo.title,

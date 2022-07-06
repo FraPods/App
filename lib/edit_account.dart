@@ -1,22 +1,22 @@
 import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'main.dart';
 import 'package:frapods/backend_api.dart';
 import 'package:frapods/main.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:file_picker/file_picker.dart';
-
 
 class EditAccount extends StatefulWidget {
 
-  const EditAccount({Key? key, required this.currentUsername, required this.currentEmail, required this.currentProfilePicture}): super(key: key);
+  const EditAccount({Key? key, required this.currentUsername, required this.currentEmail, required this.currentProfilePicture, required this.successCallback}): super(key: key);
 
   //following parameters MUST be passed:
   final String currentUsername;
   final String currentEmail;
   final String currentProfilePicture;
-
-
+  final Function successCallback;
 
   @override
   State<EditAccount> createState() {
@@ -30,27 +30,42 @@ class _EditAccountState extends State<EditAccount> {
   final userNameController = TextEditingController();
   final emailController = TextEditingController();
 
-
+  int thumbnailId = 0;
+  String image = "";
+  File? imageTemporary;
 
   @override
   Widget build(BuildContext context) {
     //variables:
-     String imageTemporary = widget.currentProfilePicture;
-    
+
+    image = widget.currentProfilePicture;
+
     Future pickImage(ImageSource source) async {
+      try {
         final image = await ImagePicker().pickImage(source: source);
         if (image == null) return;
-        setState(() => imageTemporary = image.path);
+        setState(() => imageTemporary = File(image.path));
+        thumbnailId = await BackendApi().uploadThumbnail(image.readAsBytes());
+        setState(() => this.image = apiDomain + "getImage.php?size=512&bw=0&circle=0&file_id=" + thumbnailId.toString());
+      } on PlatformException catch (e) {
+        print('Failed to pick image: $e');
+      }
     }
 
+    void submitData() async {
+      String _username = userNameController.text;
+      String _email = emailController.text;
+      BackendApi().editAccountData(_username, _email, thumbnailId).then((value) => widget.successCallback(value));
+    }
 
     return Scaffold(
       appBar: AppBar(
         leading: const SizedBox(),
           actions:[ IconButton(
               icon: const Icon(Icons.close),
-              onPressed: () {
-               Navigator.pop(context);
+              onPressed: () async {
+                submitData();
+                Navigator.pop(context);
               }),]
         //title: const Text('Edit account')
       ),
@@ -83,7 +98,7 @@ class _EditAccountState extends State<EditAccount> {
                       child: TextField(
                         //style: const TextStyle(fontSize: 18),
                         decoration: InputDecoration(
-                          hintText: widget.currentUsername + 'current username', filled: true,
+                          hintText: widget.currentUsername, filled: true,
                         ),
                         controller: userNameController,
                       ),
@@ -127,7 +142,7 @@ class _EditAccountState extends State<EditAccount> {
                         Container(
                           margin: const EdgeInsets.only(right: 10,top:10),
                           child: Image.network(
-                            imageTemporary,
+                            image,
                             height: 90,
                             width: 90,
                               fit: BoxFit.cover,

@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'dart:io';
-//import 'dart:html';
 import 'dart:typed_data';
 import 'package:frapods/backend_api.dart';
 import 'package:frapods/podcast_info.dart';
@@ -9,12 +7,8 @@ import 'package:path/path.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:frapods/main.dart';
-import 'package:open_file/open_file.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:http/http.dart' as http;
 
 import 'main.dart';
 
@@ -23,7 +17,7 @@ class AddNewPodcast extends StatefulWidget {
   final Function newPodcast;
   final int id;
 
-  AddNewPodcast(this.newPodcast, this.id);
+  const AddNewPodcast(this.newPodcast, this.id);
 
   @override
   _AddNewPodcastState createState() => _AddNewPodcastState();
@@ -65,21 +59,14 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
       getWidgetData = false;
       step1 = false;
       edit = true;
+      popupHeight = 0.6;
       BackendApi().getPodcastData(widget.id).then((value) {
         setState(() {
-          if(value.thumbnail != (api_domain + "getImage.php?size=512&bw=0&circle=0&file_id=0")) { image = value.thumbnail; }
+          if(value.thumbnail != (apiDomain + "getImage.php?size=512&bw=0&circle=0&file_id=0")) { image = value.thumbnail; }
           newPodcast = value;
         });
       });
     }
-
-    if(step1==true){
-      setState(() {
-        popupHeight=0.6;
-      });
-    } else {setState(() {
-      popupHeight=0.65;
-    });}
 
     Future pickImage(ImageSource source) async {
       try {
@@ -87,10 +74,8 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
         if (image == null) return;
         setState(() => imageTemporary = File(image.path));
         thumbnailId = await BackendApi().uploadThumbnail(image.readAsBytes());
-        setState(() => this.image = api_domain + "getImage.php?size=512&bw=0&circle=0&file_id=" + thumbnailId.toString());
-      } on PlatformException catch (e) {
-        print('Failed to pick image: $e');
-      }
+        setState(() => this.image = apiDomain + "getImage.php?size=512&bw=0&circle=0&file_id=" + thumbnailId.toString());
+      } finally {}
     }
 
     void showDialogMessage(String title, String message) {
@@ -119,7 +104,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
       if (file != null) {
         newPodcastId = await BackendApi().uploadPodcast(file);
         newPodcast = await BackendApi().getPodcastData(newPodcastId);
-        setState(() => { step1 = false});
+        setState(() => { step1 = false, popupHeight = 0.6});
       }
     }
 
@@ -199,7 +184,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                               setState(() => file = result.files.single.bytes!);
                             },
 
-                            child: Container(
+                            child: SizedBox(
                                 width: double.maxFinite,
                                 height: 120,
                                 child: Card(
@@ -278,8 +263,8 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                                   bottom: 20.0, left: 0, top: 0),
                               child: Column(
                                 children: [
-                                  Container(
-                                    width: MediaQuery.of(context).size.width - 180,
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width - 190,
                                     //height: 80,
                                     child: TextField(
                                       decoration: const InputDecoration(
@@ -289,7 +274,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                                       maxLength: 64,
                                     ),
                                   ),
-                                  Container(
+                                  SizedBox(
                                     width: MediaQuery
                                         .of(context)
                                         .size

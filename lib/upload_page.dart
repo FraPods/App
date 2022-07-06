@@ -73,7 +73,7 @@ class _UploadPageState extends State<UploadPage> {
         //  ],
       ),
 
-      body: Container(
+      body: SizedBox(
         height: pageHeight,
         // decoration: BoxDecoration(border:Border.all(width:2, color:Colors.pink.shade200)),
         child: ListView(
@@ -97,7 +97,7 @@ class _UploadPageState extends State<UploadPage> {
                   //   ),
                   // ),
         
-                  Container(
+                  SizedBox(
                     width: double.maxFinite,
                     child: Card(elevation: 15, 
                       shadowColor: Colors.black,
@@ -195,7 +195,7 @@ class _UploadPageState extends State<UploadPage> {
                   // });
                 },
               child: const Icon(Icons.edit_rounded)),
-              SizedBox(width:5),
+              const SizedBox(width:5),
               InkWell(
               onTap:(){},
               child: const Icon(Icons.delete_outline_rounded)),

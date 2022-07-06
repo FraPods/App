@@ -34,7 +34,7 @@ class FraPodsApp extends StatelessWidget {
   void init() async {
     BackendApi().autoLogIn();
     loadSettingsFromDevice();
-    await loadAllPlaylistsFromDevice();
+    //await loadAllPlaylistsFromDevice();
   }
 
   const FraPodsApp({Key? key}) : super(key: key);

@@ -1,6 +1,3 @@
-
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:frapods/backend_api.dart';
 import 'package:frapods/main.dart';
@@ -8,7 +5,6 @@ import 'package:frapods/podcast_details_page.dart';
 import 'package:frapods/podcast_info.dart';
 import 'package:frapods/profile_page.dart';
 import 'package:frapods/playlist_info.dart';
-import 'podcast_player.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -23,17 +19,9 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   // declare variables here:
-  int _selectedIndex = 0;
-  bool _isSearchBarOpened = false;
-  List<PodcastInfo> listOfAllSearchResults = [
-    // PodcastInfo('title', 'description shhhhhhhhhhhhhhh xsjjjjjjjjjj shhhhhhhhhhhhhhhh   hhhhhhhhd jdnbcksdfhdhdcn  bnfnfbns mefbdfn cdnvdsmhn', 'artist', 'url', '0', 0),
-    // PodcastInfo('title', 'description', 'artist', 'url', '0', 0),
-    // PodcastInfo('title', 'description', 'artist', 'url', '0', 0),
-    // PodcastInfo('title', 'description', 'artist', 'url', '0', 0),
-    // PodcastInfo('title', 'description', 'artist', 'url', '0', 0),
-    // PodcastInfo('title', 'description', 'artist', 'url', '0', 0),
-  ];
-  Icon searchBarIcon = Icon(Icons.search);
+  List<PodcastInfo> listOfAllSearchResults = [];
+  String currentSearch = "";
+  Icon searchBarIcon = const Icon(Icons.search);
   Widget searchBar = Image.asset(
     'assets/icon-round.png',
     fit: BoxFit.fitHeight,
@@ -106,7 +94,7 @@ class _SearchPageState extends State<SearchPage> {
                 ],
               ),
               const SizedBox(height:10),
-              Container(
+              SizedBox(
               height:(MediaQuery.of(context).size.height - 56)*0.57,
               child: playlists.isEmpty? 
               const Center(child: Text('You don\'t have a playlist yet......')):
@@ -126,7 +114,6 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    _isSearchBarOpened = true;
     searchBar = ListTile(
       leading: const Icon(
         Icons.search,
@@ -167,21 +154,26 @@ class _SearchPageState extends State<SearchPage> {
           children: <Widget>[
             const SizedBox(height: 10),
             Expanded(
-              child: ListView.builder(
-                itemCount: listOfAllSearchResults.length,
-                itemBuilder: (BuildContext ctxt, int index) => podcastItem(
-                    ctxt,
-                    index,
-                    PodcastInfo.create(
-                      listOfAllSearchResults[index].title,
-                      listOfAllSearchResults[index].description,
-                      listOfAllSearchResults[index].artist,
-                      listOfAllSearchResults[index].url,
-                      listOfAllSearchResults[index].thumbnail,
-                      listOfAllSearchResults[index].id,
-                      listOfAllSearchResults[index].yt_id
-                    )),
-              ),
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  sendSearchRequest(currentSearch);
+                },
+                child: ListView.builder(
+                  itemCount: listOfAllSearchResults.length,
+                  itemBuilder: (BuildContext ctxt, int index) => podcastItem(
+                      ctxt,
+                      index,
+                      PodcastInfo.create(
+                          listOfAllSearchResults[index].title,
+                          listOfAllSearchResults[index].description,
+                          listOfAllSearchResults[index].artist,
+                          listOfAllSearchResults[index].url,
+                          listOfAllSearchResults[index].thumbnail,
+                          listOfAllSearchResults[index].id,
+                          listOfAllSearchResults[index].yt_id
+                      )),
+                ),
+              )
             ),
           ],
         ),
@@ -190,6 +182,7 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Future<void> sendSearchRequest(String text) async {
+    currentSearch = text;
     showDialog(
       barrierDismissible: false,
       context: context,
@@ -232,7 +225,7 @@ class _SearchPageState extends State<SearchPage> {
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             TextButton(
-              child: Text("Close"),
+              child: const Text("Close"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
