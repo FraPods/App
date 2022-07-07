@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:frapods/dynamic_dialog.dart';
-import 'package:frapods/main_page.dart';
 import 'main.dart';
 import 'backend_api.dart';
 
@@ -19,12 +18,11 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage>
     with SingleTickerProviderStateMixin {
   // declare variables here:
-  TextEditingController _usernameTextController = TextEditingController();
-  TextEditingController _passwordTextController = TextEditingController();
-  TextEditingController _firstnameTextController = TextEditingController();
-  TextEditingController _lastnameTextController = TextEditingController();
-  TextEditingController _emailTextController = TextEditingController();
-  bool _showSignUp = false; //show either login screen or signup screen
+  final TextEditingController _usernameTextController = TextEditingController();
+  final TextEditingController _passwordTextController = TextEditingController();
+  final TextEditingController _firstnameTextController = TextEditingController();
+  final TextEditingController _lastnameTextController = TextEditingController();
+  final TextEditingController _emailTextController = TextEditingController();
 
   @override dispose() {
      _usernameTextController.dispose();
@@ -90,7 +88,7 @@ class _LoginPageState extends State<LoginPage>
             child: Align(
               alignment: Alignment.center,
               child: SingleChildScrollView(
-                child: Container(
+                child: SizedBox(
                   width: size.width,
                   height: defaultLoginSize,
                   child: Column(
@@ -176,7 +174,7 @@ class _LoginPageState extends State<LoginPage>
             visible: !isLogin,
             child: Align(
               alignment: Alignment.bottomCenter,
-              child: Container(
+              child: SizedBox(
                 width: size.width,
                 height: defaultLoginSize,
                 child: ListView(
@@ -294,7 +292,7 @@ class _LoginPageState extends State<LoginPage>
                           ),
                         ),
                       ),
-                      SizedBox(height:40)
+                      //const SizedBox(height:40)
                     ],
                   ),]
                 ),
@@ -305,7 +303,7 @@ class _LoginPageState extends State<LoginPage>
       ),
 
       // temporary button for testing
-      floatingActionButton: FloatingActionButton(
+      /*floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.transparent,
         focusColor: Colors.transparent,
@@ -319,7 +317,7 @@ class _LoginPageState extends State<LoginPage>
             },
           );
         },
-      ),
+      ),*/
     );
   }
 
@@ -328,26 +326,26 @@ class _LoginPageState extends State<LoginPage>
   Future<void> signUp(String username, String password, String firstname,
       String lastname, String email) async {
     if (username.isEmpty) {
-      //Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Sign Up failed", "Please provide a username!")));
+      showDialog(context: context, builder: (BuildContext context) { return DynamicDialog(null, DialogData("Sign Up failed", "Please provide a username!")); });
       return;
     } else if (password.isEmpty) {
-      //Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Sign Up failed", "Please provide a password!")));
+      showDialog(context: context, builder: (BuildContext context) { return DynamicDialog(null, DialogData("Sign Up failed", "Please provide a password!")); });
       return;
     } else if (firstname.isEmpty) {
-        //Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Sign Up failed", "Please provide your Firstname!")));
+      showDialog(context: context, builder: (BuildContext context) { return DynamicDialog(null, DialogData("Sign Up failed", "Please provide your Firstname!")); });
       return;
     } else if (lastname.isEmpty) {
-        //Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Sign Up failed", "Please provide your Lastname!")));
+      showDialog(context: context, builder: (BuildContext context) { return DynamicDialog(null, DialogData("Sign Up failed", "Please provide your Lastname!")); });
       return;
     } else if (email.isEmpty) {
-          //Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Sign Up failed", "Please provide your E-Mail address")));
+      showDialog(context: context, builder: (BuildContext context) { return DynamicDialog(null, DialogData("Sign Up failed", "Please provide your E-Mail address")); });
     } else {
 
       String result = await BackendApi().createAccount(username, password, firstname, lastname, email);
       switch (result) {
         case "200":
-          //Navigator.of(context).restorablePush((context, arguments) => _dialogBuilder(context, DialogArguments("Registration was successful!", "You will now be logged in!")));
-          var response = BackendApi().logIn(username, password);
+          showDialog(context: context, builder: (BuildContext context) { return DynamicDialog(null, DialogData("Registration was successful!", "You will now be logged in!")); });
+          var response = await BackendApi().logIn(username, password);
           if(response == "200") {
             setState(() {
               loginNotifier.value = true;

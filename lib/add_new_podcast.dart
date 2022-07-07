@@ -37,7 +37,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
   String fileName = 'no file';
   File? audioFile;
   String image = "";
-  bool step1 = false;
+  bool step1 = true;
   bool getWidgetData = true;
   bool edit = false;
   double? popupHeight = 0.6;
@@ -64,6 +64,9 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
         setState(() {
           if(value.thumbnail != (apiDomain + "getImage.php?size=512&bw=0&circle=0&file_id=0")) { image = value.thumbnail; }
           newPodcast = value;
+          titleController.text = newPodcast.title;
+          artistController.text = newPodcast.artist;
+          descriptionController.text = newPodcast.description;
         });
       });
     }
@@ -269,8 +272,7 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                                     child: TextField(
                                       decoration: const InputDecoration(
                                         labelText: 'Title',),
-                                      controller: titleController
-                                        ..text = newPodcast.title,
+                                      controller: titleController,
                                       maxLength: 64,
                                     ),
                                   ),
@@ -284,7 +286,6 @@ class _AddNewPodcastState extends State<AddNewPodcast> {
                                       decoration: const InputDecoration(
                                         labelText: 'Artist',),
                                       controller: artistController
-                                        ..text = newPodcast.artist,
                                     ),
                                   ),
                                 ],
